@@ -11,33 +11,28 @@ use Storage;
 use App\Models\User;
 use DB;
 
-class UserController extends Controller
-{
-    /**
-     * Login api
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function login(Request $request){
+class UserController extends Controller {
+
+    public function login( Request $request ) {
 
         $data = array();
         $success = false;
         $message = '';
 
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+        if ( Auth::attempt( ['email' => $request->email, 'password' => $request->password] ) ) {
             $user = Auth::user();
-            $user['token'] =  $user->createToken($user->id)->accessToken;
+            $user['token'] =  $user->createToken( $user->id )->accessToken;
             $data['user'] =  $user;
             $message = 'Login Success';
             $success = true;
-        }
-        else{
+        } else {
             $message = 'Login Failed';
         }
-            return $response = array('success' => $success, 'data' => $data, 'message' => $message);
+
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
 
-    public function signup(Request $request){
+    public function signup( Request $request ) {
 
         $data = array();
         $success = false;
@@ -45,21 +40,19 @@ class UserController extends Controller
 
         $username = $request->username;
         $email = $request->email;
-        $password = $request->password;
+        $password = Hash::make( $request->password );
         $term = $request->term;
-        $exist = User::where('email', $email)->count();
-        if($exist > 0)
-        {
+        $exist = User::where( 'email', $email )->count();
+        if ( $exist > 0 ) {
             $message = 'Register failed. Your email already registered.';
             $success = false;
-        }
-        else {
-            $user = User::create($request->all());
-            $user['token'] =  $user->createToken($user->id)->accessToken;
+        } else {
+            $user = User::create( $request->all() );
+            $user['token'] =  $user->createToken( $user->id )->accessToken;
             $data['user'] = $user;
             $message = 'Register success';
             $success = true;
         }
-        return $response = array('success' => $success, 'data' => $data, 'message' => $message);
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
 }
