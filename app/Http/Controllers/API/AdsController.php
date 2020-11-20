@@ -58,4 +58,18 @@ class AdsController extends Controller {
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
+
+    public function sell( Request $request ) {
+        $data = array();
+        $message = '';
+        $success = false;
+
+        $category = Category::get();
+        $breed = Breed::get();
+
+        $data['category'] = $category;
+        $data['breed'] = $breed;
+
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
+    }
 }
