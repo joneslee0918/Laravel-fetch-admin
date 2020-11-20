@@ -26,7 +26,7 @@ class AdsController extends Controller {
         $ads->breed;
         $ads->meta;
 
-        $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => 1] )->count();
+        $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $request->ad_id] )->count();
         $is_fav = $exsit_fav == 0 ? false : true;
 
         $ads['is_fav'] = $is_fav;
@@ -42,10 +42,13 @@ class AdsController extends Controller {
         $message = '';
         $success = false;
 
-        if ( $request->is_fav ) {
-            UserMeta::create( {
-                'meta_key' => '_ad_favourite', 'meta_value' => $request->ad_id}
-            );
+        if ( $request->is_fav == true ) {
+            $user_meta = new UserMeta;
+            $user_meta->id_user = Auth::user()->id;
+            $user_meta->meta_key = '_ad_favourite';
+            $user_meta->meta_value = $request->ad_id;
+            $user_meta->save();
+
             $message = 'Ads successfully added on your favourite.';
         } else {
             UserMeta::where( ['meta_key' => '_ad_favourite', 'meta_value' => $request->ad_id] )->delete();
@@ -53,6 +56,6 @@ class AdsController extends Controller {
         }
         $success = true;
 
-        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message )
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
 }

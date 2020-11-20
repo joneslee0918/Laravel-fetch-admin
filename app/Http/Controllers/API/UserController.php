@@ -56,4 +56,17 @@ class UserController extends Controller {
         }
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
+
+    public function profile( Request $request ) {
+        $data = array();
+        $success = true;
+        $message = '';
+
+        $user = User::where('id', $request->user_id)->first();
+        $user->meta;
+
+        $data['user'] = $user;
+
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
+    }
 }

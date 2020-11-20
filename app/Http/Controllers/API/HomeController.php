@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Storage;
 use App\Models\User;
+use App\Models\UserMeta;
 use App\Models\Ads;
+use App\Models\AdsMeta;
 use App\Models\Category;
 use App\Models\Breed;
 use DB;
@@ -25,6 +27,10 @@ class HomeController extends Controller {
             $item->category;
             $item->breed;
             $item->meta;
+
+            $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $item['id']] )->count();
+            $is_fav = $exsit_fav == 0 ? false : true;
+            $item['is_fav'] = $is_fav;
         }
 
         $breed = Breed::orderby( 'order' )->get();
@@ -39,10 +45,42 @@ class HomeController extends Controller {
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
 
+    public function filter_category( Request $request ) {
+        $data = array();
+        $success = true;
+        $message = '';
+
+        if ( $request->id_category == -1 ) {
+            $ads = Ads::get();
+        } else {
+            $ads = Ads::where( 'id_category', $request->id_category )->get();
+        }
+
+        if ( count( $ads ) == 0 ) {
+            $message = 'No found Ads.';
+            $data['ads'] = [];
+        } else {
+            foreach ( $ads as $key => $item ) {
+                $item->user;
+                $item->category;
+                $item->breed;
+                $item->meta;
+
+                $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $item['id']] )->count();
+                $is_fav = $exsit_fav == 0 ? false : true;
+                $item['is_fav'] = $is_fav;
+            }
+
+            $data['ads'] = $ads;
+        }
+
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
+    }
+
     public function filter( Request $request ) {
         $data = array();
         $message = '';
-        $success = false;
+        $success = true;
 
         $id_category = $request->id_category;
         $id_breed = $request->id_breed;
@@ -53,9 +91,47 @@ class HomeController extends Controller {
         if ( count( $ads ) == 0 ) {
             $message = 'No found Ads.';
         } else {
+            foreach ( $ads as $key => $item ) {
+                $item->user;
+                $item->category;
+                $item->breed;
+                $item->meta;
+
+                $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $item['id']] )->count();
+                $is_fav = $exsit_fav == 0 ? false : true;
+                $item['is_fav'] = $is_fav;
+            }
+
             $data['ads'] = $ads;
         }
+
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
+    }
+
+    public function search( Request $request ) {
+        $data = array();
         $success = true;
+        $message = '';
+
+        $searchText = $request->searchText;
+
+        $ads = Ads::orderby( 'updated_at' )->get();
+        if ( count( $ads ) == 0 ) {
+            $message = 'No found Ads.';
+        } else {
+            foreach ( $ads as $key => $item ) {
+                $item->user;
+                $item->category;
+                $item->breed;
+                $item->meta;
+
+                $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $item['id']] )->count();
+                $is_fav = $exsit_fav == 0 ? false : true;
+                $item['is_fav'] = $is_fav;
+            }
+
+            $data['ads'] = $ads;
+        }
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
