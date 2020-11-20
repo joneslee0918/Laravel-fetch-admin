@@ -47,4 +47,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function meta() {
+        return $this->hasMany( 'App\Models\UserMeta', 'id_user', 'id' );
+    }
 }

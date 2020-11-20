@@ -18,5 +18,10 @@ Route::post( 'signup', 'App\Http\Controllers\API\UserController@signup' );
 
 Route::group( ['middleware' => 'auth:api'], function () {
 
-    Route::get( 'ads/latest', 'App\Http\Controllers\API\AdsController@latest' );
+    Route::get( 'home', 'App\Http\Controllers\API\HomeController@home' );
+    Route::post( 'home/filter', 'App\Http\Controllers\API\HomeController@filter' );
+
+    //ads
+    Route::post( 'ads/ad_detail', 'App\Http\Controllers\API\AdsController@adDetail' );
+    Route::post( 'ads/ad_favourite', 'App\Http\Controllers\API\AdsController@adFavourite' );
 });

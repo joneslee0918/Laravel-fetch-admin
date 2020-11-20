@@ -40,8 +40,9 @@ class UserController extends Controller {
 
         $username = $request->username;
         $email = $request->email;
-        $password = Hash::make( $request->password );
+        $request['password'] = Hash::make( $request->password );
         $term = $request->term;
+
         $exist = User::where( 'email', $email )->count();
         if ( $exist > 0 ) {
             $message = 'Register failed. Your email already registered.';
