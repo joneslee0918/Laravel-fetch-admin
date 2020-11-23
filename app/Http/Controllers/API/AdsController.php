@@ -9,6 +9,7 @@ use Storage;
 use App\Models\User;
 use App\Models\UserMeta;
 use App\Models\Ads;
+use App\Models\AdsMeta;
 use App\Models\Category;
 use App\Models\Breed;
 use DB;
@@ -59,10 +60,10 @@ class AdsController extends Controller {
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
 
-    public function sell( Request $request ) {
+    public function sell() {
         $data = array();
         $message = '';
-        $success = false;
+        $success = true;
 
         $category = Category::get();
         $breed = Breed::get();
@@ -71,5 +72,59 @@ class AdsController extends Controller {
         $data['breed'] = $breed;
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
+    }
+
+    public function create( Request $request ) {
+        $data = array();
+        $message = '';
+        $success = true;
+
+        $user_id = Auth::user()->id;
+        $category_id = Category::where( 'name', $request->category )->value( 'id' );
+        $breed_id = Breed::where( 'name', $request->breed )->value( 'id' );
+
+        $newAds = new Ads;
+        $newAds->id_user = $user_id;
+        $newAds->id_category = $category_id;
+        $newAds->id_breed = $breed_id;
+        $newAds->gender = $request->gender;
+        $newAds->age = $request->age;
+        $newAds->price = $request->price;
+        $newAds->lat = $request->lat;
+        $newAds->long = $request->long;
+        $newAds->description = $request->description;
+        $newAds->status = 1;
+        $newAds->save();
+
+        $newAdsId = $newAds->id;
+
+        $targetDir = public_path( 'uploads/ads/' );
+        $targetDir .= $user_id;
+        if ( !is_dir( $targetDir ) ) {
+            mkDir( $targetDir );
+        }
+        $targetDir .= '/'.$newAdsId;
+        mkDir( $targetDir );
+
+        $image_key = $request->image_key;
+        $uploadedImages = [];
+        foreach ( $request->file( $image_key ) as $key => $file ) {
+            $sourceFile = 'ad_image_'.( $key+1 ).'.'.$file->extension();
+            $dest_path = '/uploads/ads/'.$user_id.'/'.$newAdsId.'/'.$sourceFile;
+            $file->move( $targetDir, $sourceFile );
+            $uploadedImages[] = $dest_path;
+        }
+
+        foreach ( $uploadedImages as $key => $value ) {
+            $ads_meta = new AdsMeta;
+            $ads_meta->id_ads = $newAdsId;
+            $ads_meta->meta_key = '_ad_image';
+            $ads_meta->meta_value = $value;
+            $ads_meta->save();
+        }
+
+        $message = 'Your ads successfully created';
+
+        return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
     }
 }

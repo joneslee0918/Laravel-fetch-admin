@@ -23,6 +23,11 @@ class UserController extends Controller {
             $user = Auth::user();
             $user['token'] =  $user->createToken( $user->id )->accessToken;
             $data['user'] =  $user;
+            if ( $request->device_token != null ) {
+                User::where( 'id', Auth::user()->id )->update( ['device_token' => $request->device_token] );
+            } else {
+                User::where( 'id', Auth::user()->id )->update( ['iphone_device_token' => $request->device_token] );
+            }
             $message = 'Login Success';
             $success = true;
         } else {
@@ -62,7 +67,7 @@ class UserController extends Controller {
         $success = true;
         $message = '';
 
-        $user = User::where('id', $request->user_id)->first();
+        $user = User::where( 'id', $request->user_id )->first();
         $user->meta;
 
         $data['user'] = $user;
