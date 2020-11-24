@@ -29,7 +29,7 @@ class ChatController extends Controller {
 
         $user_id = Auth::user()->id;
 
-        $ads = Ads::where('id', $request->ad_id)->first();
+        $ads = Ads::where( 'id', $request->ad_id )->first();
         $ads->meta;
         $data['ads'] = $ads;
 
@@ -45,22 +45,30 @@ class ChatController extends Controller {
 
     public function postMessage( Request $request ) {
         $data = array();
-        $success = true;
+        $success = false;
         $message = '';
 
-        $user_id = Auth::user()->id;
-        $receive_user_id = $request->receive_user_id;
+        $newMessage = Chat::create( $request->all() );
+        $newMessage->sender;
+        $newMessage->receiver;
 
-        $newChat = new Chat;
-        $newChat->id_user_snd = $user_id;
-        $newChat->id_user_rcv = $receive_user_id;
-        $newChat->message = $request->message;
-        $newChat->attach_file = $request->attach_file;
-        $newChat->message_type = $request->message_type;
-        $newChat->last_seen_time = $request->last_seen_time;
-        $newChat->save();
+        $rcv_user_id = $newMessage->id_user_rcv;
+        $type = 'chat_message';
+        $title = 'New Message from '.Auth::user()->name;
+        $body = $newMessage->message;
 
-        $this->notification->send( 'New Message', $message, $receive_user_id );
+        $notify_result = $this->notification->send( $rcv_user_id, $type, $title, $body, $newMessage );
+        $notify_result = str_replace( '\n', '', $notify_result );
+        $notify_result = rtrim( $notify_result, ',' );
+        $notify_result = '[' . trim( $notify_result ) . ']';
+        $json_result = json_decode( $notify_result, true );
+        if ( $json_result[0]['success'] == 1 ) {
+            $success = true;
+        } else {
+            $message = "Your message can't send.";
+        }
+
+        $data['newMessage'] = $newMessage;
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }

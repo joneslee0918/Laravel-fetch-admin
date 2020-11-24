@@ -38,4 +38,5 @@ Route::group( ['middleware' => 'auth:api'], function () {
 
     //chat
     Route::post( 'chat', 'App\Http\Controllers\API\ChatController@chat' );
+    Route::post( 'chat/post', 'App\Http\Controllers\API\ChatController@postMessage' );
 });

@@ -12,45 +12,31 @@ use App\Models\AppSetting;
 use DB;
 
 class NotificationController extends Controller {
-    public function test() {
-        return $this->send( 'test-title', 'test-content', null );
-    }
 
-    public function send( $title, $body, $user_ids ) {
-        if ( $users ) {
-            $tokens = array_merge(
-                User::whereIn( 'id', $user_ids )->pluck( 'device_token' )->toArray(),
-                User::whereIn( 'id', $user_ids )->pluck( 'iphone_device_token' )->toArray()
-            );
-        } else {
-            $tokens = array_merge(
-                User::pluck( 'device_token' )->toArray(),
-                User::pluck( 'iphone_device_token' )->toArray()
-            );
-        }
+    public function send( $user_id, $type, $title, $body, $data ) {
 
-        $notification = array
+        $token = User::where( 'id', $user_id )->value( 'device_token' );
+        $notification_data = array
         (
+            'type' => $type,
             'title' => $title,
             'body' => $body,
+            'data' => $data
         );
 
-        $message_data = array
+        $cloud_message_data = array
         (
-            'to' => $tokens,
-            'title' => $title,
-            'body' => $body,
-            'notification' => $notification
+            'to' => $token,
+            'data' => $notification_data,
+            'notification' => $notification_data
         );
 
-        $$api_firebase_id = AppSetting::where( 'meta_key', 'firebase_api_key' )->value( 'meta_value' );
-
+        $api_firebase_id = AppSetting::where( 'meta_key', 'firebase_api_key' )->value( 'meta_value' );
         define( 'API_ACCESS_KEY', $api_firebase_id );
 
-        $data_string = json_encode( $message_data );
+        $data_string = json_encode( $cloud_message_data );
 
         $url = 'https://fcm.googleapis.com/fcm/send';
-
         $headers = array
         (
             'Authorization: key=' . API_ACCESS_KEY,
@@ -67,5 +53,6 @@ class NotificationController extends Controller {
         $result = curl_exec( $ch );
         curl_close( $ch );
 
+        return $result;
     }
 }
