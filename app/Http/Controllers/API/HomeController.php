@@ -113,9 +113,10 @@ class HomeController extends Controller {
         $success = true;
         $message = '';
 
-        $searchText = $request->searchText;
+        $searchText = "'%".$request->searchText."%'";
 
-        $ads = Ads::orderby( 'updated_at' )->get();
+        $strQuery = "SELECT a.id AS id FROM ads AS a LEFT JOIN category AS b ON a.`id_category` = b.`id` LEFT JOIN breed AS c ON a.`id_breed` = c.`id` WHERE c.`name` LIKE ".$searchText." OR b.`name` LIKE ".$searchText;
+        $ads_ids = DB::select($strQuery);
         if ( count( $ads ) == 0 ) {
             $message = 'No found Ads.';
         } else {
