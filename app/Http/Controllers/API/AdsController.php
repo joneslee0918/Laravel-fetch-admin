@@ -12,6 +12,7 @@ use App\Models\Ads;
 use App\Models\AdsMeta;
 use App\Models\Category;
 use App\Models\Breed;
+use App\Models\Order;
 use DB;
 
 class AdsController extends Controller {
@@ -125,6 +126,27 @@ class AdsController extends Controller {
 
         $message = 'Your ads successfully created';
 
+        return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
+    }
+
+    public function order( Request $request ) {
+        $data = array();
+        $message  = '';
+        $success = true;
+
+        $request['id_order_user'] = Auth::user()->id;
+        Order::create( $request->all() );
+
+        $exist = UserMeta::where( ['meta_key' => '_ad_favourite', 'meta_value' => $request->id_ads] )->count();
+        if ( $exist == 0 ) {
+            $user_meta = new UserMeta;
+            $user_meta->id_user = $request->id_order_user;
+            $user_meta->meta_key = '_ad_favourite';
+            $user_meta->meta_value = $request->id_ads;
+            $user_meta->save();
+        }
+
+        $message = 'Ads order successfully requested.';
         return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
     }
 }

@@ -30,6 +30,7 @@ class ChatController extends Controller {
         $user_id = Auth::user()->id;
 
         $ads = Ads::where( 'id', $request->ad_id )->first();
+        $ads->user;
         $ads->meta;
         $data['ads'] = $ads;
 

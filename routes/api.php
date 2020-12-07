@@ -21,7 +21,6 @@ Route::group( ['middleware' => 'auth:api'], function () {
     Route::get( 'home', 'App\Http\Controllers\API\HomeController@home' );
     Route::post( 'home/filter_category', 'App\Http\Controllers\API\HomeController@filter_category' );
     Route::post( 'home/filter', 'App\Http\Controllers\API\HomeController@filter' );
-    Route::post( 'home/search', 'App\Http\Controllers\API\HomeController@search' );
 
     //ads
     Route::post( 'ads', 'App\Http\Controllers\API\AdsController@adDetail' );
@@ -29,6 +28,7 @@ Route::group( ['middleware' => 'auth:api'], function () {
     Route::get( 'ads/sell', 'App\Http\Controllers\API\AdsController@sell' );
     Route::post( 'ads/upload_temp', 'App\Http\Controllers\API\AdsController@upload_temp' );
     Route::post( 'ads/create', 'App\Http\Controllers\API\AdsController@create' );
+    Route::post( 'ads/order', 'App\Http\Controllers\API\AdsController@order' );
 
     //profile
     Route::post( 'profile', 'App\Http\Controllers\API\UserController@profile' );
