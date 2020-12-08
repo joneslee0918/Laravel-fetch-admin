@@ -21,7 +21,7 @@ class HomeController extends Controller {
         $success = true;
         $message = '';
 
-        $ads = Ads::get();
+        $ads = Ads::orderby( 'updated_at', 'DESC' )->get();
         if ( count( $ads ) == 0 ) {
             $message = 'Ads Not Found.';
             $data['ads'] = [];
@@ -59,23 +59,23 @@ class HomeController extends Controller {
 
         $searchText = $request->searchText;
         $ads_ids = [];
-        if($searchText != '')
-        {
+        if ( $searchText != '' ) {
             $searchText = "'%".$request->searchText."%'";
-            $strQuery = "SELECT a.id AS id FROM ads AS a LEFT JOIN category AS b ON a.`id_category` = b.`id` LEFT JOIN breed AS c ON a.`id_breed` = c.`id` WHERE c.`name` LIKE ".$searchText." OR b.`name` LIKE ".$searchText;
-            $result = DB::select($strQuery);
-            for ($i=0; $i < count($result); $i++) {
+            $strQuery = 'SELECT a.id AS id FROM ads AS a LEFT JOIN category AS b ON a.`id_category` = b.`id` LEFT JOIN breed AS c ON a.`id_breed` = c.`id` WHERE c.`name` LIKE '.$searchText.' OR b.`name` LIKE '.$searchText;
+            $result = DB::select( $strQuery );
+            for ( $i = 0; $i < count( $result );
+            $i++ ) {
                 $ads_ids[] = $result[$i]->id;
             }
         }
         if ( $request->id_category == -1 ) {
-            $ads = Ads::get();
-            if(count($ads_ids) > 0)
-                $ads = Ads::whereIn('id', $ads_ids)->get();
+            $ads = Ads::orderby( 'updated_at', 'DESC' )->get();
+            if ( count( $ads_ids ) > 0 )
+            $ads = Ads::whereIn( 'id', $ads_ids )->orderby( 'updated_at', 'DESC' )->get();
         } else {
-            $ads = Ads::where( 'id_category', $request->id_category )->get();
-            if(count($ads_ids) > 0)
-               $ads = Ads::where( 'id_category', $request->id_category )->whereIn('id', $ads_ids)->get();
+            $ads = Ads::where( 'id_category', $request->id_category )->orderby( 'updated_at', 'DESC' )->get();
+            if ( count( $ads_ids ) > 0 )
+            $ads = Ads::where( 'id_category', $request->id_category )->whereIn( 'id', $ads_ids )->orderby( 'updated_at', 'DESC' )->get();
         }
 
         if ( count( $ads ) == 0 ) {
@@ -109,7 +109,7 @@ class HomeController extends Controller {
         $gender = $request->gender;
         $price = $request->price;
 
-        $ads = Ads::where( ['id_category' => $id_category, 'id_breed' => $id_breed, 'gender' => $gender] )->where( 'price', '>=', $price['min'] )->where( 'price', '<=', $price['max'] )->orderby( 'updated_at' )->get();
+        $ads = Ads::where( ['id_category' => $id_category, 'id_breed' => $id_breed, 'gender' => $gender] )->where( 'price', '>=', $price['min'] )->where( 'price', '<=', $price['max'] )->orderby( 'updated_at', 'DESC' )->get();
         if ( count( $ads ) == 0 ) {
             $message = 'Ads Not Found.';
         } else {

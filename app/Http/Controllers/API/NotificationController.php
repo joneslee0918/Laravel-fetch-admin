@@ -14,21 +14,6 @@ use DB;
 
 class NotificationController extends Controller {
 
-    public function notification() {
-        $data = array();
-        $success = true;
-        $message = '';
-
-        $notification = Notification::where( 'id_rcv_user', Auth::user()->id )->orderby( 'created_at', 'desc' )->get();
-        if ( count( $notification ) == 0 ) {
-            $message = 'Notification not found.';
-            $data['notification'] = [];
-        } else {
-            $data['notification'] = $notification;
-        }
-        return $response = array( 'success' =>$success, 'message' => $message, 'data' => $data );
-    }
-
     public function send( $user_id, $type, $title, $body, $image, $data ) {
 
         $token = User::where( 'id', $user_id )->value( 'device_token' );
@@ -71,5 +56,35 @@ class NotificationController extends Controller {
         curl_close( $ch );
 
         return $result;
+    }
+
+    public function notification() {
+        $data = array();
+        $success = true;
+        $message = '';
+
+        $notification = Notification::where( 'id_rcv_user', Auth::user()->id )->orderby( 'read_status', 'ASC' )->orderby( 'created_at', 'DESC' )->get();
+        if ( count( $notification ) == 0 ) {
+            $message = 'Notification not found.';
+            $data['notification'] = [];
+        } else {
+            $data['notification'] = $notification;
+        }
+        return $response = array( 'success' =>$success, 'message' => $message, 'data' => $data );
+    }
+
+    public function read( Request $request ) {
+        $data = array();
+        $success = true;
+        $message = '';
+
+        $notification = Notification::where( 'id', $request->id )->first();
+        if ( $notification->type == 0 ) {
+            ///chat message
+            Notification::where( ['id_type' => $notification->id_type, 'id_snd_user' => $notification->id_snd_user, 'id_rcv_user' => $notification->id_rcv_user, 'type' => 0] )->update( ['read_status' => 1] );
+        } else {
+            Notification::where( 'id', $request->id )->update( ['read_status' => 1] );
+        }
+        return $response = array( 'success' =>$success, 'message' => $message, 'data' => $data );
     }
 }

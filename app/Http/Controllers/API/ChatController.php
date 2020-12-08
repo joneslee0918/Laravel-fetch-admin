@@ -47,7 +47,7 @@ class ChatController extends Controller {
 
     public function postMessage( Request $request ) {
         $data = array();
-        $success = false;
+        $success = true;
         $message = '';
 
         $newMessage = Chat::create( $request->all() );
@@ -60,15 +60,6 @@ class ChatController extends Controller {
         $body = $newMessage->message;
 
         $notify_result = $this->notification->send( $rcv_user_id, $type, $title, $body, '', $newMessage );
-        $notify_result = str_replace( '\n', '', $notify_result );
-        $notify_result = rtrim( $notify_result, ',' );
-        $notify_result = '[' . trim( $notify_result ) . ']';
-        $json_result = json_decode( $notify_result, true );
-        if ( $json_result[0]['success'] == 1 ) {
-            $success = true;
-        } else {
-            $message = "Your message can't send.";
-        }
 
         $newNotification = new Notification;
         $newNotification->id_snd_user = Auth::user()->id;
