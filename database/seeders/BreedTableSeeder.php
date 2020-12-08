@@ -16,17 +16,17 @@ class BreedTableSeeder extends Seeder
     {
         //
         DB::table('breed')->insert([
-            'name' => 'Bull Dog',
+            'name' => 'BullDog',
             'created_at' => now(),
             'updated_at' => now()
         ]);
         DB::table('breed')->insert([
-            'name' => 'Persion',
+            'name' => 'Persian',
             'created_at' => now(),
             'updated_at' => now()
         ]);
         DB::table('breed')->insert([
-            'name' => 'Shepter',
+            'name' => 'Ashenfallow Cockatiel',
             'created_at' => now(),
             'updated_at' => now()
         ]);
