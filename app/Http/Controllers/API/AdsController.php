@@ -13,9 +13,16 @@ use App\Models\AdsMeta;
 use App\Models\Category;
 use App\Models\Breed;
 use App\Models\Order;
+use App\Models\Notification;
 use DB;
 
 class AdsController extends Controller {
+    private $notification;
+
+    public function __construct() {
+        $this->notification = new NotificationController;
+    }
+
     public function adDetail( Request $request ) {
 
         $data = array();
@@ -135,16 +142,33 @@ class AdsController extends Controller {
         $success = true;
 
         $request['id_order_user'] = Auth::user()->id;
-        Order::create( $request->all() );
+        $newOrder = Order::create( $request->all() );
 
         $exist = UserMeta::where( ['meta_key' => '_ad_favourite', 'meta_value' => $request->id_ads] )->count();
         if ( $exist == 0 ) {
             $user_meta = new UserMeta;
-            $user_meta->id_user = $request->id_order_user;
+            $user_meta->id_user = Auth::user()->id;
             $user_meta->meta_key = '_ad_favourite';
             $user_meta->meta_value = $request->id_ads;
             $user_meta->save();
         }
+
+        $ads = Ads::where( 'id', $request->id_ads )->first();
+        $ads->meta;
+
+        $type = 'ads_order';
+        $title = 'You received a new order.';
+        $body = $request->description;
+        $notify_result = $this->notification->send( $ads->id_user, $type, $title, $body, $ads['meta'][0]['meta_value'], $newOrder );
+
+        $notification = new Notification;
+        $notification->id_snd_user = Auth::user()->id;
+        $notification->id_rcv_user = $ads->id_user;
+        $notification->id_type = $ads->id;
+        $notification->title = $title;
+        $notification->body = $body;
+        $notification->type = 1;
+        $notification->save();
 
         $message = 'Ads order successfully requested.';
         return $response = array( 'success' => $success, 'data' => '', 'message' => $message );

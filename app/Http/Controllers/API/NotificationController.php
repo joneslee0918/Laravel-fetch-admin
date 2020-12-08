@@ -9,11 +9,27 @@ use Storage;
 use App\Models\User;
 use App\Models\Chat;
 use App\Models\AppSetting;
+use App\Models\Notification;
 use DB;
 
 class NotificationController extends Controller {
 
-    public function send( $user_id, $type, $title, $body, $data ) {
+    public function notification() {
+        $data = array();
+        $success = true;
+        $message = '';
+
+        $notification = Notification::where( 'id_rcv_user', Auth::user()->id )->orderby( 'created_at', 'desc' )->get();
+        if ( count( $notification ) == 0 ) {
+            $message = 'Notification not found.';
+            $data['notification'] = [];
+        } else {
+            $data['notification'] = $notification;
+        }
+        return $response = array( 'success' =>$success, 'message' => $message, 'data' => $data );
+    }
+
+    public function send( $user_id, $type, $title, $body, $image, $data ) {
 
         $token = User::where( 'id', $user_id )->value( 'device_token' );
         $notification_data = array
@@ -21,6 +37,7 @@ class NotificationController extends Controller {
             'type' => $type,
             'title' => $title,
             'body' => $body,
+            'image' => $image,
             'data' => $data
         );
 

@@ -13,6 +13,7 @@ use App\Models\AdsMeta;
 use App\Models\Category;
 use App\Models\Chat;
 use App\Models\Breed;
+use App\Models\Notification;
 use DB;
 
 class ChatController extends Controller {
@@ -55,10 +56,10 @@ class ChatController extends Controller {
 
         $rcv_user_id = $newMessage->id_user_rcv;
         $type = 'chat_message';
-        $title = 'New Message from '.Auth::user()->name;
+        $title = 'You received a new message.';
         $body = $newMessage->message;
 
-        $notify_result = $this->notification->send( $rcv_user_id, $type, $title, $body, $newMessage );
+        $notify_result = $this->notification->send( $rcv_user_id, $type, $title, $body, '', $newMessage );
         $notify_result = str_replace( '\n', '', $notify_result );
         $notify_result = rtrim( $notify_result, ',' );
         $notify_result = '[' . trim( $notify_result ) . ']';
@@ -68,6 +69,15 @@ class ChatController extends Controller {
         } else {
             $message = "Your message can't send.";
         }
+
+        $newNotification = new Notification;
+        $newNotification->id_snd_user = Auth::user()->id;
+        $newNotification->id_rcv_user = $rcv_user_id;
+        $newNotification->id_type = $request->id_ads;
+        $newNotification->title = $title;
+        $newNotification->body = $body;
+        $newNotification->type = 0;
+        $newNotification->save();
 
         $data['newMessage'] = $newMessage;
 
