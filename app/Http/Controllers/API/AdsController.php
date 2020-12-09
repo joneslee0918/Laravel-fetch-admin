@@ -140,7 +140,7 @@ class AdsController extends Controller {
             $ads_meta->save();
         }
 
-        $message = 'Your ads successfully created.';
+        $message = 'Your ads successfully posted.';
 
         return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
     }
