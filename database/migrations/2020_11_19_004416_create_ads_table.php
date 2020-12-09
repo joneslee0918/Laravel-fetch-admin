@@ -25,6 +25,8 @@ class CreateAdsTable extends Migration
             $table->double('long');
             $table->string('description')->nullable();
             $table->integer('status')->default(1)->comment('0:closed, 1:active');
+            $table->integer('likes')->default(0);
+            $table->integer('views')->default(0);
             $table->timestamps();
         });
     }

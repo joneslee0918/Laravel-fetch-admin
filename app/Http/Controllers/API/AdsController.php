@@ -35,6 +35,10 @@ class AdsController extends Controller {
         $ads->breed;
         $ads->meta;
 
+        if ( $request->view == true && $ads->user->id != Auth::user()->id ) {
+            DB::select( 'UPDATE ads SET views = views + 1 WHERE id = '.$ads->id );
+        }
+
         $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $request->ad_id] )->count();
         $is_fav = $exsit_fav == 0 ? false : true;
 
@@ -58,9 +62,12 @@ class AdsController extends Controller {
             $user_meta->meta_value = $request->ad_id;
             $user_meta->save();
 
+            DB::select( 'UPDATE ads SET likes = likes + 1 WHERE id = '.$request->ad_id );
+
             $message = 'Ads successfully added on your favourite.';
         } else {
             UserMeta::where( ['meta_key' => '_ad_favourite', 'meta_value' => $request->ad_id] )->delete();
+            DB::select( 'UPDATE ads SET likes = likes - 1 WHERE id = '.$request->ad_id );
             $message = 'Ads successfully removed on your favourite.';
         }
         $success = true;
@@ -134,5 +141,57 @@ class AdsController extends Controller {
         $message = 'Your ads successfully created';
 
         return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
+    }
+
+    public function activeAds() {
+        $data = array();
+        $success = true;
+        $message = '';
+
+        $ads = Ads::where( ['id_user' => Auth::user()->id, 'status' => 1] )->orderby( 'updated_at', 'DESC' )->get();
+        if ( count( $ads ) == 0 ) {
+            $message = 'Ads Not Found.';
+            $data['ads'] = [];
+        } else {
+            foreach ( $ads as $key => $item ) {
+                $item->user;
+                $item->category;
+                $item->breed;
+                $item->meta;
+
+                $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $item['id']] )->count();
+                $is_fav = $exsit_fav == 0 ? false : true;
+                $item['is_fav'] = $is_fav;
+            }
+
+            $data['ads'] = $ads;
+        }
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
+    }
+
+    public function closedAds() {
+        $data = array();
+        $success = true;
+        $message = '';
+
+        $ads = Ads::where( ['id_user' => Auth::user()->id, 'status' => 0] )->orderby( 'updated_at', 'DESC' )->get();
+        if ( count( $ads ) == 0 ) {
+            $message = 'Ads Not Found.';
+            $data['ads'] = [];
+        } else {
+            foreach ( $ads as $key => $item ) {
+                $item->user;
+                $item->category;
+                $item->breed;
+                $item->meta;
+
+                $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $item['id']] )->count();
+                $is_fav = $exsit_fav == 0 ? false : true;
+                $item['is_fav'] = $is_fav;
+            }
+
+            $data['ads'] = $ads;
+        }
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
 }

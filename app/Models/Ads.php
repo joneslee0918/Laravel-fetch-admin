@@ -19,6 +19,8 @@ class Ads extends Model {
         'long',
         'description',
         'status',
+        'likes',
+        'views',
         'created_at',
         'updated_at'
     ];

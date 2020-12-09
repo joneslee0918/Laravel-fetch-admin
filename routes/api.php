@@ -32,6 +32,9 @@ Route::group( ['middleware' => 'auth:api'], function () {
     Route::get( 'ads/sell', 'App\Http\Controllers\API\AdsController@sell' );
     Route::post( 'ads/create', 'App\Http\Controllers\API\AdsController@create' );
     Route::post( 'ads/edit', 'App\Http\Controllers\API\AdsController@edit' );
+    //myads
+    Route::get( 'ads/activeAds', 'App\Http\Controllers\API\AdsController@activeAds' );
+    Route::get( 'ads/closedAds', 'App\Http\Controllers\API\AdsController@closedAds' );
 
     //profile
     Route::post( 'profile', 'App\Http\Controllers\API\UserController@profile' );
