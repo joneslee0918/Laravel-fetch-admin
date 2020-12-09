@@ -18,6 +18,10 @@ Route::post( 'signup', 'App\Http\Controllers\API\UserController@signup' );
 
 Route::group( ['middleware' => 'auth:api'], function () {
 
+    //change password
+    Route::post( 'changepassword', 'App\Http\Controllers\API\UserController@changePassword' );
+
+    //home
     Route::get( 'home', 'App\Http\Controllers\API\HomeController@home' );
     Route::post( 'home/filter_category', 'App\Http\Controllers\API\HomeController@filter_category' );
     Route::post( 'home/filter', 'App\Http\Controllers\API\HomeController@filter' );

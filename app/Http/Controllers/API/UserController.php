@@ -109,4 +109,20 @@ class UserController extends Controller {
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
+
+    public function changePassword( Request $request ) {
+        $data = array();
+        $message = '';
+        $success = true;
+
+        if ( !Hash::check( $request->currentPwd, Auth::user()->password ) ) {
+            $message = 'Please input current password correctly.';
+            $success = false;
+        } else {
+            Auth::user()->update( ['password' => Hash::make( $request->password )] );
+            $success = true;
+            $message = 'Password changed successfully.';
+        }
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
+    }
 }
