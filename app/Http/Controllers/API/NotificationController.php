@@ -87,4 +87,14 @@ class NotificationController extends Controller {
         }
         return $response = array( 'success' =>$success, 'message' => $message, 'data' => $data );
     }
+
+    public function delete( Request $request ) {
+        $data = array();
+        $success = true;
+        $message = '';
+
+        Notification::where( 'id', $request->id )->update( ['deleted_at' => now()] );
+
+        return $response = array( 'success' =>$success, 'message' => $message, 'data' => $data );
+    }
 }

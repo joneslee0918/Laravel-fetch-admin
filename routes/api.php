@@ -50,4 +50,5 @@ Route::group( ['middleware' => 'auth:api'], function () {
     //notification
     Route::get( 'notification', 'App\Http\Controllers\API\NotificationController@notification' );
     Route::post( 'notification/read', 'App\Http\Controllers\API\NotificationController@read' );
+    Route::post( 'notification/delete', 'App\Http\Controllers\API\NotificationController@delete' );
 });
