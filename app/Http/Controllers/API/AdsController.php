@@ -119,7 +119,9 @@ class AdsController extends Controller {
             mkDir( $targetDir );
         }
         $targetDir .= '/'.$newAdsId;
-        mkDir( $targetDir );
+        if ( !is_dir( $targetDir ) ) {
+            mkDir( $targetDir );
+        }
 
         $image_key = $request->image_key;
         $uploadedImages = [];
@@ -138,8 +140,61 @@ class AdsController extends Controller {
             $ads_meta->save();
         }
 
-        $message = 'Your ads successfully created';
+        $message = 'Your ads successfully created.';
 
+        return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
+    }
+
+    public function edit(Request $request) {
+        $data = array();
+        $message = '';
+        $success = true;
+
+        $user_id = Auth::user()->id;
+        $ad_id = $request->ad_id;
+        $category_id = Category::where( 'name', $request->category )->value( 'id' );
+        $breed_id = Breed::where( 'name', $request->breed )->value( 'id' );
+
+        Ads::where( 'id', $ad_id )->update( ['id_category' => $category_id, 'id_breed' => $breed_id, 'gender' => $request->gender, 'age' => $request->age, 'price' => $request->price, 'lat' => $request->lat, 'long' => $request->long, 'description' => $request->description] );
+
+        if ( $request->is_edit_image == true ) {
+            $ads_images = AdsMeta::where( ['id_ads' => $ad_id, 'meta_key' => '_ad_image'] )->get();
+            foreach ( $ads_images as $key => $value ) {
+                $file_path = substr( $value->meta_value, 1 );
+                unlink( $file_path );
+            }
+
+            AdsMeta::where( ['id_ads' => $ad_id, 'meta_key' => '_ad_image'] )->delete();
+
+            $targetDir = public_path( 'uploads/ads/' );
+            $targetDir .= $user_id;
+            if ( !is_dir( $targetDir ) ) {
+                mkDir( $targetDir );
+            }
+            $targetDir .= '/'.$ad_id;
+            if ( !is_dir( $targetDir ) ) {
+                mkDir( $targetDir );
+            }
+
+            $image_key = $request->image_key;
+            $uploadedImages = [];
+            foreach ( $request->file( $image_key ) as $key => $file ) {
+                $sourceFile = 'ad_image_'.( $key+1 ).'.'.$file->extension();
+                $dest_path = '/uploads/ads/'.$user_id.'/'.$ad_id.'/'.$sourceFile;
+                $file->move( $targetDir, $sourceFile );
+                $uploadedImages[] = $dest_path;
+            }
+
+            foreach ( $uploadedImages as $key => $value ) {
+                $ads_meta = new AdsMeta;
+                $ads_meta->id_ads = $ad_id;
+                $ads_meta->meta_key = '_ad_image';
+                $ads_meta->meta_value = $value;
+                $ads_meta->save();
+            }
+        }
+
+        $message = 'Your ads successfully updated.';
         return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
     }
 

@@ -63,7 +63,7 @@ class NotificationController extends Controller {
         $success = true;
         $message = '';
 
-        $notification = Notification::where( 'id_rcv_user', Auth::user()->id )->orderby( 'read_status', 'ASC' )->orderby( 'created_at', 'DESC' )->get();
+        $notification = Notification::where( 'id_rcv_user', Auth::user()->id )->where( 'deleted_at', null )->orderby( 'read_status', 'ASC' )->orderby( 'created_at', 'DESC' )->get();
         if ( count( $notification ) == 0 ) {
             $message = 'Notification not found.';
             $data['notification'] = [];

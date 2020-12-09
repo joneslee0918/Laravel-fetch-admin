@@ -15,6 +15,7 @@ class Notification extends Model
         'body',
         'type',
         'read_status',
+        'deleted_at',
         'created_at',
         'updated_at'
     ];

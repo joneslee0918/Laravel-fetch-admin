@@ -21,6 +21,7 @@ class CreateNotificationTable extends Migration
             $table->string('title');
             $table->string('body')->nullable();
             $table->integer('read_status')->comment('0: unread, 1: read');
+            $table->datetime('deleted_at')->nullable();
             $table->integer('type')->comment('0: chat message, 1: ads order');
             $table->timestamps();
         });
