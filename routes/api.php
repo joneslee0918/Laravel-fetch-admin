@@ -26,10 +26,8 @@ Route::group( ['middleware' => 'auth:api'], function () {
     Route::post( 'ads', 'App\Http\Controllers\API\AdsController@adDetail' );
     Route::post( 'ads/ad_favourite', 'App\Http\Controllers\API\AdsController@adFavourite' );
     Route::get( 'ads/sell', 'App\Http\Controllers\API\AdsController@sell' );
-    Route::post( 'ads/edit', 'App\Http\Controllers\API\AdsController@edit' );
-    Route::post( 'ads/upload_temp', 'App\Http\Controllers\API\AdsController@upload_temp' );
     Route::post( 'ads/create', 'App\Http\Controllers\API\AdsController@create' );
-    Route::post( 'ads/order', 'App\Http\Controllers\API\AdsController@order' );
+    Route::post( 'ads/edit', 'App\Http\Controllers\API\AdsController@edit' );
 
     //profile
     Route::post( 'profile', 'App\Http\Controllers\API\UserController@profile' );

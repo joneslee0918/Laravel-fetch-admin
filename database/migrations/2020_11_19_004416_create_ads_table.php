@@ -21,8 +21,8 @@ class CreateAdsTable extends Migration
             $table->integer('age');
             $table->integer('gender')->comment('0:male, 1:female');
             $table->integer('price');
-            $table->string('lat');
-            $table->string('long');
+            $table->double('lat');
+            $table->double('long');
             $table->string('description')->nullable();
             $table->integer('status')->default(1)->comment('0:closed, 1:active');
             $table->timestamps();
