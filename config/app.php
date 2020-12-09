@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'America/Boulder',
+    'timezone' => 'America/New_York',
 
     /*
     |--------------------------------------------------------------------------
