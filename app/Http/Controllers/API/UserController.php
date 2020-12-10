@@ -9,6 +9,7 @@ use Validator;
 use Hash;
 use Storage;
 use App\Models\User;
+use App\Models\UserMeta;
 use DB;
 
 class UserController extends Controller {
@@ -22,6 +23,7 @@ class UserController extends Controller {
         if ( Auth::attempt( ['email' => $request->email, 'password' => $request->password] ) ) {
             $user = Auth::user();
             $user['token'] =  $user->createToken( $user->id )->accessToken;
+            $user->meta;
             $data['user'] =  $user;
             if ( $request->device_token != null ) {
                 User::where( 'id', Auth::user()->id )->update( ['device_token' => $request->device_token] );
@@ -55,9 +57,23 @@ class UserController extends Controller {
         } else {
             $user = User::create( $request->all() );
             $user['token'] =  $user->createToken( $user->id )->accessToken;
-            $data['user'] = $user;
             $message = 'Register success';
             $success = true;
+
+            $user_meta = new UserMeta;
+            $user_meta->id_user = Auth::user()->id;
+            $user_meta->meta_key = '_show_notification';
+            $user_meta->meta_value = 1;
+            $user_meta->save();
+
+            $user_meta = new UserMeta;
+            $user_meta->id_user = Auth::user()->id;
+            $user_meta->meta_key = '_show_phone_on_ads';
+            $user_meta->meta_value = 1;
+            $user_meta->save();
+
+            $user->meta;
+            $data['user'] = $user;
         }
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
@@ -123,6 +139,22 @@ class UserController extends Controller {
             $success = true;
             $message = 'Password changed successfully.';
         }
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
+    }
+
+    public function setUserMeta( Request $request ) {
+        $data = array();
+        $message = '';
+        $success = true;
+
+        UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => $request->key] )->update( ['meta_value' => $request->value] );
+
+        $user = User::where( 'id', Auth::user()->id )->first();
+        $user->meta;
+        $user['token'] =  $user->createToken( $user->id )->accessToken;
+
+        $data['user'] = $user;
+
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
 }

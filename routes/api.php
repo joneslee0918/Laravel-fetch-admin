@@ -39,6 +39,7 @@ Route::group( ['middleware' => 'auth:api'], function () {
     //profile
     Route::post( 'profile', 'App\Http\Controllers\API\UserController@profile' );
     Route::post( 'profile/edit', 'App\Http\Controllers\API\UserController@edit' );
+    Route::post( 'profile/setting', 'App\Http\Controllers\API\UserController@setUserMeta' );
 
     //inbox
     Route::get( 'inbox', 'App\Http\Controllers\API\InboxController@inbox' );
