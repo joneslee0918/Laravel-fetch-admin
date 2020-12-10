@@ -30,10 +30,12 @@ class AdsController extends Controller {
         $message = '';
 
         $ads = Ads::where( 'id', $request->ad_id )->first();
-        $ads->user;
+        $user = $ads->user;
         $ads->category;
         $ads->breed;
         $ads->meta;
+        $user->meta;
+        $ads['user'] = $user;
 
         if ( $request->view == true && $ads->user->id != Auth::user()->id ) {
             DB::select( 'UPDATE ads SET views = views + 1 WHERE id = '.$ads->id );
@@ -145,7 +147,7 @@ class AdsController extends Controller {
         return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
     }
 
-    public function edit(Request $request) {
+    public function edit( Request $request ) {
         $data = array();
         $message = '';
         $success = true;
@@ -209,10 +211,12 @@ class AdsController extends Controller {
             $data['ads'] = [];
         } else {
             foreach ( $ads as $key => $item ) {
-                $item->user;
+                $user = $item->user;
                 $item->category;
                 $item->breed;
                 $item->meta;
+                $user->meta;
+                $item['user'] = $user;
 
                 $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $item['id']] )->count();
                 $is_fav = $exsit_fav == 0 ? false : true;
@@ -235,10 +239,12 @@ class AdsController extends Controller {
             $data['ads'] = [];
         } else {
             foreach ( $ads as $key => $item ) {
-                $item->user;
+                $user = $item->user;
                 $item->category;
                 $item->breed;
                 $item->meta;
+                $user->meta;
+                $item['user'] = $user;
 
                 $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $item['id']] )->count();
                 $is_fav = $exsit_fav == 0 ? false : true;
