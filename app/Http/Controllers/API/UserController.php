@@ -10,6 +10,7 @@ use Hash;
 use Storage;
 use App\Models\User;
 use App\Models\UserMeta;
+use App\Models\Ads;
 use DB;
 
 class UserController extends Controller {
@@ -85,6 +86,27 @@ class UserController extends Controller {
 
         $user = User::where( 'id', $request->user_id )->first();
         $user->meta;
+
+        if ( $request->inventory == true ) {
+            $ads = Ads::where( 'id_user', $request->user_id )->orderby( 'updated_at', 'DESC' )->get();
+            if ( count( $ads ) == 0 ) {
+                $message = 'This user does not have any ads.';
+                $data['ads'] = [];
+            } else {
+                foreach ( $ads as $key => $item ) {
+                    $item->user;
+                    $item->category;
+                    $item->breed;
+                    $item->meta;
+
+                    $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $item['id']] )->count();
+                    $is_fav = $exsit_fav == 0 ? false : true;
+                    $item['is_fav'] = $is_fav;
+                }
+
+                $data['ads'] = $ads;
+            }
+        }
 
         $data['user'] = $user;
 
