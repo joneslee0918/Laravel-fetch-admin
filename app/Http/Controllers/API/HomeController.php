@@ -43,9 +43,12 @@ class HomeController extends Controller {
         $breed = Breed::orderby( 'order' )->get();
         $category = Category::orderby( 'order' )->get();
 
+        $max_price = Ads::max( 'price' );
+
         $data['category'] = $category;
         $data['breed'] = $breed;
         $data['ads'] = $ads;
+        $data['max_price'] = $max_price;
 
         $success = true;
 
@@ -109,7 +112,12 @@ class HomeController extends Controller {
         $gender = $request->gender;
         $price = $request->price;
 
-        $ads = Ads::where( ['id_category' => $id_category, 'id_breed' => $id_breed, 'gender' => $gender] )->where( 'price', '>=', $price['min'] )->where( 'price', '<=', $price['max'] )->orderby( 'updated_at', 'DESC' )->get();
+        if ( $id_category == -1 ) {
+            $ads = Ads::where( ['id_breed' => $id_breed, 'gender' => $gender] )->where( 'price', '>=', $price['min'] )->where( 'price', '<=', $price['max'] )->orderby( 'updated_at', 'DESC' )->get();
+        } else {
+            $ads = Ads::where( ['id_category' => $id_category, 'id_breed' => $id_breed, 'gender' => $gender] )->where( 'price', '>=', $price['min'] )->where( 'price', '<=', $price['max'] )->orderby( 'updated_at', 'DESC' )->get();
+        }
+
         if ( count( $ads ) == 0 ) {
             $message = 'Ads Not Found.';
         } else {
