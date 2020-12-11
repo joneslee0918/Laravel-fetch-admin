@@ -115,14 +115,17 @@ class AdsController extends Controller {
 
         $newAdsId = $newAds->id;
 
-        $targetDir = public_path( 'uploads/ads/' );
-        $targetDir .= $user_id;
+        $targetDir = public_path( 'uploads/ads' );
         if ( !is_dir( $targetDir ) ) {
-            mkDir( $targetDir );
+            mkDir( $targetDir, 0777, true );
+        }
+        $targetDir .= '/'.$user_id;
+        if ( !is_dir( $targetDir ) ) {
+            mkDir( $targetDir, 0777, true );
         }
         $targetDir .= '/'.$newAdsId;
         if ( !is_dir( $targetDir ) ) {
-            mkDir( $targetDir );
+            mkDir( $targetDir, 0777, true );
         }
 
         $image_key = $request->image_key;
@@ -168,14 +171,17 @@ class AdsController extends Controller {
 
             AdsMeta::where( ['id_ads' => $ad_id, 'meta_key' => '_ad_image'] )->delete();
 
-            $targetDir = public_path( 'uploads/ads/' );
-            $targetDir .= $user_id;
+            $targetDir = public_path( 'uploads/ads' );
             if ( !is_dir( $targetDir ) ) {
-                mkDir( $targetDir );
+                mkDir( $targetDir, 0777, true );
+            }
+            $targetDir .= '/'.$user_id;
+            if ( !is_dir( $targetDir ) ) {
+                mkDir( $targetDir, 0777, true );
             }
             $targetDir .= '/'.$ad_id;
             if ( !is_dir( $targetDir ) ) {
-                mkDir( $targetDir );
+                mkDir( $targetDir, 0777, true );
             }
 
             $image_key = $request->image_key;
