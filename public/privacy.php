@@ -6,7 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="http://gmpg.org/xfn/11">
-    <title>Privacy Policy – Zimbo Charades</title>
+    <title>Privacy Policy – Fetch</title>
     <link rel="dns-prefetch" href="http://fonts.googleapis.com/">
     <link rel="dns-prefetch" href="http://s.w.org/">
     <link rel="alternate" type="application/rss+xml" title="HOURGLASS GAMES » Kanał z wpisami"
