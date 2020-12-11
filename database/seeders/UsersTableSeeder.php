@@ -13,17 +13,17 @@ class UsersTableSeeder extends Seeder {
     */
 
     public function run() {
-        // DB::table( 'users' )->insert( [
-        //     'name' => 'Admin Admin',
-        //     'email' => 'admin@admin.com',
-        //     'email_verified_at' => now(),
-        //     'password' => Hash::make( 'secret' ),
-        //     'created_at' => now(),
-        //     'updated_at' => now()
-        // ] );
+        DB::table( 'users' )->insert( [
+            'name' => 'Admin Admin',
+            'email' => 'admin@material.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make( 'secret' ),
+            'created_at' => now(),
+            'updated_at' => now()
+        ] );
 
         DB::table( 'user_meta' )->insert( [
-            'id_user' => '4',
+            'id_user' => '1',
             'meta_key' => '_show_notification',
             'meta_value' => 1,
             'created_at' => now(),
@@ -31,7 +31,7 @@ class UsersTableSeeder extends Seeder {
         ] );
 
         DB::table( 'user_meta' )->insert( [
-            'id_user' => '4',
+            'id_user' => '1',
             'meta_key' => '_show_phone_on_ads',
             'meta_value' => 1,
             'created_at' => now(),
