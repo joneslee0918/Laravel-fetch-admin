@@ -115,7 +115,11 @@ class AdsController extends Controller {
 
         $newAdsId = $newAds->id;
 
-        $targetDir = public_path( 'uploads/ads' );
+        $targetDir = public_path( 'uploads' );
+        if ( !is_dir( $targetDir ) ) {
+            mkDir( $targetDir, 0777, true );
+        }
+        $targetDir .= '/ads';
         if ( !is_dir( $targetDir ) ) {
             mkDir( $targetDir, 0777, true );
         }

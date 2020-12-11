@@ -131,9 +131,18 @@ class UserController extends Controller {
 
             $dest_path = '';
             if ( $request->change_image_status == 1 ) {
+                $targetDir = public_path( 'uploads' );
+                if ( !is_dir( $targetDir ) ) {
+                    mkDir( $targetDir, 0777, true );
+                }
+                $targetDir .= '/avatars';
+                if ( !is_dir( $targetDir ) ) {
+                    mkDir( $targetDir, 0777, true );
+                }
+
                 $file = $request->file( 'profile_image' );
                 $sourceFile = Auth::user()->id.'.'.$file->extension();
-                $file->move( public_path( 'uploads/avatars/' ), $sourceFile );
+                $file->move( public_path( $targetDir.'/' ), $sourceFile );
                 $dest_path = '/uploads/avatars/'.$sourceFile;
             }
 

@@ -22,3 +22,4 @@ yarn-error.log
 /public/uploads/ads/6/14/*.jpeg
 /public/uploads/ads/6/15/*.jpeg
 /public/uploads/avatars/*.jpeg
+/*.pem
