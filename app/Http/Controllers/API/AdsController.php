@@ -135,7 +135,7 @@ class AdsController extends Controller {
         $image_key = $request->image_key;
         $uploadedImages = [];
         foreach ( $request->file( $image_key ) as $key => $file ) {
-            $sourceFile = 'ad_image_'.( $key+1 ).'.'.$file->extension();
+            $sourceFile = 'ad_image_'.( $key+1 ).now().'.'.$file->extension();
             $dest_path = '/uploads/ads/'.$user_id.'/'.$newAdsId.'/'.$sourceFile;
             $file->move( $targetDir, $sourceFile );
             $uploadedImages[] = $dest_path;
@@ -195,7 +195,7 @@ class AdsController extends Controller {
             $image_key = $request->image_key;
             $uploadedImages = [];
             foreach ( $request->file( $image_key ) as $key => $file ) {
-                $sourceFile = 'ad_image_'.( $key+1 ).'.'.$file->extension();
+                $sourceFile = 'ad_image_'.( $key+1 ).now().'.'.$file->extension();
                 $dest_path = '/uploads/ads/'.$user_id.'/'.$ad_id.'/'.$sourceFile;
                 $file->move( $targetDir, $sourceFile );
                 $uploadedImages[] = $dest_path;
