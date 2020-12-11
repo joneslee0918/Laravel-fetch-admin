@@ -123,7 +123,7 @@
                         <a class="back-to-top" href="#page">
                         </a>
                     </div>
-                    Darryl © 2020 FETCH APP <span class="sep"></span>
+                    Darryl © 2020 FETCH APP <span class="sep"><a>darryl@buybitcoins.site<a/></span>
                 </div>
             </div>
             <!-- .site-info -->
