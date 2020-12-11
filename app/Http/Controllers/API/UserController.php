@@ -141,8 +141,8 @@ class UserController extends Controller {
                 }
 
                 $file = $request->file( 'profile_image' );
-                $sourceFile = Auth::user()->id.'.'.$file->extension();
-                $file->move( public_path( $targetDir.'/' ), $sourceFile );
+                $sourceFile = Auth::user()->id.now().'.'.$file->extension();
+                $file->move( public_path( $targetDir ).'/', $sourceFile );
                 $dest_path = '/uploads/avatars/'.$sourceFile;
             }
 
