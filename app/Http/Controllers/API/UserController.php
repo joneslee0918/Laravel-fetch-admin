@@ -29,7 +29,7 @@ class UserController extends Controller {
             if ( $request->device_token != null ) {
                 User::where( 'id', Auth::user()->id )->update( ['device_token' => $request->device_token] );
             } else {
-                User::where( 'id', Auth::user()->id )->update( ['iphone_device_token' => $request->device_token] );
+                User::where( 'id', Auth::user()->id )->update( ['iphone_device_token' => $request->iphone_device_token] );
             }
             $message = 'Login Success';
             $success = true;
