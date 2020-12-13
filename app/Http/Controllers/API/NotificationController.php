@@ -16,7 +16,9 @@ class NotificationController extends Controller {
 
     public function send( $user_id, $type, $title, $body, $image, $data ) {
 
-        $token = User::where( 'id', $user_id )->value( 'device_token' );
+        $device_token = User::where( 'id', $user_id )->value( 'device_token' );
+        $iphone_device_token = User::where( 'id', $user_id )->value( 'iphone_device_token' );
+
         $notification_data = array
         (
             'type' => $type,
@@ -26,9 +28,16 @@ class NotificationController extends Controller {
             'data' => $data
         );
 
-        $cloud_message_data = array
+        $cloud_message_data_android = array
         (
-            'to' => $token,
+            'to' => $device_token,
+            'data' => $notification_data,
+            'notification' => $notification_data
+        );
+
+        $cloud_message_data_iphone = array
+        (
+            'to' => $iphone_device_token,
             'data' => $notification_data,
             'notification' => $notification_data
         );
@@ -36,8 +45,14 @@ class NotificationController extends Controller {
         $api_firebase_id = AppSetting::where( 'meta_key', 'firebase_api_key' )->value( 'meta_value' );
         define( 'API_ACCESS_KEY', $api_firebase_id );
 
-        $data_string = json_encode( $cloud_message_data );
+        $data_string_android = json_encode( $cloud_message_data_android );
+        $data_string_iphone = json_encode( $cloud_message_data_iphone );
 
+        $this->sendNotification( $data_string_android );
+        $this->sendNotification( $data_string_iphone );
+    }
+
+    public function sendNotification( $data_string ) {
         $url = 'https://fcm.googleapis.com/fcm/send';
         $headers = array
         (
