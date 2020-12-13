@@ -120,8 +120,6 @@ class UserController extends Controller {
         $message = 'dsds';
         $success = true;
 
-return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
-
         User::where( 'id', Auth::user()->id )->update( ['name' => $request->name, 'email' => $request->email, 'phonenumber' => $request->phonenumber] );
 
         if ( $request->change_image_status > 0 ) {
