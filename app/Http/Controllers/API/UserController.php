@@ -127,6 +127,8 @@ class UserController extends Controller {
             if ( $avatar != '' ) {
                 $file_path = substr( $avatar, 1 );
                 unlink( $file_path );
+
+		User::where( 'id', Auth::user()->id )->update( ['avatar' => null] );
             }
 
             $dest_path = '';
