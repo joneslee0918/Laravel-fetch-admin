@@ -116,6 +116,8 @@ class UserController extends Controller {
     }
 
     public function edit( Request $request ) {
+ini_set('max_execution_time', 3000);
+
         $data = array();
         $message = '';
         $success = true;
