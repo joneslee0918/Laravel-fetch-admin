@@ -117,7 +117,7 @@ class UserController extends Controller {
 
     public function edit( Request $request ) {
         $data = array();
-        $message = 'dsds';
+        $message = '';
         $success = true;
 
         User::where( 'id', Auth::user()->id )->update( ['name' => $request->name, 'email' => $request->email, 'phonenumber' => $request->phonenumber] );
@@ -143,9 +143,6 @@ class UserController extends Controller {
                 }
 
                 $file = $request->file( 'profile_image' );
-        
-                return $response = array( 'success' => $success, 'data' => $file, 'message' => $message );
-
                 $sourceFile = Auth::user()->id.time().'.'.$file->extension();
                 $file->move( $targetDir, $sourceFile );
                 $dest_path = '/uploads/avatars/'.$sourceFile;
