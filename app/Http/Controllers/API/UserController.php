@@ -143,7 +143,7 @@ class UserController extends Controller {
                 }
 
                 $file = $request->file( 'profile_image' );
-                $sourceFile = Auth::user()->id.time().'.'.$file->extension();
+                $sourceFile = Auth::user()->id.time().'.jpeg';
                 $file->move( $targetDir, $sourceFile );
                 $dest_path = '/uploads/avatars/'.$sourceFile;
             }
