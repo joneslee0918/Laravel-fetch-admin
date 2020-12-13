@@ -117,8 +117,10 @@ class UserController extends Controller {
 
     public function edit( Request $request ) {
         $data = array();
-        $message = '';
+        $message = 'dsds';
         $success = true;
+
+return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
 
         User::where( 'id', Auth::user()->id )->update( ['name' => $request->name, 'email' => $request->email, 'phonenumber' => $request->phonenumber] );
 
