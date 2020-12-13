@@ -116,8 +116,6 @@ class UserController extends Controller {
     }
 
     public function edit( Request $request ) {
-        set_time_limit( 0 );
-
         $data = array();
         $message = '';
         $success = true;
