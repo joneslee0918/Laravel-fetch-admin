@@ -13,43 +13,43 @@ use Illuminate\Support\Facades\Route;
 | is assigned the 'api' middleware group. Enjoy building your API!
 |
 */
-Route::post( 'login', 'App\Http\Controllers\API\UserController@login' );
-Route::post( 'signup', 'App\Http\Controllers\API\UserController@signup' );
+Route::post( 'login', 'API\UserController@login' );
+Route::post( 'signup', 'API\UserController@signup' );
 
 Route::group( ['middleware' => 'auth:api'], function () {
 
     //change password
-    Route::post( 'changepassword', 'App\Http\Controllers\API\UserController@changePassword' );
+    Route::post( 'changepassword', 'API\UserController@changePassword' );
 
     //home
-    Route::get( 'home', 'App\Http\Controllers\API\HomeController@home' );
-    Route::post( 'home/filter_category', 'App\Http\Controllers\API\HomeController@filter_category' );
-    Route::post( 'home/filter', 'App\Http\Controllers\API\HomeController@filter' );
+    Route::get( 'home', 'API\HomeController@home' );
+    Route::post( 'home/filter_category', 'API\HomeController@filter_category' );
+    Route::post( 'home/filter', 'API\HomeController@filter' );
 
     //ads
-    Route::post( 'ads', 'App\Http\Controllers\API\AdsController@adDetail' );
-    Route::post( 'ads/ad_favourite', 'App\Http\Controllers\API\AdsController@adFavourite' );
-    Route::get( 'ads/sell', 'App\Http\Controllers\API\AdsController@sell' );
-    Route::post( 'ads/create', 'App\Http\Controllers\API\AdsController@create' );
-    Route::post( 'ads/edit', 'App\Http\Controllers\API\AdsController@edit' );
+    Route::post( 'ads', 'API\AdsController@adDetail' );
+    Route::post( 'ads/ad_favourite', 'API\AdsController@adFavourite' );
+    Route::get( 'ads/sell', 'API\AdsController@sell' );
+    Route::post( 'ads/create', 'API\AdsController@create' );
+    Route::post( 'ads/edit', 'API\AdsController@edit' );
     //myads
-    Route::get( 'ads/activeAds', 'App\Http\Controllers\API\AdsController@activeAds' );
-    Route::get( 'ads/closedAds', 'App\Http\Controllers\API\AdsController@closedAds' );
+    Route::get( 'ads/activeAds', 'API\AdsController@activeAds' );
+    Route::get( 'ads/closedAds', 'API\AdsController@closedAds' );
 
     //profile
-    Route::post( 'profile', 'App\Http\Controllers\API\UserController@profile' );
-    Route::post( 'profile/edit', 'App\Http\Controllers\API\UserController@edit' );
-    Route::post( 'profile/setting', 'App\Http\Controllers\API\UserController@setUserMeta' );
+    Route::post( 'profile', 'API\UserController@profile' );
+    Route::post( 'profile/edit', 'API\UserController@edit' );
+    Route::post( 'profile/setting', 'API\UserController@setUserMeta' );
 
     //inbox
-    Route::get( 'inbox', 'App\Http\Controllers\API\InboxController@inbox' );
+    Route::get( 'inbox', 'API\InboxController@inbox' );
 
     //chat
-    Route::post( 'chat', 'App\Http\Controllers\API\ChatController@chat' );
-    Route::post( 'chat/post', 'App\Http\Controllers\API\ChatController@postMessage' );
+    Route::post( 'chat', 'API\ChatController@chat' );
+    Route::post( 'chat/post', 'API\ChatController@postMessage' );
 
     //notification
-    Route::get( 'notification', 'App\Http\Controllers\API\NotificationController@notification' );
-    Route::post( 'notification/read', 'App\Http\Controllers\API\NotificationController@read' );
-    Route::post( 'notification/delete', 'App\Http\Controllers\API\NotificationController@delete' );
+    Route::get( 'notification', 'API\NotificationController@notification' );
+    Route::post( 'notification/read', 'API\NotificationController@read' );
+    Route::post( 'notification/delete', 'API\NotificationController@delete' );
 });
