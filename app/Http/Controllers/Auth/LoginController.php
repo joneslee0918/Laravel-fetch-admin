@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 
 use Auth;
 
-class LoginController extends Controller
-{
+class LoginController extends Controller {
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -24,8 +23,8 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    public function login(Request $request) {
-        $this->validateLogin($request);
+    public function login( Request $request ) {
+        $this->validateLogin( $request );
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
@@ -39,7 +38,7 @@ class LoginController extends Controller
             $user = $this->guard()->getLastAttempted();
 
             // Make sure the user is active
-            if (($user->role==1 || $user->role==2) && $user->active && $this->attemptLogin($request)) {
+            if ($user->role==1 && $user->active && $this->attemptLogin($request)) {
                 // Send the normal successful login response
                 return $this->sendLoginResponse($request);
             } else {
@@ -71,6 +70,6 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except('logout' );
     }
 }
