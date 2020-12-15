@@ -31,7 +31,7 @@
             </li>
             <li class="nav-item{{ $activePage == 'breed' ? ' active' : '' }}">
                 <a class="nav-link" href="{{ route('breed.index') }}">
-                    <i class="material-icons">view_list</i>
+                    <i class="material-icons">view_week</i>
                     <p>{{ __('Breed Management') }}</p>
                 </a>
             </li>
