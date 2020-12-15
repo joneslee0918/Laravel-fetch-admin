@@ -154,6 +154,33 @@
                                             </div>
                                             <input type="hidden" id="active" name="active" value="{{$user->active}}">
                                         </div>
+                                        <label
+                                            class="col-sm-2 col-form-label">{{ __('Show Phone Number On Ads') }}</label>
+                                        <div class="col-sm-4">
+                                            <div class="togglebutton">
+                                                <label class="col-form-label">
+                                                    <input type="checkbox" class="term_switch"
+                                                        onclick="toggleStatus(3, this.checked)"
+                                                        <?php echo (intval ($user_meta['_show_phone_on_ads']) == 1 ? "checked" : '') ?>>
+                                                    <span class="toggle"></span>
+                                                </label>
+                                            </div>
+                                            <input type="hidden" id="_show_phone_on_ads" name="_show_phone_on_ads"
+                                                value="{{$user_meta['_show_phone_on_ads']}}">
+                                        </div>
+                                        <label class="col-sm-2 col-form-label">{{ __('Show Notification') }}</label>
+                                        <div class="col-sm-4">
+                                            <div class="togglebutton">
+                                                <label class="col-form-label">
+                                                    <input type="checkbox" class="role_switch"
+                                                        onclick="toggleStatus(4, this.checked)"
+                                                        <?php echo (intval ($user_meta['_show_notification']) == 1 ? "checked" : '') ?>>
+                                                    <span class="toggle"></span>
+                                                </label>
+                                            </div>
+                                            <input type="hidden" id="_show_notification" name="_show_notification"
+                                                value="{{$user_meta['_show_notification']}}">
+                                        </div>
                                         <label class="col-sm-2 col-form-label"
                                             style="margin-top:10px">{{ __('Account type') }}</label>
                                         <div class="col-sm-4" style="margin-top:10px">
@@ -194,6 +221,10 @@ var toggleStatus = function(type, value) {
         $('#terms').val(value ? 1 : 0);
     } else if (type == 2) {
         $('#active').val(value ? 1 : 0);
+    } else if (type == 3) {
+        $('#_show_phone_on_ads').val(value ? 1 : 0);
+    } else if (type == 4) {
+        $('#_show_notification').val(value ? 1 : 0);
     }
 }
 </script>

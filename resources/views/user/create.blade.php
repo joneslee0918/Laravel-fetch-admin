@@ -135,8 +135,8 @@
                                         <div class="col-sm-4">
                                             <div class="togglebutton">
                                                 <label class="col-form-label">
-                                                    <input type="checkbox" class="term_switch"
-                                                        onclick="toggleStatus(1, this.checked)" checked>
+                                                    <input type="checkbox" onclick="toggleStatus(1, this.checked)"
+                                                        checked>
                                                     <span class="toggle"></span>
                                                 </label>
                                             </div>
@@ -146,12 +146,37 @@
                                         <div class="col-sm-4">
                                             <div class="togglebutton">
                                                 <label class="col-form-label">
-                                                    <input type="checkbox" class="role_switch"
-                                                        onclick="toggleStatus(2, this.checked)" checked>
+                                                    <input type="checkbox" onclick="toggleStatus(2, this.checked)"
+                                                        checked>
                                                     <span class="toggle"></span>
                                                 </label>
                                             </div>
                                             <input type="hidden" id="active" name="active" value="1">
+                                        </div>
+                                        <label
+                                            class="col-sm-2 col-form-label">{{ __('Show Phone Number On Ads') }}</label>
+                                        <div class="col-sm-4">
+                                            <div class="togglebutton">
+                                                <label class="col-form-label">
+                                                    <input type="checkbox" onclick="toggleStatus(3, this.checked)"
+                                                        checked>
+                                                    <span class="toggle"></span>
+                                                </label>
+                                            </div>
+                                            <input type="hidden" id="_show_phone_on_ads" name="_show_phone_on_ads"
+                                                value="1">
+                                        </div>
+                                        <label class="col-sm-2 col-form-label">{{ __('Show Notification') }}</label>
+                                        <div class="col-sm-4">
+                                            <div class="togglebutton">
+                                                <label class="col-form-label">
+                                                    <input type="checkbox" onclick="toggleStatus(4, this.checked)"
+                                                        checked>
+                                                    <span class="toggle"></span>
+                                                </label>
+                                            </div>
+                                            <input type="hidden" id="_show_notification" name="_show_notification"
+                                                value="1">
                                         </div>
                                         <label class="col-sm-2 col-form-label"
                                             style="margin-top:10px">{{ __('Account type') }}</label>
@@ -186,6 +211,10 @@ var toggleStatus = function(type, value) {
         $('#terms').val(value ? 1 : 0);
     } else if (type == 2) {
         $('#active').val(value ? 1 : 0);
+    } else if (type == 3) {
+        $('#_show_phone_on_ads').val(value ? 1 : 0);
+    } else if (type == 4) {
+        $('#_show_notification').val(value ? 1 : 0);
     }
 }
 </script>

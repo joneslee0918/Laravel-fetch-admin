@@ -64,13 +64,13 @@ class UserController extends Controller {
             $user_meta = new UserMeta;
             $user_meta->id_user = $user->id;
             $user_meta->meta_key = '_show_notification';
-            $user_meta->meta_value = 1;
+            $user_meta->meta_value = $request->_show_notification;
             $user_meta->save();
 
             $user_meta = new UserMeta;
             $user_meta->id_user = $user->id;
             $user_meta->meta_key = '_show_phone_on_ads';
-            $user_meta->meta_value = 1;
+            $user_meta->meta_value = $request->_show_phone_on_ads;
             $user_meta->save();
 
             $file = $request->file( 'photo_path' );
@@ -113,7 +113,13 @@ class UserController extends Controller {
 
     public function edit( User $user ) {
         //
-        return view( 'user.edit', ['user' => $user] );
+        $user->meta;
+        $user_meta = array();
+        foreach ( $user['meta'] as $key => $value ) {
+            if ( $value->meta_key == '_show_notification' || $value->meta_key == '_show_phone_on_ads' )
+            $user_meta[$value->meta_key] = $value->meta_value;
+        }
+        return view( 'user.edit', ['user' => $user, 'user_meta' => $user_meta] );
     }
 
     /**
@@ -159,6 +165,9 @@ class UserController extends Controller {
             $user->update( ['avatar' => $dest_path] );
         }
         $user->update( $request->all() );
+
+        UserMeta::where( ['id_user' => $user->id, 'meta_key' => '_show_notification'] )->update( ['meta_value' => $request->_show_notification] );
+        UserMeta::where( ['id_user' => $user->id, 'meta_key' => '_show_phone_on_ads'] )->update( ['meta_value' => $request->_show_phone_on_ads] );
         // ( new EmailController )->sendMail( $user->email, 4, null );
         // $key = $this->firebase->push( 'Alarm', md5( 'user'.$user->id ) );
         // $this->firebase->delete( 'Alarm/'.$key );
