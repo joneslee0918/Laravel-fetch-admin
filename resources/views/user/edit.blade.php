@@ -108,7 +108,7 @@
                                                 <input
                                                     class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                                     name="password" id="input-password" type="password"
-                                                    placeholder="{{ __('New Password') }}" required />
+                                                    placeholder="{{ __('New Password') }}" />
                                                 @if ($errors->has('password'))
                                                 <span id="password-error" class="error text-danger"
                                                     for="input-password">{{ $errors->first('password') }}</span>
