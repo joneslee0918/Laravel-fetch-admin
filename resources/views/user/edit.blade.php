@@ -5,14 +5,25 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                @if ($errors->has('email'))
+                @if (session('error'))
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <i class="material-icons">close</i>
                             </button>
-                            <span>{{ $errors->first('email') }}</span>
+                            <span>{{ session('error') }}</span>
+                        </div>
+                    </div>
+                </div>
+                @elseif (session('status'))
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="material-icons">close</i>
+                            </button>
+                            <span>{{ session('status') }}</span>
                         </div>
                     </div>
                 </div>

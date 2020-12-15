@@ -57,40 +57,40 @@ class UserController extends Controller {
 
         $exist = User::where( 'email', $email )->count();
         if ( $exist > 0 ) {
-            return back()->withStatus( __( 'Register failed. Email already registered.' ) );
-        } else {
-            $user = User::create( $request->all() );
-
-            $user_meta = new UserMeta;
-            $user_meta->id_user = $user->id;
-            $user_meta->meta_key = '_show_notification';
-            $user_meta->meta_value = $request->_show_notification;
-            $user_meta->save();
-
-            $user_meta = new UserMeta;
-            $user_meta->id_user = $user->id;
-            $user_meta->meta_key = '_show_phone_on_ads';
-            $user_meta->meta_value = $request->_show_phone_on_ads;
-            $user_meta->save();
-
-            $file = $request->file( 'photo_path' );
-            if ( $file != null ) {
-                $targetDir = public_path( 'uploads' );
-                if ( !is_dir( $targetDir ) ) {
-                    mkDir( $targetDir, 0777, true );
-                }
-                $targetDir .= '/avatars';
-                if ( !is_dir( $targetDir ) ) {
-                    mkDir( $targetDir, 0777, true );
-                }
-                $sourceFile = $user->id.time().'.'.$file->extension();
-                $file->move( $targetDir, $sourceFile );
-                $dest_path = '/uploads/avatars/'.$sourceFile;
-                User::where( 'id', $user->id )->update( ['avatar' => $dest_path] );
-            }
-
-            return redirect()->route( 'user.index' )->withStatus( __( 'User successfully created.' ) );
+            return back()->withError( __( 'Register failed. Email already registered.' ) );
         }
+
+        $user = User::create( $request->all() );
+
+        $user_meta = new UserMeta;
+        $user_meta->id_user = $user->id;
+        $user_meta->meta_key = '_show_notification';
+        $user_meta->meta_value = $request->_show_notification;
+        $user_meta->save();
+
+        $user_meta = new UserMeta;
+        $user_meta->id_user = $user->id;
+        $user_meta->meta_key = '_show_phone_on_ads';
+        $user_meta->meta_value = $request->_show_phone_on_ads;
+        $user_meta->save();
+
+        $file = $request->file( 'photo_path' );
+        if ( $file != null ) {
+            $targetDir = public_path( 'uploads' );
+            if ( !is_dir( $targetDir ) ) {
+                mkDir( $targetDir, 0777, true );
+            }
+            $targetDir .= '/avatars';
+            if ( !is_dir( $targetDir ) ) {
+                mkDir( $targetDir, 0777, true );
+            }
+            $sourceFile = $user->id.time().'.'.$file->extension();
+            $file->move( $targetDir, $sourceFile );
+            $dest_path = '/uploads/avatars/'.$sourceFile;
+            User::where( 'id', $user->id )->update( ['avatar' => $dest_path] );
+        }
+
+        return redirect()->route( 'user.index' )->withStatus( __( 'User successfully created.' ) );
     }
 
     /**
@@ -132,6 +132,11 @@ class UserController extends Controller {
 
     public function update( Request $request, User $user ) {
         //
+        $exist = User::where( 'email', $request->email )->count();
+        if ( $exist > 0 ) {
+            return back()->withError( __( 'Update failed. Email already registered.' ) );
+        }
+
         $password = $request->get( 'password' );
         if ( $password == '' )
         $request->offsetUnset( 'password' );
@@ -168,9 +173,7 @@ class UserController extends Controller {
 
         UserMeta::where( ['id_user' => $user->id, 'meta_key' => '_show_notification'] )->update( ['meta_value' => $request->_show_notification] );
         UserMeta::where( ['id_user' => $user->id, 'meta_key' => '_show_phone_on_ads'] )->update( ['meta_value' => $request->_show_phone_on_ads] );
-        // ( new EmailController )->sendMail( $user->email, 4, null );
-        // $key = $this->firebase->push( 'Alarm', md5( 'user'.$user->id ) );
-        // $this->firebase->delete( 'Alarm/'.$key );
+
         return redirect()->route( 'user.index' )->withStatus( __( 'User successfully updated.' ) );
     }
 

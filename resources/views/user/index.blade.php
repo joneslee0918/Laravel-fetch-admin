@@ -89,7 +89,6 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($user->role != 1)
                                     <form action="{{ route('user.destroy', $user) }}" method="post">
                                         @csrf
                                         @method('delete')
@@ -101,12 +100,11 @@
                                         </a>
                                         <button rel="tooltip" type="button" class="btn btn-danger btn-link"
                                             data-original-title="Delete" title="Delete"
-                                            onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
+                                            onclick="confirm('{{ __("Will be deleted all this user data. Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
                                             <i class="material-icons">close</i>
                                             <div class="ripple-container"></div>
                                         </button>
                                     </form>
-                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -116,45 +114,5 @@
             </div>
         </div>
     </div>
-
-    <!-- Theme -->
-    <div class="modal fade bd-example-modal-sm" id="position_modal" tabindex="-1" role="dialog"
-        aria-labelledby="position_title" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="position_title">Positions management</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
-                            aria-hidden="true">&times;</span> </button>
-                </div>
-                <div class="modal-body row">
-                    <div class="col-md-8" style="text-align:left; bottom:-15px">
-                        Change order with Drag and Drop
-                    </div>
-                    <div class="col-md-4" style="text-align:right;">
-                        <button rel="tooltip" type="button" class="btn btn-danger btn-round btn-sm"
-                            data-original-title="Delete" title="Delete" onclick="addTheme()">
-                            <i class="material-icons">add</i>
-                        </button>
-                    </div>
-                    <table id="position_table" class="table table-striped table-no-bordered table-hover" cellspacing="0"
-                        width="100%" style='text-align:center'>
-                        <thead>
-                            <tr>
-                                <td></td>
-                                <td style="width:200px"></td>
-                            </tr>
-                        </thead>
-                        <tbody id="position_tbody">
-
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="saveThemes()">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endsection
+</div>
+@endsection

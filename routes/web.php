@@ -18,5 +18,13 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('home', 'WEB\HomeController', ['except' => ['show']]);
+
+	//user manage
 	Route::resource('user', 'WEB\UserController', ['except' => ['show']]);
+
+	//category manage
+	Route::resource('category', 'WEB\CategoryController', ['except' => ['show']]);
+
+	//category manage
+	Route::resource('breed', 'WEB\BreedController', ['except' => ['show']]);
 });
