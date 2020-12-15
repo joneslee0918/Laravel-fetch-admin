@@ -27,4 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	//category manage
 	Route::resource('breed', 'WEB\BreedController', ['except' => ['show']]);
+
+	//ads manage
+	Route::resource('ads', 'WEB\AdsController', ['except' => ['show']]);
 });
