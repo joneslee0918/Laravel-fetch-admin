@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
 Auth::routes();
-Route::resource('home', 'HomeController', ['except' => ['show']]);
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::resource('home', 'HomeController', ['except' => ['show']]);
+	Route::resource('home', 'WEB\HomeController', ['except' => ['show']]);
 });
