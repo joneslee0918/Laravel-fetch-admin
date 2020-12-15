@@ -70,3 +70,13 @@
 {
   display:inline
 }
+
+.dropdown-toggle .filter-option-inner-inner{
+    color: white;
+    margin-left: 10px;
+}
+
+/* .card .card-body .col-form-label{
+  padding: 17px 5px 0 0;
+  text-align: center !important; 
+} */

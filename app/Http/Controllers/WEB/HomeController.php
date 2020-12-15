@@ -32,6 +32,11 @@ class HomeController extends Controller {
         $data['activated_users'] = $activated_users;
         $data['deactivated_users'] = $deactivated_users;
 
+        $active_ads = Ads::where( 'status', 1 )->count();
+        $closed_ads = Ads::where( 'status', 0 )->count();
+        $data['active_ads'] = $active_ads;
+        $data['closed_ads'] = $closed_ads;
+
         $ads = Ads::groupby( 'id_category' )->get();
         $category_ads = [];
 
@@ -65,25 +70,6 @@ class HomeController extends Controller {
             $breed_ads[] = $item;
         }
         $data['breed_ads'] = $breed_ads;
-
-        $status_ads = [];
-
-        $item = [];
-        $item[] = 'Status Ads';
-        $item[] = 'Count';
-        $status_ads[] = $item;
-
-        $item = [];
-        $item[] = 'Active Ads';
-        $item[] = Ads::where( 'status', 1 )->count();
-        $status_ads[] = $item;
-
-        $item = [];
-        $item[] = 'Closed Ads';
-        $item[] = Ads::where( 'status', 0 )->count();
-        $status_ads[] = $item;
-
-        $data['status_ads'] = $status_ads;
 
         return view( 'dashboard', ['data'=>$data] );
     }

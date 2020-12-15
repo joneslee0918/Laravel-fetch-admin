@@ -18,4 +18,5 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('home', 'Web\HomeController', ['except' => ['show']]);
+	Route::resource('user', 'Web\UserController', ['except' => ['show']]);
 });

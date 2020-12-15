@@ -46,10 +46,8 @@ class UserController extends Controller {
         $success = false;
         $message = '';
 
-        $username = $request->username;
         $email = $request->email;
         $request['password'] = Hash::make( $request->password );
-        $term = $request->term;
 
         $exist = User::where( 'email', $email )->count();
         if ( $exist > 0 ) {

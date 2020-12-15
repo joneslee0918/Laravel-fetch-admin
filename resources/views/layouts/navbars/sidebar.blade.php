@@ -6,7 +6,7 @@
   -->
   <div class="logo">
     <a href="/home" class="simple-text logo-normal" style="text-transform: none;">
-      {{ __('Intraclub | SCNP') }}
+      {{ __('Fetch | PET') }}
     </a>
   </div>
   <div class="sidebar-wrapper">
@@ -15,6 +15,12 @@
         <a class="nav-link" href="{{ route('home.index') }}">
           <i class="material-icons">dashboard</i>
             <p>{{ __('Dashboard') }}</p>
+        </a>
+      </li>
+      <li class="nav-item{{ $activePage == 'user' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('user.index') }}">
+          <i class="material-icons">account_circle</i>
+            <p>{{ __('Users Management') }}</p>
         </a>
       </li>
     </ul>
