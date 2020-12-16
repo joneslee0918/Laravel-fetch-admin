@@ -7,18 +7,6 @@
                 <h4 class="card-title">{{ __('Users') }}</h4>
             </div>
             <div class="card-body ">
-                @if (session('status'))
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="alert alert-success">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <i class="material-icons">close</i>
-                            </button>
-                            <span>{{ session('status') }}</span>
-                        </div>
-                    </div>
-                </div>
-                @endif
                 <div class="row">
                     <div class="col-sm-4">
                         <a href="{{route('user.create')}}" class="btn btn-sm btn-primary">{{ __('Add User') }}</a>
@@ -116,3 +104,17 @@
     </div>
 </div>
 @endsection
+@push('js')
+<script>
+$('document').ready(function() {
+    var message = `<?php echo Session::get('error')?>`;
+    if (message != '') {
+        showToast('danger', message)
+    }
+    message = `<?php echo Session::get('status')?>`;
+    if (message != '') {
+        showToast('success', message)
+    }
+})
+</script>
+@endpush

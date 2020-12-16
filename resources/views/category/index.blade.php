@@ -8,29 +8,6 @@
                 <h4 class="card-title">{{ __('Categories') }}</h4>
             </div>
             <div class="card-body">
-                @if (session('error'))
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="alert alert-danger">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <i class="material-icons">close</i>
-                            </button>
-                            <span>{{ session('error') }}</span>
-                        </div>
-                    </div>
-                </div>
-                @elseif (session('status'))
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="alert alert-success">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <i class="material-icons">close</i>
-                            </button>
-                            <span>{{ session('status') }}</span>
-                        </div>
-                    </div>
-                </div>
-                @endif
                 <div class="row">
                     <div class="col-sm-4">
                         <button type="button" data-toggle="modal" data-target="#category_add_modal"
@@ -189,6 +166,17 @@
 @endsection
 @push('js')
 <script>
+$('document').ready(function() {
+    var message = `<?php echo Session::get('error')?>`;
+    if (message != '') {
+        showToast('danger', message)
+    }
+    message = `<?php echo Session::get('status')?>`;
+    if (message != '') {
+        showToast('success', message)
+    }
+})
+
 function showEditModal(category) {
     $('#id_category').val(category.id);
     $('#edit_name').val(category.name);

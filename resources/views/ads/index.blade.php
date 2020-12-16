@@ -7,18 +7,6 @@
                 <h4 class="card-title">{{ __('Ads') }}</h4>
             </div>
             <div class="card-body ">
-                @if (session('status'))
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="alert alert-success">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <i class="material-icons">close</i>
-                            </button>
-                            <span>{{ session('status') }}</span>
-                        </div>
-                    </div>
-                </div>
-                @endif
                 <div class="row">
                     <div class="col-sm-4">
                         <a href="{{route('ads.create')}}" class="btn btn-sm btn-primary">{{ __('Add Ads') }}</a>
@@ -33,6 +21,7 @@
                             <tr>
                                 <th style="width:80px"> {{ __('No ') }} </th>
                                 <th> {{ __('Ad Image') }} </th>
+                                <th> {{ __('User') }} </th>
                                 <th> {{ __('Category') }} </th>
                                 <th> {{ __('Breed') }} </th>
                                 <th> {{ __('Age') }} </th>
@@ -53,10 +42,12 @@
                             <?php $click = "data-toggle='modal' data-target='#detail_".$index."' style='cursor:pointer'";?>
                             <tr>
                                 <td> {{$index+1}}</td>
-                                <td <?php echo $click; ?> rel="tooltip" data-original-title="Click to view more images." title="Click to view more images.">
+                                <td <?php echo $click; ?> rel="tooltip" data-original-title="Click to view more images."
+                                    title="Click to view more images.">
                                     <img src="{{$ads->ad_image}}?{{time()}}"
                                         style="width:80px; height:80px; border-radius:50%">
                                 </td>
+                                <td> {{ $ads->user->name }} </td>
                                 <td> {{ $ads->category->name }} </td>
                                 <td> {{ $ads->breed->name }} </td>
                                 <td> {{ $ads->age }}</td>
@@ -67,7 +58,7 @@
                                     Female
                                     @endif
                                 </td>
-                                <td> $ {{ $ads->price }}</td>
+                                <td> {{ $ads->price }} $</td>
                                 <td> {{ $ads->lat }}</td>
                                 <td> {{ $ads->long }}</td>
                                 <td> {{ $ads->description }}</td>
@@ -103,18 +94,16 @@
 
                             <div class="modal right fade" id="detail_{{$index}}" tabindex="-1" role="dialog"
                                 aria-labelledby="title">
-                                <div class="modal-dialog" role="document" style="width:370px">
+                                <div class="modal-dialog" role="document" style="width:350px">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                         </div>
                                         <div class="modal-body row">
                                             @foreach($ads->meta as $meta_key => $meta_item)
                                             @if($meta_item->meta_key == '_ad_image')
                                             <div style="margin-left:75px; margin-right:75px; margin-bottom:10px">
                                                 <img src="{{$meta_item->meta_value}}?{{time()}}"
-                                                    style="width:200px; height:200px; border-radius:100%">
+                                                    style="width:200px; height:150px;">
                                             </div>
                                             @endif`
                                             @endforeach
@@ -136,4 +125,16 @@
 @endsection
 @push('js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script>
+$('document').ready(function() {
+    var message = `<?php echo Session::get('error')?>`;
+    if (message != '') {
+        showToast('danger', message)
+    }
+    message = `<?php echo Session::get('status')?>`;
+    if (message != '') {
+        showToast('success', message)
+    }
+})
+</script>
 @endpush

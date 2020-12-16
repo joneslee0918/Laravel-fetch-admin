@@ -23,3 +23,5 @@ yarn-error.log
 /public/uploads/ads/6/15/*.jpeg
 /public/uploads/avatars/*.jpeg
 /*.pem
+/public/uploads/ads/6/14/*.png
+/public/uploads/ads/6/15/*.png
