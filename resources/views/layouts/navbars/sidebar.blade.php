@@ -25,13 +25,13 @@
             </li>
             <li class="nav-item{{ $activePage == 'category' ? ' active' : '' }}">
                 <a class="nav-link" href="{{ route('category.index') }}">
-                    <i class="material-icons">view_list</i>
+                    <i class="material-icons">subtitles</i>
                     <p>{{ __('Category Management') }}</p>
                 </a>
             </li>
             <li class="nav-item{{ $activePage == 'breed' ? ' active' : '' }}">
                 <a class="nav-link" href="{{ route('breed.index') }}">
-                    <i class="material-icons">view_week</i>
+                    <i class="material-icons">subtitles</i>
                     <p>{{ __('Breed Management') }}</p>
                 </a>
             </li>

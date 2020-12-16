@@ -5,6 +5,9 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Ads;
+use App\Models\AdsMeta;
+use App\Models\Category;
+use App\Models\Breed;
 
 class AdsController extends Controller {
     /**
@@ -69,6 +72,45 @@ class AdsController extends Controller {
 
     public function edit( $id ) {
         //
+        $ads = Ads::where( 'id', $id )->first();
+        $ads->meta;
+        $ad_images = [];
+        foreach ( $ads['meta'] as $item_key => $item_value ) {
+            if ( $item_value->meta_key == '_ad_image' ) {
+                $ad_images[] = $item_value;
+            }
+        }
+        $category = Category::get();
+        $breed = Breed::get();
+        return view( 'ads.edit', ['ads' => $ads, 'breed' => $breed, 'category' => $category, 'ad_images' => $ad_images] );
+    }
+
+    public function deleteImage( Request $request ) {
+        $meta = AdsMeta::where( 'id', $request->id )->first();
+        $file_path = substr( $meta->meta_value, 1 );
+        unlink( $file_path );
+        AdsMeta::where( 'id', $request->id )->delete();
+
+        return 'success';
+    }
+
+    public function removeEmptyDirs( $path, $checkUpdated = false, $report = false ) {
+        $dirs = glob( $path . '/*', GLOB_ONLYDIR );
+
+        foreach ( $dirs as $dir ) {
+            $files = glob( $dir . '/*' );
+            $innerDirs = glob( $dir . '/*', GLOB_ONLYDIR );
+            if ( empty( $files ) ) {
+                if ( !rmdir( $dir ) )
+                echo 'Err: ' . $dir . '<br />';
+                elseif ( $report )
+                echo $dir . ' - removed!' . '<br />';
+            } elseif ( !empty( $innerDirs ) ) {
+                removeEmptyDirs( $dir, $checkUpdated, $report );
+                if ( $checkUpdated )
+                removeEmptyDirs( $path, $checkUpdated, $report );
+            }
+        }
     }
 
     /**
@@ -79,7 +121,7 @@ class AdsController extends Controller {
     * @return \Illuminate\Http\Response
     */
 
-    public function update( Request $request, $id ) {
+    public function update( Request $request, Ads $ads ) {
         //
     }
 
