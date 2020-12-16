@@ -195,7 +195,6 @@ class UserController extends Controller {
         UserMeta::where( 'id_user', $id )->delete();
 
         $ads = Ads::where( 'id_user', $id )->get();
-        $targetDir = '/uploads/ads/'.$id;
         foreach ( $ads as $key => $value ) {
             UserMeta::where( ['meta_value' => $value->id, 'meta_key' => '_ad_favourite'] )->delete();
             $ads_meta = AdsMeta::where( 'id_ads', $value->id )->get();
@@ -205,7 +204,7 @@ class UserController extends Controller {
                     unlink( $file_path );
                 }
             }
-            rmdir( $targetDir.'/'.$value->id );
+            rmdir( public_path( 'uploads/ads/'.$id.'/'.$value->id ) );
 
             AdsMeta::where( 'id_ads', $value->id )->delete();
             Chat::where( 'id_ads', $value->id )->delete();

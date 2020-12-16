@@ -9,6 +9,9 @@ use App\Models\AdsMeta;
 use App\Models\Category;
 use App\Models\Breed;
 use App\Models\User;
+use App\Models\UserMeta;
+use App\Models\Chat;
+use App\Models\Notification;
 
 class AdsController extends Controller {
     /**
@@ -58,7 +61,7 @@ class AdsController extends Controller {
         if ( !$request->file( 'photo_path' ) ) {
             return back()->withError( __( 'Ads post failed. Please add ads images.' ) );
         }
-        $ads = Ads::create($request->all());
+        $ads = Ads::create( $request->all() );
         $user_id = $request->id_user;
         $ad_id = $ads->id;
 
@@ -226,5 +229,23 @@ class AdsController extends Controller {
 
     public function destroy( $id ) {
         //
+        $id_user = Ads::where( 'id', $id )->value( 'id_user' );
+
+        UserMeta::where( ['meta_value' => $id, 'meta_key' => '_ad_favourite'] )->delete();
+        $ads_meta = AdsMeta::where( 'id_ads', $id )->get();
+        foreach ( $ads_meta as $meta_key => $meta_value ) {
+            if ( $meta_value->meta_key == '_ad_image' ) {
+                $file_path = substr( $meta_value->meta_value, 1 );
+                unlink( $file_path );
+            }
+        }
+        rmdir( public_path( 'uploads/ads/'.$id_user.'/'.$id ) );
+
+        AdsMeta::where( 'id_ads', $id )->delete();
+        Chat::where( 'id_ads', $id )->delete();
+        Notification::where( ['type' => 0, 'id_type' => $id] )->delete();
+        Ads::where( 'id', $id )->delete();
+
+        return back()->withStatus( __( 'Ads successfully deleted.' ) );
     }
 }
