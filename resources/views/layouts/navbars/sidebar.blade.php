@@ -35,6 +35,12 @@
                     <p>{{ __('Breed Management') }}</p>
                 </a>
             </li>
+            <li class="nav-item{{ $activePage == 'ads' ? ' active' : '' }}">
+                <a class="nav-link" href="{{ route('ads.index') }}">
+                    <i class="material-icons">pets</i>
+                    <p>{{ __('Ads Management') }}</p>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

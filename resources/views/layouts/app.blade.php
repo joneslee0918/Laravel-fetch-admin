@@ -24,7 +24,6 @@
     <link href="{{ asset('material') }}/css/tagify.css" rel="stylesheet" />
     <link href="{{ asset('plugins') }}/css/intlTelInput.css" rel="stylesheet" />
     <link href="{{ asset('plugins') }}/css/imageuploadify.min.css" rel="stylesheet" />
-    <link href="{{ asset('plugins') }}/css/editor.css" rel="stylesheet" />
     <link href="{{ asset('material') }}/css/page.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     @stack('css')
@@ -96,7 +95,6 @@
     <script src="{{ asset('plugins') }}/js/bootstrap-fileselect.js"></script>
     <script src="{{ asset('plugins') }}/js/imageuploadify.min.js"></script>
     <script src="{{ asset('plugins') }}/js/intlTelInput.js"></script>
-    <script src="{{ asset('plugins') }}/js/editor.js"></script>
     @stack('js')
 </body>
 

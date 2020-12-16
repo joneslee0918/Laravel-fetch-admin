@@ -392,6 +392,52 @@ label.star:before {
   opacity: .8;
 }
 
+/* video */
+.preview-videos-zone {
+  width: 100%;
+  border: 1px solid #ddd;
+  min-height: 180px;
+  padding: 5px 5px 0px 5px;
+  position: relative;
+  overflow:auto;
+}
+.preview-videos-zone > .preview-video {
+  height: 150px;
+  width: 150px;
+  position: relative;
+  margin-right: 5px;
+  float: left;
+  margin-bottom: 5px;
+  border: 1px dashed #d6d6d6;
+  margin:10px;
+}
+.preview-videos-zone > .preview-video > .video-zone {
+  width: 100%;
+  height: 100%;
+}
+.preview-videos-zone > .preview-video > .video-zone > img {
+  width: 100%;
+  height: 100%;
+}
+.preview-videos-zone > .preview-video > .video-cancel {
+  font-size: 18px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-weight: bold;
+  margin-right: 10px;
+  cursor: pointer;
+  display: none;
+  z-index: 100;
+}
+.preview-video:hover > .video-zone {
+  cursor: move;
+  opacity: .5;
+}
+.preview-video:hover > .video-cancel {
+  display: block;
+}
+
 
 /*******************************
 * MODAL AS LEFT/RIGHT SIDEBAR
@@ -445,4 +491,52 @@ label.star:before {
 	
 	.modal.right.fade.in .modal-dialog {
 		right: 0;
-	}
+  }
+  .dropdown-menu{
+    z-index: 9999999;
+  }
+  .note-icon-caret{
+    display: none;
+  }
+  .note-editor .note-toolbar .note-color .dropdown-toggle, .note-popover .popover-content .note-color .dropdown-toggle{
+    padding-right: 5px;
+    width: 30px !important;
+  }
+  
+  .note-modal-body{
+    overflow-x: hidden !important;
+    max-height: max-content !important;
+  }
+  .note-codable{
+    min-height: 380px !important;
+  }
+  .note-modal-footer {
+    height: 70px;
+  }
+  .note-editor.note-airframe.fullscreen, .note-editor.note-frame.fullscreen{
+    background-color: white;
+  }
+  .user-detail{
+    display: inline-flex;
+  }
+  .user-detail span{
+    font-size: 1rem;
+    font-weight: 400;
+    width: 120px;
+    text-align: right;
+    display: inline-block;
+    margin-right: 20px;
+  }
+  .user-detail .content{
+    font-size: 1rem;
+    width: 240px;
+    display: inline-block;
+    text-align: left;
+  }
+  .section_subtitle{
+    padding:20px;
+    font-size: 18px;
+  }
+  .section_subtitle span{
+    font-size: 18px;
+  }
