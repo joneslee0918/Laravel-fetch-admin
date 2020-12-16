@@ -51,6 +51,7 @@ class HomeController extends Controller {
         $data['breed'] = $breed;
         $data['ads'] = $ads;
         $data['max_price'] = $max_price;
+        $data['is_show_apple_button'] = 0;
 
         $success = true;
 
