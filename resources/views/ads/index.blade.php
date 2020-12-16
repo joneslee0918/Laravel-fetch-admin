@@ -63,7 +63,7 @@
                                 <td> {{ $ads->long }}</td>
                                 <td> {{ $ads->description }}</td>
                                 <td>
-                                    @if($ads->gender == 1)
+                                    @if($ads->status == 1)
                                     Active
                                     @else
                                     Closed

@@ -5,29 +5,6 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                @if (session('error'))
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="alert alert-danger">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <i class="material-icons">close</i>
-                            </button>
-                            <span>{{ session('error') }}</span>
-                        </div>
-                    </div>
-                </div>
-                @elseif (session('status'))
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="alert alert-success">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <i class="material-icons">close</i>
-                            </button>
-                            <span>{{ session('status') }}</span>
-                        </div>
-                    </div>
-                </div>
-                @endif
                 <form method="post" action="{{ route('ads.update', $ads) }}" autocomplete="off" class="form-horizontal"
                     enctype="multipart/form-data">
                     @csrf
@@ -172,7 +149,7 @@
                     </div>
                     <div class="row" style="margin-bottom:10px">
                         <div class="col-md-12">
-                            <button type="button" onclick="addNewImage()" class="btn btn-primary">Add</button>
+                            <button type="button" onclick="addNewImage()" class="btn btn-primary">Add Image</button>
                         </div>
                     </div>
                     <div class="col-sm-12 row" id="ad_image_container">

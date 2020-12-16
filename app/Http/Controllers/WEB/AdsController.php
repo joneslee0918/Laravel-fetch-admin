@@ -40,6 +40,10 @@ class AdsController extends Controller {
 
     public function create() {
         //
+        $user = User::get();
+        $category = Category::get();
+        $breed = Breed::get();
+        return view( 'ads.create', ['user' => $user, 'breed' => $breed, 'category' => $category] );
     }
 
     /**
@@ -51,6 +55,47 @@ class AdsController extends Controller {
 
     public function store( Request $request ) {
         //
+        if ( !$request->file( 'photo_path' ) ) {
+            return back()->withError( __( 'Ads post failed. Please add ads images.' ) );
+        }
+        $ads = Ads::create($request->all());
+        $user_id = $request->id_user;
+        $ad_id = $ads->id;
+
+        $targetDir = public_path( 'uploads' );
+        if ( !is_dir( $targetDir ) ) {
+            mkDir( $targetDir, 0777, true );
+        }
+        $targetDir .= '/ads';
+        if ( !is_dir( $targetDir ) ) {
+            mkDir( $targetDir, 0777, true );
+        }
+        $targetDir .= '/'.$user_id;
+        if ( !is_dir( $targetDir ) ) {
+            mkDir( $targetDir, 0777, true );
+        }
+        $targetDir .= '/'.$ad_id;
+        if ( !is_dir( $targetDir ) ) {
+            mkDir( $targetDir, 0777, true );
+        }
+
+        $uploadedImages = [];
+        foreach ( $request->file( 'photo_path' ) as $key => $file ) {
+            $sourceFile = 'ad_image_'.( $key+1 ).time().'.'.$file->extension();
+            $dest_path = '/uploads/ads/'.$user_id.'/'.$ad_id.'/'.$sourceFile;
+            $file->move( $targetDir, $sourceFile );
+            $uploadedImages[] = $dest_path;
+        }
+
+        foreach ( $uploadedImages as $key => $value ) {
+            $ads_meta = new AdsMeta;
+            $ads_meta->id_ads = $ad_id;
+            $ads_meta->meta_key = '_ad_image';
+            $ads_meta->meta_value = $value;
+            $ads_meta->save();
+        }
+
+        return redirect()->route( 'ads.index' )->withStatus( __( 'Ads successfully posted.' ) );
     }
 
     /**
@@ -131,7 +176,7 @@ class AdsController extends Controller {
         //
         $user_id = $request->user;
 
-        Ads::where( 'id', $ad_id )->update( ['id_category' => $request->category, 'id_breed' => $request->breed, 'gender' => $request->gender, 'age' => $request->age, 'price' => $request->price, 'lat' => $request->lat, 'long' => $request->long, 'description' => $request->description] );
+        Ads::where( 'id', $ad_id )->update( [ 'id_user' => $user_id, 'id_category' => $request->category, 'id_breed' => $request->breed, 'gender' => $request->gender, 'age' => $request->age, 'price' => $request->price, 'lat' => $request->lat, 'long' => $request->long, 'description' => $request->description, 'status' => $request->status] );
 
         $targetDir = '';
         if ( $request->file( 'photo_path' ) ) {

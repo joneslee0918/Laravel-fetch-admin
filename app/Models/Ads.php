@@ -14,7 +14,6 @@ class Ads extends Model {
         'age',
         'gender',
         'price',
-        'location',
         'lat',
         'long',
         'description',

@@ -25,3 +25,5 @@ yarn-error.log
 /*.pem
 /public/uploads/ads/6/14/*.png
 /public/uploads/ads/6/15/*.png
+*.png
+*.jpeg
