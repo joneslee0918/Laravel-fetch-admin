@@ -273,6 +273,13 @@ class AdsController extends Controller {
     public function deleteImage( Request $request )
  {
         $ad_id = AdsMeta::where( 'id', $request->id )->value( 'id_ads' );
+        $exist = AdsMeta::where( ['id_ads' => $ad_id, 'meta_key' => '_ad_image'] )->count();
+        if ( $exist == 1 ) {
+            $message = 'Image delete failed. There is only one image on your ads';
+            $success = false;
+            return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
+        }
+
         $image = AdsMeta::where( 'id', $request->id )->value( 'meta_value' );
 
         $file_path = substr( $image, 1 );
