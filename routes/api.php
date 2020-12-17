@@ -18,37 +18,39 @@ Route::post( 'signup', 'API\UserController@signup' );
 
 Route::group( ['middleware' => 'auth:api'], function () {
 
-    //change password
+    //CHANGE PASSWORD
     Route::post( 'changepassword', 'API\UserController@changePassword' );
 
-    //home
+    //HOME
     Route::get( 'home', 'API\HomeController@home' );
     Route::post( 'home/filter_category', 'API\HomeController@filter_category' );
     Route::post( 'home/filter', 'API\HomeController@filter' );
 
-    //ads
+    //ADS
     Route::post( 'ads', 'API\AdsController@adDetail' );
     Route::post( 'ads/ad_favourite', 'API\AdsController@adFavourite' );
     Route::get( 'ads/sell', 'API\AdsController@sell' );
+    Route::post( 'ads/image/delete', 'API\AdsController@deleteImage' );
     Route::post( 'ads/create', 'API\AdsController@create' );
     Route::post( 'ads/edit', 'API\AdsController@edit' );
-    //myads
+    
+    //MYADS
     Route::get( 'ads/activeAds', 'API\AdsController@activeAds' );
     Route::get( 'ads/closedAds', 'API\AdsController@closedAds' );
 
-    //profile
+    //PROFILE
     Route::post( 'profile', 'API\UserController@profile' );
     Route::post( 'profile/edit', 'API\UserController@edit' );
     Route::post( 'profile/setting', 'API\UserController@setUserMeta' );
 
-    //inbox
+    //INBOX
     Route::get( 'inbox', 'API\InboxController@inbox' );
 
-    //chat
+    //CHAT
     Route::post( 'chat', 'API\ChatController@chat' );
     Route::post( 'chat/post', 'API\ChatController@postMessage' );
 
-    //notification
+    //NOTIFICATION
     Route::get( 'notification', 'API\NotificationController@notification' );
     Route::post( 'notification/read', 'API\NotificationController@read' );
     Route::post( 'notification/delete', 'API\NotificationController@delete' );

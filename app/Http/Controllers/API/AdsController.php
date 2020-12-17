@@ -269,4 +269,25 @@ class AdsController extends Controller {
         }
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
+
+    public function deleteImage( Request $request )
+ {
+        $ad_id = AdsMeta::where( 'id', $request->id )->value( 'id_ads' );
+        $image = AdsMeta::where( 'id', $request->id )->value( 'meta_value' );
+
+        $file_path = substr( $image, 1 );
+        unlink( $file_path );
+        AdsMeta::where( 'id', $request->id )->delete();
+
+        $data = array();
+        $success = false;
+        $message = '';
+
+        $ads = Ads::where( 'id', $ad_id )->first();
+        $ads->meta;
+        $data['ads'] = $ads;
+        $success = true;
+
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
+    }
 }
