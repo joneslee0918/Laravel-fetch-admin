@@ -211,6 +211,10 @@ var toggleStatus = function(type, value) {
 }
 
 var deleteImage = function(id, index) {
+    var question = confirm("Are you sure you want to delete this image?");
+    if (!question)
+        return;
+        
     if (id == 0) {
         $('#ad_image_item_' + index).remove();
 
@@ -219,7 +223,7 @@ var deleteImage = function(id, index) {
         $('#ad_image_count').val(ad_image_count);
         return;
     }
-    var url = "../../ads/image/delete";
+    var url = "../image/delete";
     $.ajax({
         url: url,
         data: {
@@ -230,7 +234,7 @@ var deleteImage = function(id, index) {
             if (result == 'success') {
                 $('#ad_image_item_' + index).remove();
                 showToast('success', "Ads image successfullly removed.");
-                
+
                 var ad_image_count = $('#ad_image_count').val();
                 ad_image_count--;
                 $('#ad_image_count').val(ad_image_count);

@@ -34,4 +34,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 	//chat manage
 	Route::resource('chat', 'WEB\ChatController', ['except' => ['show']]);
+	Route::post('chat/messages', 'WEB\ChatController@getMessage');
+	Route::post('chat/messages/delete', 'WEB\ChatController@deleteMessage');
 });
