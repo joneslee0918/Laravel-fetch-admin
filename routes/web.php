@@ -31,4 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
 	//ads manage
 	Route::resource('ads', 'WEB\AdsController', ['except' => ['show']]);
 	Route::post('ads/image/delete', 'WEB\AdsController@deleteImage');
+
+	//chat manage
+	Route::resource('chat', 'WEB\ChatController', ['except' => ['show']]);
 });

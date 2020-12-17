@@ -41,6 +41,12 @@
                     <p>{{ __('Ads Management') }}</p>
                 </a>
             </li>
+            <li class="nav-item{{ $activePage == 'chat' ? ' active' : '' }}">
+                <a class="nav-link" href="{{ route('chat.index') }}">
+                    <i class="material-icons">forumbee</i>
+                    <p>{{ __('Chat Management') }}</p>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
