@@ -26,6 +26,11 @@ class ProfileController extends Controller {
     */
 
     public function update( ProfileRequest $request ) {
+        $exist = User::where( 'email', $request->email )->count();
+        if ( $exist > 1 ) {
+            return back()->withError( __( 'Update failed. Email already registered.' ) );
+        }
+        
         $file = $request->file( 'photo_path' );
         $path = '';
         if ( $file != null ) {

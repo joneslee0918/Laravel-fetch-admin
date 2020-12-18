@@ -118,6 +118,13 @@ class UserController extends Controller {
         $message = '';
         $success = true;
 
+        $exist = User::where( 'email', $request->email )->count();
+        if ( $exist > 1 ) {
+            $message = 'Profile update failed. Your email already registered.';
+            $success = false;
+            return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
+        }
+
         User::where( 'id', Auth::user()->id )->update( ['name' => $request->name, 'email' => $request->email, 'phonenumber' => $request->phonenumber] );
 
         if ( $request->change_image_status > 0 ) {

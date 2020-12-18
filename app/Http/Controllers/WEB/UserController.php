@@ -133,7 +133,7 @@ class UserController extends Controller {
     public function update( Request $request, User $user ) {
         //
         $exist = User::where( 'email', $request->email )->count();
-        if ( $exist > 0 ) {
+        if ( $exist > 1 ) {
             return back()->withError( __( 'Update failed. Email already registered.' ) );
         }
 
