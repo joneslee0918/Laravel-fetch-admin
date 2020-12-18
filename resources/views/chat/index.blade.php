@@ -19,7 +19,8 @@
                                             <div class="col">
                                                 <div class="chat_img" style="width:30%">
                                                     @if($item->sender->avatar)
-                                                    <img src="{{$item->sender->avatar}}?{{time()}}" style="max-width:50px; height:50px">
+                                                    <img src="{{$item->sender->avatar}}?{{time()}}"
+                                                        style="max-width:50px; height:50px">
                                                     @else
                                                     <img src="{{ asset('material') }}/img/default.png?{{time()}}"
                                                         alt="..." style="max-width:50px; height:50px">
@@ -33,7 +34,8 @@
                                             <div class="col">
                                                 <div class="chat_img" style="width:30%; float:right">
                                                     @if($item->receiver->avatar)
-                                                    <img src="{{$item->receiver->avatar}}?{{time()}}" style="max-width:50px; height:50px">
+                                                    <img src="{{$item->receiver->avatar}}?{{time()}}"
+                                                        style="max-width:50px; height:50px">
                                                     @else
                                                     <img src="{{ asset('material') }}/img/default.png?{{time()}}"
                                                         alt="..." style="max-width:50px; height:50px">
@@ -48,7 +50,7 @@
                                             <div class="col-12" style="text-align:right; margin-right:10%">
                                                 @if($item->ads->meta[0])
                                                 <img src="{{$item->ads->meta[0]->meta_value }}"
-                                                    style="width:50px; height:50px; border-radius:50%; margin-right:40px"
+                                                    style="width:40px; height:40px; border-radius:50%; margin-right:50px"
                                                     alt="...">
                                                 @endif
                                                 <span
@@ -68,7 +70,8 @@
                                 <div class="outgoing_msg" id="message_item_{{$item->id}}">
                                     <div class="sent_msg_img">
                                         @if($item->sender->avatar)
-                                        <img src="{{$item->sender->avatar}}?{{time()}}" style="max-width:50px; height:50px">
+                                        <img src="{{$item->sender->avatar}}?{{time()}}"
+                                            style="max-width:50px; height:50px">
                                         @else
                                         <img src="{{ asset('material') }}/img/default.png?{{time()}}" alt="..."
                                             style="max-width:50px; height:50px">
@@ -90,7 +93,8 @@
                                 <div class="incoming_msg" id="message_item_{{$item->id}}">
                                     <div class="incoming_msg_img">
                                         @if($item->sender->avatar)
-                                        <img src="{{$item->sender->avatar}}?{{time()}}" style="max-width:50px; height:50px">
+                                        <img src="{{$item->sender->avatar}}?{{time()}}"
+                                            style="max-width:50px; height:50px">
                                         @else
                                         <img src="{{ asset('material') }}/img/default.png?{{time()}}" alt="..."
                                             style="max-width:50px; height:50px">
