@@ -77,6 +77,7 @@
                                     @endif
                                 </td>
                                 <td>
+                                    @if($user->role == 0)
                                     <form action="{{ route('user.destroy', $user) }}" method="post">
                                         @csrf
                                         @method('delete')
@@ -93,6 +94,7 @@
                                             <div class="ripple-container"></div>
                                         </button>
                                     </form>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
