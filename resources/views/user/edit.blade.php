@@ -5,29 +5,6 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                @if (session('error'))
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="alert alert-danger">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <i class="material-icons">close</i>
-                            </button>
-                            <span>{{ session('error') }}</span>
-                        </div>
-                    </div>
-                </div>
-                @elseif (session('status'))
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="alert alert-success">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <i class="material-icons">close</i>
-                            </button>
-                            <span>{{ session('status') }}</span>
-                        </div>
-                    </div>
-                </div>
-                @endif
                 <form method="post" action="{{ route('user.update', $user) }}" autocomplete="off"
                     class="form-horizontal" enctype="multipart/form-data">
                     @csrf
@@ -229,6 +206,17 @@
 <script src="{{ asset('material') }}/js/plugins/jasny-bootstrap.min.js"></script>
 
 <script>
+$('document').ready(function() {
+    var message = `<?php echo Session::get('error')?>`;
+    if (message != '') {
+        showToast('danger', message)
+    }
+    message = `<?php echo Session::get('status')?>`;
+    if (message != '') {
+        showToast('success', message)
+    }
+})
+
 var toggleStatus = function(type, value) {
     if (type == 1) {
         $('#terms').val(value ? 1 : 0);

@@ -14,18 +14,6 @@
                             <p class="card-category"></p>
                         </div>
                         <div class="card-body">
-                            @if (session('status'))
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="alert alert-warning">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <i class="material-icons">close</i>
-                                        </button>
-                                        <span>{{ session('status') }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
                             <div class="col-md-12 text-right">
                                 <a href="{{ route('user.index') }}"
                                     class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
@@ -194,6 +182,17 @@
 @push('js')
 <script src="{{ asset('material') }}/js/plugins/jasny-bootstrap.min.js"></script>
 <script>
+$('document').ready(function() {
+    var message = `<?php echo Session::get('error')?>`;
+    if (message != '') {
+        showToast('danger', message)
+    }
+    message = `<?php echo Session::get('status')?>`;
+    if (message != '') {
+        showToast('success', message)
+    }
+})
+
 var toggleStatus = function(type, value) {
     if (type == 1) {
         $('#terms').val(value ? 1 : 0);

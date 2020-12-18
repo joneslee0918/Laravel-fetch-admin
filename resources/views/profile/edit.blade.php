@@ -195,4 +195,16 @@
 @endsection
 @push('js')
 <script src="{{ asset('material') }}/js/plugins/jasny-bootstrap.min.js"></script>
+<script>
+$('document').ready(function() {
+    var message = `<?php echo Session::get('error')?>`;
+    if (message != '') {
+        showToast('danger', message)
+    }
+    message = `<?php echo Session::get('status')?>`;
+    if (message != '') {
+        showToast('success', message)
+    }
+})
+</script>
 @endpush
