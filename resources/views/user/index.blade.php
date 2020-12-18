@@ -28,6 +28,7 @@
                                 <th> {{ __('Create Date') }} </th>
                                 <th> {{ __('Active') }} </th>
                                 <th> {{ __('Terms') }} </th>
+                                <th> {{ __('Role') }} </th>
                                 <th> {{ __('Action') }} </th>
                             </tr>
                         </thead>
@@ -63,17 +64,24 @@
                                 </td>
                                 <td>{{date('M d Y', strtotime($user->created_at))}}</td>
                                 <td>
-                                    @if ($user->active)
+                                    @if ($user->active == 1)
                                     Allowed
                                     @else
                                     Blocked
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($user->terms)
+                                    @if ($user->terms == 1)
                                     Agree
                                     @else
                                     Disagree
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($user->role == 1)
+                                    SuperAdmin
+                                    @else
+                                    User
                                     @endif
                                 </td>
                                 <td>
