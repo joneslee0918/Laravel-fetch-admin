@@ -17,7 +17,8 @@ Route::redirect('/', '/login');
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::get('dashboard', 'WEB\HomeController@index');
+	// Route::get('dashboard', 'WEB\HomeController@index');
+	Route::resource('dashboard', 'WEB\HomeController', ['except' => ['show']]);
 
 	//user manage
 	Route::resource('user', 'WEB\UserController', ['except' => ['show']]);
