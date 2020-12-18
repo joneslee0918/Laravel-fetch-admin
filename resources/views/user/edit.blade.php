@@ -119,7 +119,8 @@
                                                 <input
                                                     class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                                     name="password" id="input-password" type="password"
-                                                    placeholder="{{ __('New Password') }}" />
+                                                    placeholder="{{ __('New Password') }}"
+                                                    <?php echo $user->is_social != 0 ? 'disabled' : '' ?> />
                                                 @if ($errors->has('password'))
                                                 <span id="password-error" class="error text-danger"
                                                     for="input-password">{{ $errors->first('password') }}</span>
@@ -195,7 +196,8 @@
                                         <label class="col-sm-2 col-form-label"
                                             style="margin-top:10px">{{ __('Account type') }}</label>
                                         <div class="col-sm-4" style="margin-top:10px">
-                                            <select class="selectpicker" name="is_social" data-style="btn btn-primary">
+                                            <select onchange="_onChangeAccountType(this.value)" class="selectpicker"
+                                                name="is_social" data-style="btn btn-primary">
                                                 <option value="0"
                                                     <?php echo (intval ($user->is_social) == 0 ? "selected" : '')?>>
                                                     Normal Account</option>
@@ -236,6 +238,14 @@ var toggleStatus = function(type, value) {
         $('#_show_phone_on_ads').val(value ? 1 : 0);
     } else if (type == 4) {
         $('#_show_notification').val(value ? 1 : 0);
+    }
+}
+
+var _onChangeAccountType = function(value) {
+    if (value == 0) {
+        $('#input-password').removeAttr('disabled');
+    } else {
+        $('#input-password').attr('disabled', 'true');
     }
 }
 </script>
