@@ -28,7 +28,6 @@
                                 <th> {{ __('Create Date') }} </th>
                                 <th> {{ __('Active') }} </th>
                                 <th> {{ __('Terms') }} </th>
-                                <th> {{ __('Role') }} </th>
                                 <th> {{ __('Action') }} </th>
                             </tr>
                         </thead>
@@ -78,14 +77,6 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($user->role == 1)
-                                    SuperAdmin
-                                    @else
-                                    User
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($user->role == 0)
                                     <form action="{{ route('user.destroy', $user) }}" method="post">
                                         @csrf
                                         @method('delete')
@@ -102,7 +93,6 @@
                                             <div class="ripple-container"></div>
                                         </button>
                                     </form>
-                                    @endif
                                 </td>
                             </tr>
                             @endforeach
