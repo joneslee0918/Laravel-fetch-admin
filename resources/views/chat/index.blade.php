@@ -19,10 +19,10 @@
                                             <div class="col">
                                                 <div class="chat_img" style="width:30%">
                                                     @if($item->sender->avatar)
-                                                    <img src="{{$item->sender->avatar}}?{{time()}}" style="">
+                                                    <img src="{{$item->sender->avatar}}?{{time()}}" style="max-width:50px; height:50px">
                                                     @else
                                                     <img src="{{ asset('material') }}/img/default.png?{{time()}}"
-                                                        alt="..." style="">
+                                                        alt="..." style="max-width:50px; height:50px">
                                                     @endif
                                                 </div>
                                                 <div class="chat_ib" style="width:70%">
@@ -33,10 +33,10 @@
                                             <div class="col">
                                                 <div class="chat_img" style="width:30%; float:right">
                                                     @if($item->receiver->avatar)
-                                                    <img src="{{$item->receiver->avatar}}?{{time()}}" style="">
+                                                    <img src="{{$item->receiver->avatar}}?{{time()}}" style="max-width:50px; height:50px">
                                                     @else
                                                     <img src="{{ asset('material') }}/img/default.png?{{time()}}"
-                                                        alt="..." style="">
+                                                        alt="..." style="max-width:50px; height:50px">
                                                     @endif
                                                 </div>
                                                 <div class="chat_ib"
@@ -68,10 +68,10 @@
                                 <div class="outgoing_msg" id="message_item_{{$item->id}}">
                                     <div class="sent_msg_img">
                                         @if($item->sender->avatar)
-                                        <img src="{{$item->sender->avatar}}?{{time()}}" style="">
+                                        <img src="{{$item->sender->avatar}}?{{time()}}" style="max-width:50px; height:50px">
                                         @else
                                         <img src="{{ asset('material') }}/img/default.png?{{time()}}" alt="..."
-                                            style="">
+                                            style="max-width:50px; height:50px">
                                         @endif
                                     </div>
                                     <div class="sent_msg">
@@ -90,10 +90,10 @@
                                 <div class="incoming_msg" id="message_item_{{$item->id}}">
                                     <div class="incoming_msg_img">
                                         @if($item->sender->avatar)
-                                        <img src="{{$item->sender->avatar}}?{{time()}}" style="">
+                                        <img src="{{$item->sender->avatar}}?{{time()}}" style="max-width:50px; height:50px">
                                         @else
                                         <img src="{{ asset('material') }}/img/default.png?{{time()}}" alt="..."
-                                            style="">
+                                            style="max-width:50px; height:50px">
                                         @endif
                                     </div>
                                     <div class="received_msg">
@@ -150,7 +150,7 @@ function getMessage(id) {
                 if (message_sender_id == item.sender.id) {
                     html += `<div class="outgoing_msg" id="message_item_${item.id}">
                                 <div class="sent_msg_img">
-                                    ${item.sender.avatar ? `<img src="${item.sender.avatar}?${new Date()}">` : `<img src="{{ asset('material') }}/img/default.png?${new Date()}" alt="...">`}
+                                    ${item.sender.avatar ? `<img src="${item.sender.avatar}?${new Date()}" style="max-width:50px; height:50px">` : `<img src="{{ asset('material') }}/img/default.png?${new Date()}" alt="..." style="max-width:50px; height:50px">`}
                                 </div>
                                 <div class="sent_msg">
                                     <button style="cursor:pointer" onclick="deleteMessage(${item.id})" class="delete_msg_btn delete_sent_msg">
@@ -166,7 +166,7 @@ function getMessage(id) {
                 } else {
                     html += `<div class="incoming_msg" id="message_item_${item.id}">
                                 <div class="incoming_msg_img">
-                                    ${item.sender.avatar ? `<img src="${item.sender.avatar}?${new Date()}">` : `<img src="{{ asset('material') }}/img/default.png?${new Date()}" alt="...">`}
+                                    ${item.sender.avatar ? `<img src="${item.sender.avatar}?${new Date()}" style="max-width:50px; height:50px">` : `<img src="{{ asset('material') }}/img/default.png?${new Date()}" alt="..." style="max-width:50px; height:50px">`}
                                 </div>
                                 <div class="received_msg">
                                     <div class="received_withd_msg">

@@ -45,7 +45,7 @@
                                 <td <?php echo $click; ?> rel="tooltip" data-original-title="Click to view more images."
                                     title="Click to view more images.">
                                     <img src="{{$ads->ad_image}}?{{time()}}"
-                                        style="width:80px; height:80px; border-radius:50%">
+                                        style="max-width:80px; max-height:80px; width:80px; height:80px; border-radius:50%">
                                 </td>
                                 <td> {{ $ads->user->name }} </td>
                                 <td> {{ $ads->category->name }} </td>
