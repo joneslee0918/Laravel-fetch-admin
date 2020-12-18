@@ -4,7 +4,8 @@
 <div class="content" style="width:90%; margin:auto; margin-top:60px">
     <div class="container-fluid">
         <div class="card registration">
-            <div class="card-header card-header-primary text-right">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">{{ __('Chat Messages') }}</h4>
             </div>
             <div class="card-body ">
                 <div class="messaging">
