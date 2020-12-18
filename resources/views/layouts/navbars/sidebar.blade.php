@@ -5,14 +5,14 @@
       Tip 2: you can also add an image using data-image tag
   -->
     <div class="logo">
-        <a href="/home" class="simple-text logo-normal" style="text-transform: none;">
+        <a href="/test" class="simple-text logo-normal" style="text-transform: none;">
             {{ __('Fetch | PET') }}
         </a>
     </div>
     <div class="sidebar-wrapper">
         <ul class="nav">
             <li class="nav-item{{ $activePage == 'dashboard' ? ' active' : '' }}">
-                <a class="nav-link" href="/home">
+                <a class="nav-link" href="/test">
                     <i class="material-icons">dashboard</i>
                     <p>{{ __('Dashboard') }}</p>
                 </a>
