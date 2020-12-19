@@ -94,6 +94,9 @@ class HomeController extends Controller {
 
         if ( count( $ads ) == 0 ) {
             $message = 'Ads Not Found.';
+            if ( $searchText != '' ) {
+                $message = 'There is no search result. Please input category name or breed name to find pets.';
+            }
             $data['ads'] = [];
         } else {
             foreach ( $ads as $key => $item ) {
