@@ -70,9 +70,8 @@ class HomeController extends Controller {
             $searchText = "'%".$request->searchText."%'";
             $strQuery = 'SELECT a.id AS id FROM ads AS a LEFT JOIN category AS b ON a.`id_category` = b.`id` LEFT JOIN breed AS c ON a.`id_breed` = c.`id` WHERE c.`name` LIKE '.$searchText.' OR b.`name` LIKE '.$searchText;
             $result = DB::select( $strQuery );
-            for ( $i = 0; $i < count( $result );
-            $i++ ) {
-                $ads_ids[] = $result[$i]->id;
+            foreach ( $result as $key => $value ) {
+                $ads_ids[] = $value->id;
             }
         }
         if ( $request->id_category == -1 ) {
