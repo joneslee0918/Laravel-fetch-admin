@@ -80,8 +80,6 @@ class HomeController extends Controller {
             }
             if ( count( $ads_ids ) > 0 ) {
                 $ads = Ads::whereIn( 'id', $ads_ids )->orderby( 'updated_at', 'DESC' )->get();
-            } else if ( $searchText != '' ) {
-                $message = 'There is no search result. Please input category name or breed name to find pets.';
             }
         } else {
             if ( $searchText == '' ) {
@@ -90,8 +88,6 @@ class HomeController extends Controller {
 
             if ( count( $ads_ids ) > 0 ) {
                 $ads = Ads::where( 'id_category', $request->id_category )->whereIn( 'id', $ads_ids )->orderby( 'updated_at', 'DESC' )->get();
-            } else if ( $searchText != '' ) {
-                $message = 'There is no search result. Please input category name or breed name to find pets.';
             }
         }
 
