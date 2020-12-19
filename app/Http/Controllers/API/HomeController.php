@@ -69,19 +69,29 @@ class HomeController extends Controller {
             $searchText = "'%".$request->searchText."%'";
             $strQuery = 'SELECT a.id AS id FROM ads AS a LEFT JOIN category AS b ON a.`id_category` = b.`id` LEFT JOIN breed AS c ON a.`id_breed` = c.`id` WHERE c.`name` LIKE '.$searchText.' OR b.`name` LIKE '.$searchText;
             $result = DB::select( $strQuery );
-            for ( $i = 0; $i < count( $result );
-            $i++ ) {
+            for ( $i = 0; $i < count( $result ); $i ++; ) {
                 $ads_ids[] = $result[$i]->id;
             }
         }
         if ( $request->id_category == -1 ) {
-            $ads = Ads::orderby( 'updated_at', 'DESC' )->get();
-            if ( count( $ads_ids ) > 0 )
-            $ads = Ads::whereIn( 'id', $ads_ids )->orderby( 'updated_at', 'DESC' )->get();
+            if ( $searchText == '' ) {
+                $ads = Ads::orderby( 'updated_at', 'DESC' )->get();
+            }
+            if ( count( $ads_ids ) > 0 ) {
+                $ads = Ads::whereIn( 'id', $ads_ids )->orderby( 'updated_at', 'DESC' )->get();
+            } else {
+                $message = 'There is no search result. Please input category name or breed name to find pets.';
+            }
         } else {
-            $ads = Ads::where( 'id_category', $request->id_category )->orderby( 'updated_at', 'DESC' )->get();
-            if ( count( $ads_ids ) > 0 )
-            $ads = Ads::where( 'id_category', $request->id_category )->whereIn( 'id', $ads_ids )->orderby( 'updated_at', 'DESC' )->get();
+            if($searchText == '') {
+                $ads = Ads::where( 'id_category', $request->id_category )->orderby( 'updated_at', 'DESC' )->get();
+            }
+
+            if ( count( $ads_ids ) > 0 ) {
+                $ads = Ads::where( 'id_category', $request->id_category )->whereIn( 'id', $ads_ids )->orderby( 'updated_at', 'DESC' )->get();
+            } else {
+                $message = 'There is no search result. Please input category name or breed name to find pets.';
+            }
         }
 
         if ( count( $ads ) == 0 ) {
