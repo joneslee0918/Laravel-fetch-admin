@@ -274,7 +274,7 @@ class AdsController extends Controller {
  {
         $ad_id = AdsMeta::where( 'id', $request->id )->value( 'id_ads' );
         $exist = AdsMeta::where( ['id_ads' => $ad_id, 'meta_key' => '_ad_image'] )->count();
-        if ( $exist == 5 ) {
+        if ( $exist <= 5 ) {
             $message = 'Image delete failed. There is only 5 images on your ads.';
             $success = false;
             return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
