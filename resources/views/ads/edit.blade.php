@@ -204,6 +204,17 @@
 @push('js')
 <script src="{{ asset('material') }}/js/plugins/jasny-bootstrap.min.js"></script>
 <script>
+$('document').ready(function() {
+    var message = `<?php echo Session::get('error')?>`;
+    if (message != '') {
+        showToast('danger', message)
+    }
+    message = `<?php echo Session::get('status')?>`;
+    if (message != '') {
+        showToast('success', message)
+    }
+})
+
 var toggleStatus = function(type, value) {
     if (type == 1) {
         $('#status').val(value ? 1 : 0);
@@ -214,7 +225,7 @@ var deleteImage = function(id, index) {
     var question = confirm("Are you sure you want to delete this image?");
     if (!question)
         return;
-        
+
     if (id == 0) {
         $('#ad_image_item_' + index).remove();
 
