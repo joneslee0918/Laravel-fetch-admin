@@ -65,6 +65,7 @@ class HomeController extends Controller {
 
         $searchText = $request->searchText;
         $ads_ids = [];
+        $ads = [];
         if ( $searchText != '' ) {
             $searchText = "'%".$request->searchText."%'";
             $strQuery = 'SELECT a.id AS id FROM ads AS a LEFT JOIN category AS b ON a.`id_category` = b.`id` LEFT JOIN breed AS c ON a.`id_breed` = c.`id` WHERE c.`name` LIKE '.$searchText.' OR b.`name` LIKE '.$searchText;
