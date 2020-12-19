@@ -58,7 +58,7 @@ class AdsController extends Controller {
 
     public function store( Request $request ) {
         //
-        if ( !$request->file( 'photo_path' ) ) {
+        if ( !$request->file( 'photo_path' ) || count( $request->file( 'photo_path' ) ) > 5 ) {
             return back()->withError( __( 'Ads post failed. Please add ads images.' ) );
         }
         $ads = Ads::create( $request->all() );
@@ -138,8 +138,9 @@ class AdsController extends Controller {
     public function deleteImage( Request $request ) {
         $meta = AdsMeta::where( 'id', $request->id )->first();
         $exist = AdsMeta::where( ['id_ads' => $meta->id_ads, 'meta_key' => '_ad_image'] )->count();
-        if ( $exist == 5 )
-        return 'failed';
+        if ( $exist == 5 ) {
+            return 'failed';
+        }
 
         $file_path = substr( $meta->meta_value, 1 );
         unlink( $file_path );
@@ -179,10 +180,10 @@ class AdsController extends Controller {
         //
         $user_id = $request->user;
 
-        Ads::where( 'id', $ad_id )->update( [ 'id_user' => $user_id, 'id_category' => $request->category, 'id_breed' => $request->breed, 'gender' => $request->gender, 'age' => $request->age, 'price' => $request->price, 'lat' => $request->lat, 'long' => $request->long, 'description' => $request->description, 'status' => $request->status] );
+        $exist = AdsMeta::where( ['id_ads' => $ad_id, 'meta_key' => '_ad_image'] )->count();
 
         $targetDir = '';
-        if ( $request->file( 'photo_path' ) ) {
+        if ( $request->file( 'photo_path' ) && ( count( $request->file( 'photo_path' ) ) + $exist ) >= 5 ) {
             $targetDir = public_path( 'uploads' );
             if ( !is_dir( $targetDir ) ) {
                 mkDir( $targetDir, 0777, true );
@@ -215,7 +216,11 @@ class AdsController extends Controller {
                 $ads_meta->meta_value = $value;
                 $ads_meta->save();
             }
+        } else if ( $request->file( 'photo_path' ) ) {
+            return back()->withError( 'Please add over 5 images.' );
         }
+
+        Ads::where( 'id', $ad_id )->update( [ 'id_user' => $user_id, 'id_category' => $request->category, 'id_breed' => $request->breed, 'gender' => $request->gender, 'age' => $request->age, 'price' => $request->price, 'lat' => $request->lat, 'long' => $request->long, 'description' => $request->description, 'status' => $request->status] );
 
         return redirect()->route( 'ads.index' )->withStatus( __( 'Ads successfully updated.' ) );
     }
