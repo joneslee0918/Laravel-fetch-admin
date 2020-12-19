@@ -78,25 +78,24 @@ class HomeController extends Controller {
         if ( $request->id_category == -1 ) {
             if ( $searchText == '' ) {
                 $ads = Ads::orderby( 'updated_at', 'DESC' )->get();
-            }
-            if ( count( $ads_ids ) > 0 ) {
+            } else if ( count( $ads_ids ) > 0 ) {
                 $ads = Ads::whereIn( 'id', $ads_ids )->orderby( 'updated_at', 'DESC' )->get();
             }
         } else {
             if ( $searchText == '' ) {
                 $ads = Ads::where( 'id_category', $request->id_category )->orderby( 'updated_at', 'DESC' )->get();
-            }
-
-            if ( count( $ads_ids ) > 0 ) {
+            } else if ( count( $ads_ids ) > 0 ) {
                 $ads = Ads::where( 'id_category', $request->id_category )->whereIn( 'id', $ads_ids )->orderby( 'updated_at', 'DESC' )->get();
             }
         }
 
         if ( count( $ads ) == 0 ) {
-            $message = 'Ads Not Found.';
             if ( $searchText != '' ) {
-                $message = 'There is no search result. Please input category name or breed name to find pets.';
+                $message = 'Ads Not Found. Please input correct category name or breed name to find pets.';
+            } else {
+                $message = 'Ads Not Found.';
             }
+
             $data['ads'] = [];
         } else {
             foreach ( $ads as $key => $item ) {
