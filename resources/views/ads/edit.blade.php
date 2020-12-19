@@ -251,7 +251,7 @@ var deleteImage = function(id, index) {
                 $('#ad_image_count').val(ad_image_count);
             } else if (result == 'failed') {
                 showToast('danger',
-                    "This ads image can't delete. Because there is only this image on current ads.");
+                    "This ads image can't delete. Because there is only 5 image on current ads.");
             }
         },
         error: function(xhr, status, error) {
