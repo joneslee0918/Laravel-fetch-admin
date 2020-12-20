@@ -18,8 +18,9 @@ class CreateAdsTable extends Migration
             $table->integer('id_user');
             $table->integer('id_category');
             $table->integer('id_breed');
-            $table->integer('age');
             $table->integer('gender')->comment('0:male, 1:female');
+            $table->integer('age');
+            $table->string('unit');
             $table->integer('price');
             $table->double('lat');
             $table->double('long');

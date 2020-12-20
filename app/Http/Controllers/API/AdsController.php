@@ -106,6 +106,7 @@ class AdsController extends Controller {
         $newAds->id_breed = $breed_id;
         $newAds->gender = $request->gender;
         $newAds->age = $request->age;
+        $newAds->unit = $request->unit;
         $newAds->price = $request->price;
         $newAds->lat = $request->lat;
         $newAds->long = $request->long;
@@ -164,7 +165,7 @@ class AdsController extends Controller {
         $category_id = Category::where( 'name', $request->category )->value( 'id' );
         $breed_id = Breed::where( 'name', $request->breed )->value( 'id' );
 
-        Ads::where( 'id', $ad_id )->update( ['id_category' => $category_id, 'id_breed' => $breed_id, 'gender' => $request->gender, 'age' => $request->age, 'price' => $request->price, 'lat' => $request->lat, 'long' => $request->long, 'description' => $request->description] );
+        Ads::where( 'id', $ad_id )->update( ['id_category' => $category_id, 'id_breed' => $breed_id, 'gender' => $request->gender, 'age' => $request->age, 'unit' => $request->unit, 'price' => $request->price, 'lat' => $request->lat, 'long' => $request->long, 'description' => $request->description] );
 
         if ( $request->is_edit_image == true ) {
             $ads_images = AdsMeta::where( ['id_ads' => $ad_id, 'meta_key' => '_ad_image'] )->get();
