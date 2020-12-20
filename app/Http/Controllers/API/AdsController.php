@@ -68,7 +68,7 @@ class AdsController extends Controller {
 
             $message = 'Ads successfully added on your favourite.';
         } else {
-            UserMeta::where( ['meta_key' => '_ad_favourite', 'meta_value' => $request->ad_id] )->delete();
+            UserMeta::where( [ 'id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $request->ad_id] )->delete();
             DB::select( 'UPDATE ads SET likes = likes - 1 WHERE id = '.$request->ad_id );
             $message = 'Ads successfully removed on your favourite.';
         }
@@ -222,7 +222,7 @@ class AdsController extends Controller {
         $ad_ids = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite'] )->pluck( 'meta_value' )->toArray();
         $ads = Ads::whereIn( 'id', $ad_ids )->orderby( 'updated_at', 'DESC' )->get();
         if ( count( $ads ) == 0 ) {
-            $message = 'There is no ads on your favourite.';
+            $message = 'Favourite Ads Not Found.';
             $data['ads'] = [];
         } else {
             foreach ( $ads as $key => $item ) {
@@ -250,20 +250,13 @@ class AdsController extends Controller {
 
         $ads = Ads::where( ['id_user' => Auth::user()->id, 'status' => 1] )->orderby( 'updated_at', 'DESC' )->get();
         if ( count( $ads ) == 0 ) {
-            $message = 'Ads Not Found.';
+            $message = 'Actived Ads Not Found.';
             $data['ads'] = [];
         } else {
             foreach ( $ads as $key => $item ) {
-                $user = $item->user;
                 $item->category;
                 $item->breed;
                 $item->meta;
-                $user->meta;
-                $item['user'] = $user;
-
-                $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $item['id']] )->count();
-                $is_fav = $exsit_fav == 0 ? false : true;
-                $item['is_fav'] = $is_fav;
             }
 
             $data['ads'] = $ads;
@@ -278,20 +271,13 @@ class AdsController extends Controller {
 
         $ads = Ads::where( ['id_user' => Auth::user()->id, 'status' => 0] )->orderby( 'updated_at', 'DESC' )->get();
         if ( count( $ads ) == 0 ) {
-            $message = 'Ads Not Found.';
+            $message = 'Closed Ads Not Found.';
             $data['ads'] = [];
         } else {
             foreach ( $ads as $key => $item ) {
-                $user = $item->user;
                 $item->category;
                 $item->breed;
                 $item->meta;
-                $user->meta;
-                $item['user'] = $user;
-
-                $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $item['id']] )->count();
-                $is_fav = $exsit_fav == 0 ? false : true;
-                $item['is_fav'] = $is_fav;
             }
 
             $data['ads'] = $ads;
