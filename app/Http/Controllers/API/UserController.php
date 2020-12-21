@@ -197,4 +197,17 @@ class UserController extends Controller {
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
+
+    public function setDeviceToken( Request $request ) {
+        $data = array();
+        $message = '';
+        $success = true;
+
+        if ( $request->platform == 'android' ) {
+            User::where( 'id', Auth::user()->id )->update( ['device_token' => $request->token] );
+        } else {
+            User::where( 'id', Auth::user()->id )->update( ['iphone_device_token' => $request->token] );
+        }
+        return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
+    }
 }
