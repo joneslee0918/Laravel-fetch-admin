@@ -12,15 +12,16 @@
                     <div class="inbox_msg">
                         <div class="inbox_people">
                             <div class="inbox_chat">
-                                @foreach($chat as $index => $item)
+                                @foreach($room as $index => $item)
+                                @if(count($item->message) > 0)
                                 <div class="chat_list active_chat" id="chat{{$item->id}}">
                                     <div class="chat_people" style="cursor: pointer;"
                                         onClick="getMessage({{$item->id}})">
                                         <div class="row">
                                             <div class="col">
                                                 <div class="chat_img" style="width:30%">
-                                                    @if($item->sender->avatar)
-                                                    <img src="{{$item->sender->avatar}}?{{time()}}"
+                                                    @if($item->seller->avatar)
+                                                    <img src="{{$item->seller->avatar}}?{{time()}}"
                                                         style="max-width:50px; height:50px">
                                                     @else
                                                     <img src="{{ asset('material') }}/img/default.png?{{time()}}"
@@ -28,14 +29,14 @@
                                                     @endif
                                                 </div>
                                                 <div class="chat_ib" style="width:70%">
-                                                    <h5>{{$item->sender->name}}</h5>
-                                                    <h5>{{$item->sender->phonenumber}}</h5>
+                                                    <h5>{{$item->seller->name}}</h5>
+                                                    <h5>{{$item->seller->phonenumber}}</h5>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="chat_img" style="width:30%; float:right">
-                                                    @if($item->receiver->avatar)
-                                                    <img src="{{$item->receiver->avatar}}?{{time()}}"
+                                                    @if($item->buyer->avatar)
+                                                    <img src="{{$item->buyer->avatar}}?{{time()}}"
                                                         style="max-width:50px; height:50px">
                                                     @else
                                                     <img src="{{ asset('material') }}/img/default.png?{{time()}}"
@@ -44,13 +45,13 @@
                                                 </div>
                                                 <div class="chat_ib"
                                                     style="width:70%; padding-right:10%; text-align:right">
-                                                    <h5>{{$item->receiver->name}}</h5>
-                                                    <h5>{{$item->receiver->phonenumber}}</h5>
+                                                    <h5>{{$item->buyer->name}}</h5>
+                                                    <h5>{{$item->buyer->phonenumber}}</h5>
                                                 </div>
                                             </div>
                                             <div class="col-12" style="text-align:right; margin-right:10%">
                                                 @if($item->ads->meta[0])
-                                                <img src="{{$item->ads->meta[0]->meta_value }}"
+                                                <img src="{{$item->ad_image }}"
                                                     style="width:40px; height:40px; border-radius:50%; margin-right:50px"
                                                     alt="...">
                                                 @endif
@@ -60,14 +61,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
                                 @endforeach
                             </div>
                         </div>
                         <!-- message -->
                         <div class="mesgs">
                             <div class="msg_history" id="message_container">
-                                @foreach($message as $key => $item)
-                                @if($message_sender_id == $item->sender->id)
+                                @foreach($room[0]->message as $key => $item)
+                                @if($item->id_user_snd == $room[0]->seller->id)
                                 <div class="outgoing_msg" id="message_item_{{$item->id}}">
                                     <div class="sent_msg_img">
                                         @if($item->sender->avatar)
@@ -137,11 +139,11 @@ function getMessage(id) {
         },
         method: 'post',
         success: function(result) {
-            var message = result.message;
-            var message_sender_id = result.message_sender_id;
+
+            console.log(result)
 
             var html = '';
-            message.forEach((item, index) => {
+            result.message.forEach((item, index) => {
                 let date_ob = new Date(item.created_at);
                 let date = ("0" + date_ob.getDate()).slice(-2);
                 let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
@@ -152,7 +154,7 @@ function getMessage(id) {
 
                 item.created_at = year + "-" + month + "-" + date + " " + hours + ":" + minutes +
                     ":" + seconds;
-                if (message_sender_id == item.sender.id) {
+                if (item.id_user_snd == result.seller.id) {
                     html += `<div class="outgoing_msg" id="message_item_${item.id}">
                                 <div class="sent_msg_img">
                                     ${item.sender.avatar ? `<img src="${item.sender.avatar}?${new Date()}" style="max-width:50px; height:50px">` : `<img src="{{ asset('material') }}/img/default.png?${new Date()}" alt="..." style="max-width:50px; height:50px">`}
