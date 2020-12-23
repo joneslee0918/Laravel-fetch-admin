@@ -70,7 +70,7 @@
                             <div class="msg_history" id="message_container">
                                 @foreach($room[0]->message as $key => $item)
                                 @if($item->id_user_snd == $room[0]->seller->id)
-                                <div class="outgoing_msg" id="message_item_{{$item->id}}">
+                                <div class="outgoing_msg" id="message_item_{{$item->id}}" style="padding-right: 10px;">
                                     <div class="sent_msg_img">
                                         @if($item->sender->avatar)
                                         <img src="{{$item->sender->avatar}}?{{time()}}"
@@ -155,7 +155,7 @@ function getMessage(id) {
                 item.created_at = year + "-" + month + "-" + date + " " + hours + ":" + minutes +
                     ":" + seconds;
                 if (item.id_user_snd == result.seller.id) {
-                    html += `<div class="outgoing_msg" id="message_item_${item.id}">
+                    html += `<div class="outgoing_msg" id="message_item_${item.id}" style="padding-right: 10px;">
                                 <div class="sent_msg_img">
                                     ${item.sender.avatar ? `<img src="${item.sender.avatar}?${new Date()}" style="max-width:50px; height:50px">` : `<img src="{{ asset('material') }}/img/default.png?${new Date()}" alt="..." style="max-width:50px; height:50px">`}
                                 </div>
