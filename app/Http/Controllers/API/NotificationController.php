@@ -78,11 +78,16 @@ class NotificationController extends Controller {
         $success = true;
         $message = '';
 
-        $notification = Notification::where( 'id_rcv_user', Auth::user()->id )->where( 'deleted_at', null )->orderby( 'read_status', 'ASC' )->orderby( 'created_at', 'DESC' )->get();
+        $notification = Notification::where( ['id_rcv_user' => Auth::user()->id, 'deleted_at' => null] )->orderby( 'read_status', 'ASC' )->orderby( 'created_at', 'DESC' )->get();
         if ( count( $notification ) == 0 ) {
             $message = 'There is no new message.';
             $data['notification'] = [];
         } else {
+            foreach ( $notification as $key => $value ) {
+                if ( $value->type == 0 ) {
+                    $value->room;
+                }
+            }
             $data['notification'] = $notification;
         }
         return $response = array( 'success' =>$success, 'message' => $message, 'data' => $data );
@@ -97,6 +102,7 @@ class NotificationController extends Controller {
         if ( $notification->type == 0 ) {
             ///chat message
             Notification::where( ['id_type' => $notification->id_type, 'id_snd_user' => $notification->id_snd_user, 'id_rcv_user' => $notification->id_rcv_user, 'type' => 0] )->update( ['read_status' => 1] );
+            Chat::where( 'id_room', $notification->id_type )->where( 'id_user_snd', '!=', Auth::user()->id )->update( ['read_status' => 1] );
         } else {
             Notification::where( 'id', $request->id )->update( ['read_status' => 1] );
         }

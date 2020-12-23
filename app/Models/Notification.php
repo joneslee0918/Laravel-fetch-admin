@@ -20,8 +20,8 @@ class Notification extends Model
         'updated_at'
     ];
 
-    public function ads() {
-        return $this->hasOne( 'App\Models\Ads', 'id', 'id_type' );
+    public function room() {
+        return $this->hasOne( 'App\Models\Room', 'id', 'id_type' );
     }
 
     public function sender() {
@@ -31,4 +31,5 @@ class Notification extends Model
     public function receiver() {
         return $this->hasOne( 'App\Models\Ads', 'id', 'id_rcv_user' );
     }
+
 }

@@ -27,3 +27,6 @@ yarn-error.log
 /public/uploads/ads/6/15/*.png
 *.png
 *.jpeg
+.rnd
+composer.lock
+.rnd

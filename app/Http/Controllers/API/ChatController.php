@@ -12,6 +12,7 @@ use App\Models\Ads;
 use App\Models\AdsMeta;
 use App\Models\Category;
 use App\Models\Chat;
+use App\Models\Room;
 use App\Models\Breed;
 use App\Models\Notification;
 use DB;
@@ -35,12 +36,42 @@ class ChatController extends Controller {
         $ads->meta;
         $data['ads'] = $ads;
 
-        $chat = Chat::where( 'id_ads', $request->ad_id )->where( 'id_user_snd', $user_id )->orWhere( 'id_user_rcv', $user_id )->get();
-        foreach ( $chat as $key => $item ) {
-            $item->sender;
-            $item->receiver;
+        if ( $request->room_id > 0 ) {
+            $room = Room::where( 'id', $request->room_id )->first();
+            $room->buyer;
+            $room->seller;
+            $room->message;
+
+            Chat::where( 'id_room', $room->id )->where( 'id_user_snd', '!=', Auth::user()->id )->update( ['read_status' => 1] );
+            Notification::where( ['id_type' => $room->id, 'type' => 0, 'id_rcv_user' => Auth::user()->id] )->update( ['read_status' => 1] );
+
+            $data['room'] = $room;
+        } else {
+            $exist = Room::where( ['id_ads' => $ads->id, 'id_user_sell' => $ads['user']->id, 'id_user_buy' => Auth::user()->id] )->count();
+            if ( $exist > 0 ) {
+                $room = Room::where( ['id_ads' => $ads->id, 'id_user_sell' => $ads['user']->id, 'id_user_buy' => Auth::user()->id] )->first();
+                $room->buyer;
+                $room->seller;
+                $room->message;
+
+                Chat::where( 'id_room', $room->id )->where( 'id_user_snd', '!=', Auth::user()->id )->update( ['read_status' => 1] );
+                Notification::where( ['id_type' => $room->id, 'type' => 0, 'id_rcv_user' => Auth::user()->id] )->update( ['read_status' => 1] );
+
+                $data['room'] = $room;
+            } else {
+                $room = new Room;
+                $room->id_ads = $ads->id;
+                $room->id_user_sell = $ads['user']->id;
+                $room->id_user_buy = Auth::user()->id;
+                $room->save();
+
+                $room->buyer;
+                $room->seller;
+                $room->message;
+
+                $data['room'] = $room;
+            }
         }
-        $data['chat'] = $chat;
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
@@ -51,10 +82,10 @@ class ChatController extends Controller {
         $message = '';
 
         $newMessage = Chat::create( $request->all() );
+        $newMessage->room;
         $newMessage->sender;
-        $newMessage->receiver;
 
-        $rcv_user_id = $newMessage->id_user_rcv;
+        $rcv_user_id = Auth::user()->id == $newMessage['room']['id_user_sell'] ? $newMessage['room']['id_user_buy'] : $newMessage['room']['id_user_sell'];
         $type = 'chat_message';
         $title = 'You received a new message.';
         $body = $newMessage->message;
@@ -64,7 +95,7 @@ class ChatController extends Controller {
         $newNotification = new Notification;
         $newNotification->id_snd_user = Auth::user()->id;
         $newNotification->id_rcv_user = $rcv_user_id;
-        $newNotification->id_type = $request->id_ads;
+        $newNotification->id_type = $newMessage['room']->id;
         $newNotification->title = $title;
         $newNotification->body = $body;
         $newNotification->type = 0;

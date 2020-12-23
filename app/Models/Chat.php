@@ -8,14 +8,12 @@ class Chat extends Model {
     //
     protected $table = 'chat';
     protected $fillable = [
-        'id_ads',
+        'id_room',
         'id_user_snd',
-        'id_user_rcv',
         'message',
         'attach_file',
         'message_type',
         'read_status',
-        'last_seen_time',
         'created_at',
         'updated_at'
     ];
@@ -24,11 +22,7 @@ class Chat extends Model {
         return $this->hasOne( 'App\Models\User', 'id', 'id_user_snd' );
     }
 
-    public function receiver() {
-        return $this->hasOne( 'App\Models\User', 'id', 'id_user_rcv' );
-    }
-
-    public function ads() {
-        return $this->hasOne( 'App\Models\Ads', 'id', 'id_ads' );
+    public function room() {
+        return $this->hasOne( 'App\Models\Room', 'id', 'id_room' );
     }
 }

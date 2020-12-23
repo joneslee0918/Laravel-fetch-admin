@@ -12,6 +12,7 @@ use App\Models\Ads;
 use App\Models\AdsMeta;
 use App\Models\Category;
 use App\Models\Chat;
+use App\Models\Room;
 use App\Models\Breed;
 use DB;
 
@@ -30,27 +31,26 @@ class InboxController extends Controller {
 
         $user_id = Auth::user()->id;
 
-        $inbox = [];
+        ///get room as seller
+        $room_sell_ids = Room::where( 'id_user_sell', $user_id )->pluck( 'id' )->toArray();
+        ///get room as buyer
+        $room_buy_ids = Room::where( 'id_user_buy', $user_id )->pluck( 'id' )->toArray();
 
-        $inbox = Chat::where( 'id_user_snd', $user_id )->orWhere( 'id_user_rcv', $user_id )->groupby( 'id_ads' )->get();
-
-        foreach ( $inbox as $inbox_key => $inbox_item ) {
-            $chat_messages = Chat::where( 'id_ads', $inbox_item->id_ads )->get();
-
-            foreach ( $chat_messages as $key => $item ) {
-                $item->sender;
-                $item->receiver;
-                $item->ads;
-                $item['ads']->meta;
-            }
-            $inbox[$inbox_key]['message'] = $chat_messages;
+        $room_ids = array_merge( $room_sell_ids, $room_buy_ids );
+        $room = Room::whereIn( 'id', $room_ids )->get();
+        foreach ( $room as $key => $value ) {
+            $value->ads;
+            $value->buyer;
+            $value->seller;
+            $value->message;
+            $value['ads']->meta;
         }
 
-        if ( count( $inbox ) == 0 ) {
+        if ( count( $room ) == 0 ) {
             $message = 'You have no chat yet';
         }
 
-        $data['inbox'] = $inbox;
+        $data['inbox'] = $room;
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }

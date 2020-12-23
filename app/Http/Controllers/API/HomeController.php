@@ -12,6 +12,7 @@ use App\Models\Ads;
 use App\Models\AdsMeta;
 use App\Models\Category;
 use App\Models\Breed;
+use App\Models\Notification;
 use DB;
 
 class HomeController extends Controller {
@@ -44,14 +45,15 @@ class HomeController extends Controller {
 
         $breed = Breed::orderby( 'order' )->get();
         $category = Category::orderby( 'order' )->get();
-
         $max_price = Ads::max( 'price' );
+        $unread_message = Notification::where( ['id_rcv_user' => Auth::user()->id, 'read_status' => 0, 'deleted_at' => null] )->count();
 
         $data['category'] = $category;
         $data['breed'] = $breed;
         $data['ads'] = $ads;
         $data['max_price'] = $max_price;
         $data['is_show_apple_button'] = 0;
+        $data['unread_message'] = $unread_message;
 
         $success = true;
 
