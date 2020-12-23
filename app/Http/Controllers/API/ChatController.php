@@ -105,4 +105,15 @@ class ChatController extends Controller {
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
+
+    public function readMessage( Request $request ) {
+        $data = array();
+        $success = true;
+        $message = '';
+
+        Chat::where( 'id_room', $request->id )->where( 'id_user_snd', '!=', Auth::user()->id )->update( ['read_status' => 1] );
+        Notification::where( ['id_type' => $request->id, 'type' => 0, 'id_rcv_user' => Auth::user()->id] )->update( ['read_status' => 1] );
+
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
+    }
 }

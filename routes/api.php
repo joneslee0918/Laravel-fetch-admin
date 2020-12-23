@@ -51,6 +51,7 @@ Route::group( ['middleware' => 'auth:api'], function () {
     //CHAT
     Route::post( 'chat', 'API\ChatController@chat' );
     Route::post( 'chat/post', 'API\ChatController@postMessage' );
+    Route::post( 'chat/read', 'API\ChatController@readMessage' );
 
     //NOTIFICATION
     Route::get( 'notification', 'API\NotificationController@notification' );
