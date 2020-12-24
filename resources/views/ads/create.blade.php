@@ -196,6 +196,10 @@ var deleteImage = function(index) {
 
 var addNewImage = function() {
     var ad_image_count = $('#ad_image_count').val();
+    if (ad_image_count == 5) {
+        showToast('danger', "You can select up to 5 pet images.");
+        return;
+    }
     if (ad_image_count == '') {
         ad_image_count = 1;
     }

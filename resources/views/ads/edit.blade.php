@@ -251,7 +251,7 @@ var deleteImage = function(id, index) {
                 $('#ad_image_count').val(ad_image_count);
             } else if (result == 'failed') {
                 showToast('danger',
-                    "This ads image can't delete. Because there is only 5 images on current ads.");
+                    "This ads image can't delete. There is only one images on current ads.");
             }
         },
         error: function(xhr, status, error) {
@@ -262,6 +262,10 @@ var deleteImage = function(id, index) {
 
 var addNewImage = function() {
     var ad_image_count = $('#ad_image_count').val();
+    if (ad_image_count == 5) {
+        showToast('danger', "You can select up to 5 pet images.");
+        return;
+    }
 
     var html = '';
 

@@ -43,15 +43,11 @@ class HomeController extends Controller {
             $data['ads'] = $ads;
         }
 
-        $breed = Breed::orderby( 'order' )->get();
         $category = Category::orderby( 'order' )->get();
-        $max_price = Ads::max( 'price' );
         $unread_message = Notification::where( ['id_rcv_user' => Auth::user()->id, 'read_status' => 0, 'deleted_at' => null] )->count();
 
         $data['category'] = $category;
-        $data['breed'] = $breed;
         $data['ads'] = $ads;
-        $data['max_price'] = $max_price;
         $data['is_show_apple_button'] = 0;
         $data['unread_message'] = $unread_message;
 
@@ -60,7 +56,7 @@ class HomeController extends Controller {
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
 
-    public function filter_category( Request $request ) {
+    public function filter( Request $request ) {
         $data = array();
         $success = true;
         $message = '';
@@ -118,41 +114,7 @@ class HomeController extends Controller {
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
 
-    public function filter( Request $request ) {
-        $data = array();
-        $message = '';
-        $success = true;
+    public function advancedFilter( Request $request ) {
 
-        $id_category = $request->id_category;
-        $id_breed = $request->id_breed;
-        $gender = $request->gender;
-        $price = $request->price;
-
-        if ( $id_category == -1 ) {
-            $ads = Ads::where( 'status', 1 )->where( ['id_breed' => $id_breed, 'gender' => $gender] )->where( 'price', '>=', $price['min'] )->where( 'price', '<=', $price['max'] )->orderby( 'updated_at', 'DESC' )->get();
-        } else {
-            $ads = Ads::where( 'status', 1 )->where( ['id_category' => $id_category, 'id_breed' => $id_breed, 'gender' => $gender] )->where( 'price', '>=', $price['min'] )->where( 'price', '<=', $price['max'] )->orderby( 'updated_at', 'DESC' )->get();
-        }
-
-        if ( count( $ads ) == 0 ) {
-            $message = 'Ads Not Found.';
-        } else {
-            foreach ( $ads as $key => $item ) {
-                $user = $item->user;
-                $item->category;
-                $item->breed;
-                $item->meta;
-                $user->meta;
-                $item['user'] = $user;
-
-                $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $item['id']] )->count();
-                $is_fav = $exsit_fav == 0 ? false : true;
-                $item['is_fav'] = $is_fav;
-            }
-
-            $data['ads'] = $ads;
-        }
-
-        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
 }

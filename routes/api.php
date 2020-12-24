@@ -23,8 +23,11 @@ Route::group( ['middleware' => 'auth:api'], function () {
 
     //HOME
     Route::get( 'home', 'API\HomeController@home' );
-    Route::post( 'home/filter_category', 'API\HomeController@filter_category' );
     Route::post( 'home/filter', 'API\HomeController@filter' );
+
+    //FILTER
+    Route::get( 'filter', 'API\FilterController@index' );
+    Route::post( 'filter/get', 'API\FilterController@getData' );
 
     //ADS
     Route::post( 'ads', 'API\AdsController@adDetail' );

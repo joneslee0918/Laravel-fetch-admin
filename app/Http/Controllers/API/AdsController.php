@@ -39,6 +39,22 @@ class AdsController extends Controller {
 
         if ( $request->view == true && $ads->user->id != Auth::user()->id ) {
             DB::select( 'UPDATE ads SET views = views + 1 WHERE id = '.$ads->id );
+
+            // $rcv_user_id = $ads->user->id;
+            // $type = 'viewed_ads';
+            // $title = 'Your ads was viewed by '.Auth::user()->name.'.';
+            // $body = '';
+
+            // $notify_result = $this->notification->send( $rcv_user_id, $type, $title, $body, '', $ads );
+
+            // $newNotification = new Notification;
+            // $newNotification->id_snd_user = Auth::user()->id;
+            // $newNotification->id_rcv_user = $rcv_user_id;
+            // $newNotification->id_type = $ads->id;
+            // $newNotification->title = $title;
+            // $newNotification->body = $body;
+            // $newNotification->type = 1;
+            // $newNotification->save();
         }
 
         $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $request->ad_id] )->count();
@@ -289,8 +305,8 @@ class AdsController extends Controller {
     public function deleteImage( Request $request ) {
         $ad_id = AdsMeta::where( 'id', $request->id )->value( 'id_ads' );
         $exist = AdsMeta::where( ['id_ads' => $ad_id, 'meta_key' => '_ad_image'] )->count();
-        if ( $exist <= 5 ) {
-            $message = 'Image delete failed. There is only 5 images on your ads.';
+        if ( $exist <= 1 ) {
+            $message = 'Image delete failed. You should post at least one pet image.';
             $success = false;
             return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
         }

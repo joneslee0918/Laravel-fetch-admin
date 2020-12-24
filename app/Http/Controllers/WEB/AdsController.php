@@ -138,7 +138,7 @@ class AdsController extends Controller {
     public function deleteImage( Request $request ) {
         $meta = AdsMeta::where( 'id', $request->id )->first();
         $exist = AdsMeta::where( ['id_ads' => $meta->id_ads, 'meta_key' => '_ad_image'] )->count();
-        if ( $exist == 5 ) {
+        if ( $exist == 1 ) {
             return 'failed';
         }
 
