@@ -41,13 +41,18 @@ class ChatController extends Controller {
         $room->seller;
         $room->buyer;
         $room->message;
-        foreach ($room['message'] as $key => $value) {
+        foreach ( $room['message'] as $key => $value ) {
             $value->sender;
         }
         return $room;
     }
 
     public function deleteMessage( Request $request ) {
+        $chat = Chat::where( 'id', $request->id )->first();
+        if ( $chat->attach_file ) {
+            $file_path = substr( $chat->attach_file, 1 );
+            unlink( $file_path );
+        }
         Chat::where( 'id', $request->id )->delete();
         return;
     }

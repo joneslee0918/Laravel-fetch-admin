@@ -87,8 +87,13 @@
                                         </button>
                                         <p>
                                             <span>{{$item->sender->name}}</span><br>
+                                            @if($item->message)
                                             {{$item->message}}
+                                            @endif
                                         </p>
+                                        @if($item->attach_file)
+                                        <img src="{{$item->attach_file}}?{{time()}}">
+                                        @endif
                                         <span class="time_date">{{$item->created_at}}</span>
                                     </div>
                                 </div>
@@ -111,8 +116,13 @@
                                             </button>
                                             <p>
                                                 <span>{{$item->sender->name}}</span><br>
+                                                @if($item->message)
                                                 {{$item->message}}
+                                                @endif
                                             </p>
+                                            @if($item->attach_file)
+                                            <img src="{{$item->attach_file}}?{{time()}}">
+                                            @endif
                                             <span class="time_date" style="float:right">{{$item->created_at}}</span>
                                         </div>
                                     </div>
@@ -165,8 +175,11 @@ function getMessage(id) {
                                     </button>
                                     <p>
                                         <span>${item.sender.name}</span><br>
-                                        ${item.message}
+                                        ${item.message?item.message:``}
                                     </p>
+                                    ${item.attach_file ? 
+                                        `<img src="{{$item->attach_file}}?{{time()}}">`:`<p></p>`
+                                    }
                                     <span class="time_date">${item.created_at}</span>
                                 </div>
                             </div>`;
@@ -182,8 +195,11 @@ function getMessage(id) {
                                         </button>
                                         <p>
                                             <span>${item.sender.name}</span><br>
-                                            ${item.message}
+                                            ${item.message?item.message:``}
                                         </p>
+                                        ${item.attach_file ? 
+                                            `<img src="{{$item->attach_file}}?{{time()}}">`:`<p></p>`
+                                        }
                                         <span class="time_date" style="float:right">${item.created_at}</span>
                                     </div>
                                 </div>
