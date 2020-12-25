@@ -12,7 +12,6 @@ class Chat extends Model {
         'id_user_snd',
         'message',
         'attach_file',
-        'message_type',
         'read_status',
         'created_at',
         'updated_at'

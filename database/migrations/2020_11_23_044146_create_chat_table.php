@@ -19,7 +19,6 @@ class CreateChatTable extends Migration
             $table->integer('id_user_snd');
             $table->text('message')->nullable();
             $table->string('attach_file')->nullable();
-            $table->integer('message_type')->default(0)->commect('0:message, 1:attach_file');
             $table->integer('read_status')->default(0)->commect('0:unread, 1:read');
             $table->timestamps();
         });

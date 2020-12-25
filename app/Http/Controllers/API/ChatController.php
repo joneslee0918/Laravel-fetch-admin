@@ -85,6 +85,26 @@ class ChatController extends Controller {
         $newMessage->room;
         $newMessage->sender;
 
+        $targetDir = public_path( 'uploads' );
+        if ( !is_dir( $targetDir ) ) {
+            mkDir( $targetDir, 0777, true );
+        }
+        $targetDir .= '/chat';
+        if ( !is_dir( $targetDir ) ) {
+            mkDir( $targetDir, 0777, true );
+        }
+
+        $file = $request->file( 'chat_image' );
+        $sourceFile = $newMessage->id.time().'.'.$file->extension();
+        $file->move( $targetDir, $sourceFile );
+        $dest_path = '/uploads/chat/'.$sourceFile;
+
+        Chat::where( 'id', $newMessage->id )->update( ['attach_file' => $dest_path] );
+
+        $newMessage = Chat::where( 'id', $newMessage->id )->first();
+        $newMessage->room;
+        $newMessage->sender;
+
         $rcv_user_id = Auth::user()->id == $newMessage['room']['id_user_sell'] ? $newMessage['room']['id_user_buy'] : $newMessage['room']['id_user_sell'];
         $type = 'chat_message';
         $title = 'You received a new message.';
