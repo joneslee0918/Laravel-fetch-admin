@@ -30,3 +30,4 @@ yarn-error.log
 .rnd
 composer.lock
 .rnd
+/*.zip

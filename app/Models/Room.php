@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Room extends Model {
     //
     protected $table = 'room';
-    protected $fillable = ['id_ads', 'id_user_sell', 'id_user_buy'];
+    protected $fillable = ['id_ads', 'id_user_sell', 'id_user_buy', 's_block_b', 'b_block_s'];
 
     public function ads() {
         return $this->hasOne( 'App\Models\Ads', 'id', 'id_ads' );

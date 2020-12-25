@@ -50,6 +50,9 @@ Route::group( ['middleware' => 'auth:api'], function () {
 
     //INBOX
     Route::get( 'inbox', 'API\InboxController@inbox' );
+    Route::post( 'inbox/block', 'API\InboxController@blockUser' );
+    Route::get( 'inbox/blocklist', 'API\InboxController@getBlockList' );
+    Route::post( 'inbox/unblock', 'API\InboxController@unblockUser' );
 
     //CHAT
     Route::post( 'chat', 'API\ChatController@chat' );

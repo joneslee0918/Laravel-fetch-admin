@@ -19,6 +19,8 @@ class CreateRoomTable extends Migration
             $table->integer('id_user_sell');
             $table->integer('id_user_buy');
             $table->integer('status')->comment('0:closed, 1:actived');
+            $table->integer('s_block_b')->default(0)->comment('seller blocked buyer');
+            $table->integer('b_block_s')->default(0)->comment('buyer blocked seller');
             $table->timestamps();
         });
     }
