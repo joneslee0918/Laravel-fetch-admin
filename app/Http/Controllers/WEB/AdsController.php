@@ -59,8 +59,8 @@ class AdsController extends Controller {
 
     public function store( Request $request ) {
         //
-        if ( !$request->file( 'photo_path' ) || count( $request->file( 'photo_path' ) ) > 5 ) {
-            return back()->withError( __( 'Ads post failed. Please add ads images.' ) );
+        if ( !$request->file( 'photo_path' ) || count( $request->file( 'photo_path' ) ) < 1 || count( $request->file( 'photo_path' ) ) > 5 ) {
+            return back()->withError( __( 'Ads post failed. Please add at least one pet images. You can select up to 5 pet images.' ) );
         }
         $ads = Ads::create( $request->all() );
         $user_id = $request->id_user;
@@ -184,7 +184,7 @@ class AdsController extends Controller {
         $exist = AdsMeta::where( ['id_ads' => $ad_id, 'meta_key' => '_ad_image'] )->count();
 
         $targetDir = '';
-        if ( $request->file( 'photo_path' ) && ( count( $request->file( 'photo_path' ) ) + $exist ) >= 5 ) {
+        if ( $request->file( 'photo_path' ) ) {
             $targetDir = base_path( 'uploads' );
             if ( !is_dir( $targetDir ) ) {
                 mkDir( $targetDir, 0777, true );
