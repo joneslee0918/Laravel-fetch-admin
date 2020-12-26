@@ -150,8 +150,6 @@ function getMessage(id) {
         method: 'post',
         success: function(result) {
 
-            console.log(result)
-
             var html = '';
             result.message.forEach((item, index) => {
                 let date_ob = new Date(item.created_at);
