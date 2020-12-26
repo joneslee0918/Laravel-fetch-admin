@@ -32,3 +32,14 @@ composer.lock
 .rnd
 /*.zip
 /*.sql
+/public/uploads/ads/1/5/*.jpg
+/public/uploads/ads/11/10/*.jpg
+/public/uploads/ads/11/12/*.jpg
+/public/uploads/ads/11/13/*.jpg
+/public/uploads/ads/11/14/*.jpg
+/public/uploads/ads/11/15/*.jpg
+/public/uploads/ads/11/16/*.jpg
+/public/uploads/ads/11/9/*.jpg
+/public/uploads/ads/15/18/*.jpg
+/public/uploads/ads/4/3/*.jpg
+/public/uploads/avatars/*.jpg
