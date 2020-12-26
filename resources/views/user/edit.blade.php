@@ -29,7 +29,7 @@
                                                 <img src="{{$user->avatar}}?{{time()}}" style="width:100px;height:100px"
                                                     alt="...">
                                                 @else
-                                                <img src="{{ asset('material') }}/img/default.png"
+                                                <img src="{{ asset('public/material') }}/img/default.png"
                                                     style="width:100px;height:100px" alt="...">
                                                 @endif
                                             </div>

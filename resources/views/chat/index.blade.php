@@ -24,7 +24,7 @@
                                                     <img src="{{$item->seller->avatar}}?{{time()}}"
                                                         style="max-width:50px; height:50px">
                                                     @else
-                                                    <img src="{{ asset('material') }}/img/default.png?{{time()}}"
+                                                    <img src="{{ asset('public/material') }}/img/default.png?{{time()}}"
                                                         alt="..." style="max-width:50px; height:50px">
                                                     @endif
                                                 </div>
@@ -39,7 +39,7 @@
                                                     <img src="{{$item->buyer->avatar}}?{{time()}}"
                                                         style="max-width:50px; height:50px">
                                                     @else
-                                                    <img src="{{ asset('material') }}/img/default.png?{{time()}}"
+                                                    <img src="{{ asset('public/material') }}/img/default.png?{{time()}}"
                                                         alt="..." style="max-width:50px; height:50px">
                                                     @endif
                                                 </div>
@@ -76,7 +76,7 @@
                                         <img src="{{$item->sender->avatar}}?{{time()}}"
                                             style="max-width:50px; height:50px">
                                         @else
-                                        <img src="{{ asset('material') }}/img/default.png?{{time()}}" alt="..."
+                                        <img src="{{ asset('public/material') }}/img/default.png?{{time()}}" alt="..."
                                             style="max-width:50px; height:50px">
                                         @endif
                                     </div>
@@ -104,7 +104,7 @@
                                         <img src="{{$item->sender->avatar}}?{{time()}}"
                                             style="max-width:50px; height:50px">
                                         @else
-                                        <img src="{{ asset('material') }}/img/default.png?{{time()}}" alt="..."
+                                        <img src="{{ asset('public/material') }}/img/default.png?{{time()}}" alt="..."
                                             style="max-width:50px; height:50px">
                                         @endif
                                     </div>
@@ -167,7 +167,7 @@ function getMessage(id) {
                 if (item.id_user_snd == result.seller.id) {
                     html += `<div class="outgoing_msg" id="message_item_${item.id}" style="padding-right: 10px;">
                                 <div class="sent_msg_img">
-                                    ${item.sender.avatar ? `<img src="${item.sender.avatar}?${new Date()}" style="max-width:50px; height:50px">` : `<img src="{{ asset('material') }}/img/default.png?${new Date()}" alt="..." style="max-width:50px; height:50px">`}
+                                    ${item.sender.avatar ? `<img src="${item.sender.avatar}?${new Date()}" style="max-width:50px; height:50px">` : `<img src="{{ asset('public/material') }}/img/default.png?${new Date()}" alt="..." style="max-width:50px; height:50px">`}
                                 </div>
                                 <div class="sent_msg">
                                     <button style="cursor:pointer" onclick="deleteMessage(${item.id})" class="delete_msg_btn delete_sent_msg">
@@ -186,7 +186,7 @@ function getMessage(id) {
                 } else {
                     html += `<div class="incoming_msg" id="message_item_${item.id}">
                                 <div class="incoming_msg_img">
-                                    ${item.sender.avatar ? `<img src="${item.sender.avatar}?${new Date()}" style="max-width:50px; height:50px">` : `<img src="{{ asset('material') }}/img/default.png?${new Date()}" alt="..." style="max-width:50px; height:50px">`}
+                                    ${item.sender.avatar ? `<img src="${item.sender.avatar}?${new Date()}" style="max-width:50px; height:50px">` : `<img src="{{ asset('public/material') }}/img/default.png?${new Date()}" alt="..." style="max-width:50px; height:50px">`}
                                 </div>
                                 <div class="received_msg">
                                     <div class="received_withd_msg">

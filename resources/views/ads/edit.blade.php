@@ -278,7 +278,7 @@ var addNewImage = function() {
                 </div>
                 <div class="fileinput text-center fileinput-new" data-provides="fileinput">
                     <div class="fileinput-new thumbnail">
-                        <img src="{{ asset('material') }}/img/Default_Thumbnail.png?{{time()}}" style="width:100%; height:150px"
+                        <img src="{{ asset('public/material') }}/img/Default_Thumbnail.png?{{time()}}" style="width:100%; height:150px"
                             alt="...">
                     </div>
                     <div class="fileinput-preview fileinput-exists thumbnail"

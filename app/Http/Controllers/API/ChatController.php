@@ -114,7 +114,7 @@ class ChatController extends Controller {
             $file = $request->file( 'chat_image' );
             $sourceFile = $newMessage->id.time().'.'.$file->extension();
             $file->move( $targetDir, $sourceFile );
-            $dest_path = '/uploads/chat/'.$sourceFile;
+            $dest_path = '/public/uploads/chat/'.$sourceFile;
 
             Chat::where( 'id', $newMessage->id )->update( ['attach_file' => $dest_path] );
 

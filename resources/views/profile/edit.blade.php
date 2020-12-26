@@ -34,7 +34,7 @@
                                             @if(auth()->user()->avatar != null)
                                             <img src="{{auth()->user()->avatar}}" alt="...">
                                             @else
-                                            <img src="{{ asset('material') }}/img/default.png" alt="...">
+                                            <img src="{{ asset('public/material') }}/img/default.png" alt="...">
                                             @endif
                                         </div>
                                         <div class="fileinput-preview fileinput-exists thumbnail img-circle" style="">
