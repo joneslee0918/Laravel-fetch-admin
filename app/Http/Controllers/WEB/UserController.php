@@ -76,7 +76,7 @@ class UserController extends Controller {
 
         $file = $request->file( 'photo_path' );
         if ( $file != null ) {
-            $targetDir = public_path( 'uploads' );
+            $targetDir = base_path( 'uploads' );
             if ( !is_dir( $targetDir ) ) {
                 mkDir( $targetDir, 0777, true );
             }
@@ -154,7 +154,7 @@ class UserController extends Controller {
                 User::where( 'id', $user->id )->update( ['avatar' => null] );
             }
 
-            $targetDir = public_path( 'uploads' );
+            $targetDir = base_path( 'uploads' );
             if ( !is_dir( $targetDir ) ) {
                 mkDir( $targetDir, 0777, true );
             }
@@ -204,7 +204,7 @@ class UserController extends Controller {
                     unlink( $file_path );
                 }
             }
-            rmdir( public_path( 'uploads/ads/'.$id.'/'.$value->id ) );
+            rmdir( base_path( 'uploads/ads/'.$id.'/'.$value->id ) );
 
             AdsMeta::where( 'id_ads', $value->id )->delete();
             Chat::where( 'id_ads', $value->id )->delete();

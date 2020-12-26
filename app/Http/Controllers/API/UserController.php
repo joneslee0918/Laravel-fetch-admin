@@ -138,7 +138,7 @@ class UserController extends Controller {
 
             $dest_path = '';
             if ( $request->change_image_status == 1 ) {
-                $targetDir = public_path( 'uploads' );
+                $targetDir = base_path( 'uploads' );
                 if ( !is_dir( $targetDir ) ) {
                     mkDir( $targetDir, 0777, true );
                 }

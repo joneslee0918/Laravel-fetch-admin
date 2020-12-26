@@ -66,7 +66,7 @@ class AdsController extends Controller {
         $user_id = $request->id_user;
         $ad_id = $ads->id;
 
-        $targetDir = public_path( 'uploads' );
+        $targetDir = base_path( 'uploads' );
         if ( !is_dir( $targetDir ) ) {
             mkDir( $targetDir, 0777, true );
         }
@@ -185,7 +185,7 @@ class AdsController extends Controller {
 
         $targetDir = '';
         if ( $request->file( 'photo_path' ) && ( count( $request->file( 'photo_path' ) ) + $exist ) >= 5 ) {
-            $targetDir = public_path( 'uploads' );
+            $targetDir = base_path( 'uploads' );
             if ( !is_dir( $targetDir ) ) {
                 mkDir( $targetDir, 0777, true );
             }
@@ -245,7 +245,7 @@ class AdsController extends Controller {
                 unlink( $file_path );
             }
         }
-        rmdir( public_path( 'uploads/ads/'.$id_user.'/'.$id ) );
+        rmdir( base_path( 'uploads/ads/'.$id_user.'/'.$id ) );
 
         AdsMeta::where( 'id_ads', $id )->delete();
         Room::where( 'id_ads', $id )->delete();

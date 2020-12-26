@@ -132,7 +132,7 @@ class AdsController extends Controller {
 
         $newAdsId = $newAds->id;
 
-        $targetDir = public_path( 'uploads' );
+        $targetDir = base_path( 'uploads' );
         if ( !is_dir( $targetDir ) ) {
             mkDir( $targetDir, 0777, true );
         }
@@ -192,7 +192,7 @@ class AdsController extends Controller {
 
             AdsMeta::where( ['id_ads' => $ad_id, 'meta_key' => '_ad_image'] )->delete();
 
-            $targetDir = public_path( 'uploads' );
+            $targetDir = base_path( 'uploads' );
             if ( !is_dir( $targetDir ) ) {
                 mkDir( $targetDir, 0777, true );
             }

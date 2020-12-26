@@ -102,7 +102,7 @@ class ChatController extends Controller {
         $newMessage->sender;
 
         if ( $request->file( 'chat_image' ) ) {
-            $targetDir = public_path( 'uploads' );
+            $targetDir = base_path( 'uploads' );
             if ( !is_dir( $targetDir ) ) {
                 mkDir( $targetDir, 0777, true );
             }

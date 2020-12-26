@@ -35,7 +35,7 @@ class ProfileController extends Controller {
         $file = $request->file( 'photo_path' );
         $path = '';
         if ( $file != null ) {
-            $targetDir = public_path( 'uploads' );
+            $targetDir = base_path( 'uploads' );
             if ( !is_dir( $targetDir ) ) {
                 mkDir( $targetDir, 0777, true );
             }
