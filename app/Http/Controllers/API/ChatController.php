@@ -36,6 +36,22 @@ class ChatController extends Controller {
         $ads->meta;
         $data['ads'] = $ads;
 
+        $own_block = Room::where( ['id_user_sell' => Auth::user()->id, 'id_user_buy' => $ads['user']->id, 's_block_b' => 1] )->count();
+        $own_block += Room::where( ['id_user_buy' => Auth::user()->id, 'id_user_sell' => $ads['user']->id, 'b_block_s' => 1] )->count();
+        if ( $own_block > 0 ) {
+            $message = 'This user blocked by you. You should unblock this user to contact.';
+        }
+        $own_block = Room::where( ['id_user_sell' => Auth::user()->id, 'id_user_buy' => $ads['user']->id, 'b_block_s' => 1] )->count();
+        $own_block += Room::where( ['id_user_buy' => Auth::user()->id, 'id_user_sell' => $ads['user']->id, 's_block_b' => 1] )->count();
+        if ( $own_block > 0 ) {
+            $message = "This user blocked you on contact. You can't contact with user anymore.";
+        }
+
+        if ( $message != '' ) {
+            $success = false;
+            return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
+        }
+
         if ( $request->room_id > 0 ) {
             $room = Room::where( 'id', $request->room_id )->first();
             $room->buyer;
