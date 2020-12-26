@@ -86,7 +86,7 @@ class UserController extends Controller {
             }
             $sourceFile = $user->id.time().'.'.$file->extension();
             $file->move( $targetDir, $sourceFile );
-            $dest_path = '/public/uploads/avatars/'.$sourceFile;
+            $dest_path = '/uploads/avatars/'.$sourceFile;
             User::where( 'id', $user->id )->update( ['avatar' => $dest_path] );
         }
 
@@ -165,7 +165,7 @@ class UserController extends Controller {
 
             $sourceFile = $user->id.time().'.'.$file->extension();
             $file->move( $targetDir, $sourceFile );
-            $dest_path = '/public/uploads/avatars/'.$sourceFile;
+            $dest_path = '/uploads/avatars/'.$sourceFile;
 
             $user->update( ['avatar' => $dest_path] );
         }

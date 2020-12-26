@@ -40,7 +40,7 @@
                                     <img src="{{$user->avatar}}?{{time()}}"
                                         style="width:80px; height:80px; border-radius:50%">
                                     @else
-                                    <img src="{{ asset('public/material') }}/img/default.png?{{time()}}" alt="..."
+                                    <img src="{{ asset('material') }}/img/default.png?{{time()}}" alt="..."
                                         style="width:80px; height:80px; border-radius:50%">
                                     @endif
                                 </td>
@@ -51,13 +51,13 @@
                                     data-original-title="<?php if($user->is_social == 0) echo('Normal Account'); else if($user->is_social == 1) echo('Google Account');else if($user->is_social == 3) echo('Apple Account');?>"
                                     title="<?php if($user->is_social == 0) echo('Normal Account'); else if($user->is_social == 1) echo('Google Account');else if($user->is_social == 3) echo('Apple Account');?>">
                                     @if($user->is_social == 0)
-                                    <img src="{{ asset('public/material') }}/img/normal.png?{{time()}}" alt="..."
+                                    <img src="{{ asset('material') }}/img/normal.png?{{time()}}" alt="..."
                                         style="width:25px; height:25px; border-radius:50%">
                                     @elseif($user->is_social == 1)
-                                    <img src="{{ asset('public/material') }}/img/google.png?{{time()}}" alt="..."
+                                    <img src="{{ asset('material') }}/img/google.png?{{time()}}" alt="..."
                                         style="width:40px; height:40px; border-radius:50%">
                                     @else
-                                    <img src="{{ asset('public/material') }}/img/apple.png?{{time()}}" alt="..."
+                                    <img src="{{ asset('material') }}/img/apple.png?{{time()}}" alt="..."
                                         style="width:30px; height:30px; border-radius:50%">
                                     @endif
                                 </td>

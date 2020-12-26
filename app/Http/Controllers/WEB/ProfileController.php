@@ -46,7 +46,7 @@ class ProfileController extends Controller {
 
             $sourceFile = auth()->user()->id.time().'.'.$file->extension();
             $file->move( $targetDir, $sourceFile );
-            $dest_path = '/public/uploads/avatars/'.$sourceFile;
+            $dest_path = '/uploads/avatars/'.$sourceFile;
 
             auth()->user()->update( ['avatar' => $dest_path] );
         }

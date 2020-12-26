@@ -23,7 +23,7 @@
                                     <div class="col-md-4 row" style="justify-content: center; align-content: center;">
                                         <div class="fileinput text-center fileinput-new" data-provides="fileinput">
                                             <div class="fileinput-new thumbnail img-circle">
-                                                <img src="{{ asset('public/material') }}/img/default.png" alt="...">
+                                                <img src="{{ asset('material') }}/img/default.png" alt="...">
                                             </div>
                                             <div class="fileinput-preview fileinput-exists thumbnail img-circle"
                                                 style=""></div>
