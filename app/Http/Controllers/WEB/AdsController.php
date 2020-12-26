@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Breed;
 use App\Models\User;
 use App\Models\UserMeta;
+use App\Models\Room;
 use App\Models\Chat;
 use App\Models\Notification;
 
@@ -247,7 +248,7 @@ class AdsController extends Controller {
         rmdir( public_path( 'uploads/ads/'.$id_user.'/'.$id ) );
 
         AdsMeta::where( 'id_ads', $id )->delete();
-        Chat::where( 'id_ads', $id )->delete();
+        Room::where( 'id_ads', $id )->delete();
         Notification::where( ['type' => 0, 'id_type' => $id] )->delete();
         Ads::where( 'id', $id )->delete();
 
