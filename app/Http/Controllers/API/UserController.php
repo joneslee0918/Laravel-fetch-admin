@@ -40,14 +40,14 @@ class UserController extends Controller {
                     User::where( 'id', Auth::user()->id )->update( ['iphone_device_token' => $request->iphone_device_token] );
                 }
             }
-            $message = 'Login Success';
+            $message = 'Login Success.';
             $success = true;
         } else {
-            $message = 'Login Failed';
+            $message = 'Login Failed.';
         }
 
         if ( $request->guest ) {
-            $message = '';
+            $message = 'Welcome Guest!';
         }
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
@@ -69,7 +69,7 @@ class UserController extends Controller {
         } else {
             $user = User::create( $request->all() );
             $user['token'] =  $user->createToken( $user->id )->accessToken;
-            $message = 'Register success';
+            $message = 'Register success.';
             $success = true;
 
             $user_meta = new UserMeta;
