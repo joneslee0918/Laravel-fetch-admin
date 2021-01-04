@@ -21,20 +21,33 @@ class UserController extends Controller {
         $success = false;
         $message = '';
 
-        if ( Auth::attempt( ['email' => $request->email, 'password' => $request->password] ) ) {
+        $email = $request->email;
+        $password = $request->password;
+        if ( $request->guest ) {
+            $email = 'guest@guest.com';
+            $password = 'fetch';
+        }
+
+        if ( Auth::attempt( ['email' => $email, 'password' => $password] ) ) {
             $user = Auth::user();
             $user['token'] =  $user->createToken( $user->id )->accessToken;
             $user->meta;
             $data['user'] =  $user;
-            if ( $request->device_token != null ) {
-                User::where( 'id', Auth::user()->id )->update( ['device_token' => $request->device_token] );
-            } else {
-                User::where( 'id', Auth::user()->id )->update( ['iphone_device_token' => $request->iphone_device_token] );
+            if ( !$request->guest ) {
+                if ( $request->device_token != null ) {
+                    User::where( 'id', Auth::user()->id )->update( ['device_token' => $request->device_token] );
+                } else {
+                    User::where( 'id', Auth::user()->id )->update( ['iphone_device_token' => $request->iphone_device_token] );
+                }
             }
             $message = 'Login Success';
             $success = true;
         } else {
             $message = 'Login Failed';
+        }
+
+        if ( $request->guest ) {
+            $message = '';
         }
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
