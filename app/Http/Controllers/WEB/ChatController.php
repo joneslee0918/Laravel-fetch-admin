@@ -51,7 +51,9 @@ class ChatController extends Controller {
         $chat = Chat::where( 'id', $request->id )->first();
         if ( $chat->attach_file ) {
             $file_path = substr( $chat->attach_file, 1 );
-            unlink( $file_path );
+            if ( file_exists( $file_path ) ) {
+                unlink( $file_path );
+            }
         }
         Chat::where( 'id', $request->id )->delete();
         return;

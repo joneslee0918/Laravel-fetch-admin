@@ -36,6 +36,7 @@ Route::group( ['middleware' => 'auth:api'], function () {
     Route::post( 'ads/image/delete', 'API\AdsController@deleteImage' );
     Route::post( 'ads/create', 'API\AdsController@create' );
     Route::post( 'ads/edit', 'API\AdsController@edit' );
+    Route::post( 'ads/delete', 'API\AdsController@delete' );
     
     //MYADS
     Route::get( 'ads/activeAds', 'API\AdsController@activeAds' );

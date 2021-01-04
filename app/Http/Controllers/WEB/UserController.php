@@ -149,7 +149,9 @@ class UserController extends Controller {
             $avatar = $user->avatar;
             if ( $avatar != '' ) {
                 $file_path = substr( $avatar, 1 );
-                unlink( $file_path );
+                if ( file_exists( $file_path ) ) {
+                    unlink( $file_path );
+                }
 
                 User::where( 'id', $user->id )->update( ['avatar' => null] );
             }
@@ -189,7 +191,9 @@ class UserController extends Controller {
         $avatar = User::where( 'id', $id )->value( 'avatar' );
         if ( $avatar != '' ) {
             $file_path = substr( $avatar, 1 );
-            unlink( $file_path );
+            if ( file_exists( $file_path ) ) {
+                unlink( $file_path );
+            }
         }
         User::where( 'id', $id )->delete();
         UserMeta::where( 'id_user', $id )->delete();
@@ -201,10 +205,15 @@ class UserController extends Controller {
             foreach ( $ads_meta as $meta_key => $meta_value ) {
                 if ( $meta_value->meta_key == '_ad_image' ) {
                     $file_path = substr( $meta_value->meta_value, 1 );
-                    unlink( $file_path );
+                    if ( file_exists( $file_path ) ) {
+                        unlink( $file_path );
+                    }
                 }
             }
-            rmdir( base_path( 'uploads/ads/'.$id.'/'.$value->id ) );
+            $targetDir = base_path( 'uploads/ads/'.$id.'/'.$value->id );
+            if ( is_dir( $targetDir ) ) {
+                rmdir( $targetDir );
+            }
 
             AdsMeta::where( 'id_ads', $value->id )->delete();
             Chat::where( 'id_ads', $value->id )->delete();

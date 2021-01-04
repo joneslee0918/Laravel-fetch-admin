@@ -187,7 +187,9 @@ class AdsController extends Controller {
             $ads_images = AdsMeta::where( ['id_ads' => $ad_id, 'meta_key' => '_ad_image'] )->get();
             foreach ( $ads_images as $key => $value ) {
                 $file_path = substr( $value->meta_value, 1 );
-                unlink( $file_path );
+                if ( file_exists( $file_path ) ) {
+                    unlink( $file_path );
+                }
             }
 
             AdsMeta::where( ['id_ads' => $ad_id, 'meta_key' => '_ad_image'] )->delete();
@@ -228,6 +230,37 @@ class AdsController extends Controller {
         }
 
         $message = 'Your ads successfully updated.';
+        return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
+    }
+
+    public function delete( Request $request ) {
+        $data = array();
+        $message = '';
+        $success = true;
+
+        $id = $request->ad_id;
+
+        UserMeta::where( ['meta_value' => $id, 'meta_key' => '_ad_favourite'] )->delete();
+        $ads_meta = AdsMeta::where( 'id_ads', $id )->get();
+        foreach ( $ads_meta as $meta_key => $meta_value ) {
+            if ( $meta_value->meta_key == '_ad_image' ) {
+                $file_path = substr( $meta_value->meta_value, 1 );
+                if ( file_exists( $file_path ) ) {
+                    unlink( $file_path );
+                }
+            }
+        }
+        $targetDir = base_path( 'uploads/ads/'.Auth::user()->id.'/'.$id );
+        if ( is_dir( $targetDir ) ) {
+            rmdir( $targetDir );
+        }
+
+        AdsMeta::where( 'id_ads', $id )->delete();
+        Room::where( 'id_ads', $id )->delete();
+        Notification::where( ['type' => 0, 'id_type' => $id] )->delete();
+        Ads::where( 'id', $id )->delete();
+
+        $message = 'Your ads successfully deleted.';
         return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
     }
 
@@ -314,7 +347,9 @@ class AdsController extends Controller {
         $image = AdsMeta::where( 'id', $request->id )->value( 'meta_value' );
 
         $file_path = substr( $image, 1 );
-        unlink( $file_path );
+        if ( file_exists( $file_path ) ) {
+            unlink( $file_path );
+        }
         AdsMeta::where( 'id', $request->id )->delete();
 
         $data = array();

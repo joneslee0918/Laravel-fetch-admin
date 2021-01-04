@@ -144,7 +144,9 @@ class AdsController extends Controller {
         }
 
         $file_path = substr( $meta->meta_value, 1 );
-        unlink( $file_path );
+        if ( file_exists( $file_path ) ) {
+            unlink( $file_path );
+        }
         AdsMeta::where( 'id', $request->id )->delete();
 
         return 'success';
@@ -242,10 +244,15 @@ class AdsController extends Controller {
         foreach ( $ads_meta as $meta_key => $meta_value ) {
             if ( $meta_value->meta_key == '_ad_image' ) {
                 $file_path = substr( $meta_value->meta_value, 1 );
-                unlink( $file_path );
+                if ( file_exists( $file_path ) ) {
+                    unlink( $file_path );
+                }
             }
         }
-        rmdir( base_path( 'uploads/ads/'.$id_user.'/'.$id ) );
+        $targetDir = base_path( 'uploads/ads/'.$id_user.'/'.$id );
+        if ( is_dir( $targetDir ) ) {
+            rmdir( $targetDir );
+        }
 
         AdsMeta::where( 'id_ads', $id )->delete();
         Room::where( 'id_ads', $id )->delete();
