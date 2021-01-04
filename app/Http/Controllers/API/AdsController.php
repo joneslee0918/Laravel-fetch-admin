@@ -14,6 +14,7 @@ use App\Models\Category;
 use App\Models\Breed;
 use App\Models\Order;
 use App\Models\Notification;
+use App\Models\Room;
 use DB;
 
 class AdsController extends Controller {
