@@ -85,10 +85,11 @@ class NotificationController extends Controller {
         } else {
             foreach ( $notification as $key => $value ) {
                 if ( $value->type == 0 ) {
-                    $value->room;
-                    $value['room']->buyer;
-                    $value['room']->seller;
-                    $value['room']->message;
+                    $room = $value->room;
+                    $room->seller;
+                    $room->buyer;
+                    $room->message;
+                    $value['room'] = $room;
                 }
             }
             $data['notification'] = $notification;
