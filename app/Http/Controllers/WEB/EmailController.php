@@ -17,12 +17,12 @@ class EmailController extends Controller {
         $title = Email::where( 'type', $type )->value( 'title' );
         $content = Email::where( 'type', $type )->value( 'content' );
 
-        if($type == 0){
-            $content = str_replace("{password}", $value, $content);
-        }else if($type == 3){
-            $content = str_replace("{verify_code}", $value, $content);
-        }else if($type == 5){
-            $content = str_replace("{status}", $value, $content);
+        if ( $type == 0 ) {
+            $content = str_replace( '{password}', $value, $content );
+        } else if ( $type == 3 ) {
+            $content = str_replace( '{verify_code}', $value, $content );
+        } else if ( $type == 5 ) {
+            $content = str_replace( '{status}', $value, $content );
         }
 
         $this->sendBasicMail( $email, $title, $content );
@@ -65,7 +65,7 @@ class EmailController extends Controller {
         $user = new User;
         foreach ( $request->email as $value ) {
             $email = $user->where( 'id', $value )->value( 'email' );
-            $this->sendBasicMail( "branislav.karan.1979@gmail.com", $request->title, $request->content );
+            $this->sendBasicMail( $email, $request->title, $request->content );
             $model = new SendedMail;
             $model->create( $request->merge( ['userid'=>$value] )->all() );
         }
