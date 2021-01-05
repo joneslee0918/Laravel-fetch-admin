@@ -80,8 +80,11 @@ class HomeController extends Controller {
     * @return \Illuminate\Http\Response
     */
 
-    public function destroy( $id ) {
-        ( new Contact )->where( 'id', $id )->delete();
-        return back()->withStatus( __( 'Contact data successfully deleted.' ) );
+    public function privacy() {
+        return view( 'privacy' );
+    }
+
+    public function terms() {
+        return view( 'terms' );
     }
 }

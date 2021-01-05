@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/login');
 Auth::routes();
 
+Route::get('privacy-policy', 'WEB\HomeController@privacy');
+Route::get('terms-conditions-service', 'WEB\HomeController@terms');
+
 Route::group(['middleware' => 'auth'], function () {
 
 	//DASHBOARD
