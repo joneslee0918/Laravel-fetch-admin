@@ -206,7 +206,7 @@ class UserController extends Controller {
             $success = true;
             $message = 'Password changed successfully.';
 
-            $this->email->sendMail( $user->email, 2, null );
+            $this->email->sendMail( Auth::user()->email, 2, null );
         }
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }

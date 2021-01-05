@@ -205,14 +205,14 @@ class UserController extends Controller {
 
     public function destroy( $id ) {
         //
-        $avatar = User::where( 'id', $id )->value( 'avatar' );
-        if ( $avatar != '' ) {
-            $file_path = substr( $avatar, 1 );
+        $user = User::where( 'id', $id )->first();
+        if ( $user->avatar != '' ) {
+            $file_path = substr( $user->avatar, 1 );
             if ( file_exists( $file_path ) ) {
                 unlink( $file_path );
             }
         }
-        $this->email->sendMail( Auth::user()->email, 6, null );
+        $this->email->sendMail( $user->email, 6, null );
 
         User::where( 'id', $id )->delete();
         UserMeta::where( 'id_user', $id )->delete();
