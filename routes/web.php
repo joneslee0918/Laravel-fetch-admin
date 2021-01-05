@@ -44,5 +44,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('chat/messages', 'WEB\ChatController@getMessage');
 	Route::post('chat/messages/delete', 'WEB\ChatController@deleteMessage');
 	
+	//EMAIL MANAGE
 	Route::resource('email', 'WEB\EmailController');
 });
