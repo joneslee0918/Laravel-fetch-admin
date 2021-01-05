@@ -12,6 +12,7 @@ use App\Models\Ads;
 use App\Models\AdsMeta;
 use App\Models\Chat;
 use App\Models\Notification;
+use App\Models\SendedMail;
 
 class UserController extends Controller {
     private $email;
@@ -237,6 +238,7 @@ class UserController extends Controller {
             Notification::where( ['type' => 0, 'id_type' => $value->id] )->delete();
         }
         Ads::where( 'id_user', $id )->delete();
+        SendedMail::where( 'userid', $id )->delete();
 
         return back()->withStatus( __( 'User successfully deleted.' ) );
     }
