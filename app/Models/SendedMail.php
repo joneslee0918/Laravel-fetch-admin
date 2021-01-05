@@ -11,6 +11,6 @@ class SendedMail extends Model
     protected $fillable = ['userid', 'title', 'content'];
     
     public function user(){
-        return $this->hasOne('App\User', 'id', 'userid');
+        return $this->hasOne('App\Models\User', 'id', 'userid');
     }
 }
