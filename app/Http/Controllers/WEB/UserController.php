@@ -95,7 +95,7 @@ class UserController extends Controller {
             User::where( 'id', $user->id )->update( ['avatar' => $dest_path] );
         }
 
-        // $this->email->sendMail( $user->email, 0, null );
+        $this->email->sendMail( $user->email, 0, null );
 
         return redirect()->route( 'user.index' )->withStatus( __( 'User successfully created.' ) );
     }
@@ -186,10 +186,10 @@ class UserController extends Controller {
 
         $next_active = $user->active;
         if ( $prev_active != $next_active ) {
-            // $this->email->sendMail( $user->email, 5, $next_active == 1 ? 'Activated' : 'Deactivated' );
+            $this->email->sendMail( $user->email, 5, $next_active == 1 ? 'Activated' : 'Deactivated' );
             $this->notification->send($user->id, "account_status", "Account ".$next_active == 1 ?'Activated':'Deactivated', "Your account has been ".$next_active == 1 ?'activated':'deactivated'." by administrator.", null, $user);
         } else {
-            // $this->email->sendMail( $user->email, 4, null );
+            $this->email->sendMail( $user->email, 4, null );
         }
 
         return redirect()->route( 'user.index' )->withStatus( __( 'User successfully updated.' ) );
@@ -211,7 +211,7 @@ class UserController extends Controller {
                 unlink( $file_path );
             }
         }
-        // $this->email->sendMail( Auth::user()->email, 6, null );
+        $this->email->sendMail( Auth::user()->email, 6, null );
 
         User::where( 'id', $id )->delete();
         UserMeta::where( 'id_user', $id )->delete();

@@ -82,7 +82,7 @@ class UserController extends Controller {
             $message = 'Register success.';
             $success = true;
 
-            // $this->email->sendMail( $user->email, 1, null );
+            $this->email->sendMail( $user->email, 1, null );
 
             $user_meta = new UserMeta;
             $user_meta->id_user = $user->id;
@@ -206,7 +206,7 @@ class UserController extends Controller {
             $success = true;
             $message = 'Password changed successfully.';
 
-            // $this->email->sendMail( $user->email, 2, null );
+            $this->email->sendMail( $user->email, 2, null );
         }
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
