@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\WEB\EmailController;
 use Illuminate\Http\Request;
 use Validator;
 use Hash;
@@ -14,6 +15,11 @@ use App\Models\Ads;
 use DB;
 
 class UserController extends Controller {
+    private $email;
+
+    public function __construct() {
+        $this->email = new EmailController;
+    }
 
     public function login( Request $request ) {
 
@@ -42,6 +48,10 @@ class UserController extends Controller {
             }
             $message = 'Login Success.';
             $success = true;
+            if ( $user->active == 0 ) {
+                $message = 'Your account has been deactivated.';
+                $success = false;
+            }
         } else {
             $message = 'Login Failed.';
         }
@@ -71,6 +81,8 @@ class UserController extends Controller {
             $user['token'] =  $user->createToken( $user->id )->accessToken;
             $message = 'Register success.';
             $success = true;
+
+            // $this->email->sendMail( $user->email, 1, null );
 
             $user_meta = new UserMeta;
             $user_meta->id_user = $user->id;
@@ -193,6 +205,8 @@ class UserController extends Controller {
             Auth::user()->update( ['password' => Hash::make( $request->password )] );
             $success = true;
             $message = 'Password changed successfully.';
+
+            // $this->email->sendMail( $user->email, 2, null );
         }
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
@@ -224,5 +238,23 @@ class UserController extends Controller {
             User::where( 'id', Auth::user()->id )->update( ['iphone_device_token' => $request->token] );
         }
         return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
+    }
+
+    public function forgotpassword( Request $request ) {
+
+    }
+
+    public function accountStatus() {
+        $data = array();
+        $message = '';
+        $success = true;
+
+        $data['status'] = Auth::user()->active;
+
+        if ( $data['status'] == 0 ) {
+            $message = 'Your account has been deactivated.';
+            $success = false;
+        }
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
 }

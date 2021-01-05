@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\WEB;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\NotificationController;
 
 use Illuminate\Http\Request;
 use Hash;
@@ -13,6 +14,8 @@ use App\Models\Chat;
 use App\Models\Notification;
 
 class UserController extends Controller {
+    private $email;
+    private $notification;
     /**
     * Display a listing of the resource.
     *
@@ -21,12 +24,14 @@ class UserController extends Controller {
 
     public function __construct() {
         $this->middleware( 'auth' );
+        $this->email = new EmailController;
+        $this->notification = new NotificationController;
     }
 
     public function index() {
         //
         $data = array();
-        $users = User::where( 'role', '0' )->get();
+        $users = User::where( 'role', '0' )->where('is_social', '!=', '-1')->get();
         $data['users'] = $users;
 
         return view( 'user.index', ['data' => $data] );
@@ -90,6 +95,8 @@ class UserController extends Controller {
             User::where( 'id', $user->id )->update( ['avatar' => $dest_path] );
         }
 
+        // $this->email->sendMail( $user->email, 0, null );
+
         return redirect()->route( 'user.index' )->withStatus( __( 'User successfully created.' ) );
     }
 
@@ -145,7 +152,7 @@ class UserController extends Controller {
 
         $file = $request->file( 'photo_path' );
 
-        if ( $file != null ) {
+        if ( $file ) {
             $avatar = $user->avatar;
             if ( $avatar != '' ) {
                 $file_path = substr( $avatar, 1 );
@@ -171,10 +178,19 @@ class UserController extends Controller {
 
             $user->update( ['avatar' => $dest_path] );
         }
+        $prev_active = $user->active;
         $user->update( $request->all() );
 
         UserMeta::where( ['id_user' => $user->id, 'meta_key' => '_show_notification'] )->update( ['meta_value' => $request->_show_notification] );
         UserMeta::where( ['id_user' => $user->id, 'meta_key' => '_show_phone_on_ads'] )->update( ['meta_value' => $request->_show_phone_on_ads] );
+
+        $next_active = $user->active;
+        if ( $prev_active != $next_active ) {
+            // $this->email->sendMail( $user->email, 5, $next_active == 1 ? 'Activated' : 'Deactivated' );
+            $this->notification->send($user->id, "account_status", "Account ".$next_active == 1 ?'Activated':'Deactivated', "Your account has been ".$next_active == 1 ?'activated':'deactivated'." by administrator.", null, $user);
+        } else {
+            // $this->email->sendMail( $user->email, 4, null );
+        }
 
         return redirect()->route( 'user.index' )->withStatus( __( 'User successfully updated.' ) );
     }
@@ -195,6 +211,8 @@ class UserController extends Controller {
                 unlink( $file_path );
             }
         }
+        // $this->email->sendMail( Auth::user()->email, 6, null );
+
         User::where( 'id', $id )->delete();
         UserMeta::where( 'id_user', $id )->delete();
 
@@ -211,8 +229,7 @@ class UserController extends Controller {
                 }
             }
             $targetDir = base_path( 'uploads/ads/'.$id.'/'.$value->id );
-            if ( is_dir( $targetDir ) ) {
-                rmdir( $targetDir );
+            if ( is_dir( $targetDir ) && rmdir( $targetDir ) ) {
             }
 
             AdsMeta::where( 'id_ads', $value->id )->delete();
@@ -220,6 +237,7 @@ class UserController extends Controller {
             Notification::where( ['type' => 0, 'id_type' => $value->id] )->delete();
         }
         Ads::where( 'id_user', $id )->delete();
+
         return back()->withStatus( __( 'User successfully deleted.' ) );
     }
 }

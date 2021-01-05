@@ -252,8 +252,7 @@ class AdsController extends Controller {
             }
         }
         $targetDir = base_path( 'uploads/ads/'.Auth::user()->id.'/'.$id );
-        if ( is_dir( $targetDir ) ) {
-            rmdir( $targetDir );
+        if ( is_dir( $targetDir ) && rmdir( $targetDir ) ) {
         }
 
         AdsMeta::where( 'id_ads', $id )->delete();

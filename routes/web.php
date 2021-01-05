@@ -19,7 +19,7 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
 
 	//DASHBOARD
-	Route::resource('dashboard', 'WEB\HomeController', ['except' => ['show']]);
+	Route::resource('dashboard', 'WEB\HomeController');
 
 	//PROFILE MANAGE
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'WEB\ProfileController@edit']);
@@ -27,20 +27,22 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'WEB\ProfileController@password']);
 	
 	//USER MANAGE
-	Route::resource('user', 'WEB\UserController', ['except' => ['show']]);
+	Route::resource('user', 'WEB\UserController');
 
 	//CATEGORY MANAGE
-	Route::resource('category', 'WEB\CategoryController', ['except' => ['show']]);
+	Route::resource('category', 'WEB\CategoryController');
 
 	//CATEGORY MANAGE
-	Route::resource('breed', 'WEB\BreedController', ['except' => ['show']]);
+	Route::resource('breed', 'WEB\BreedController');
 
 	//ADS MANAGE
-	Route::resource('ads', 'WEB\AdsController', ['except' => ['show']]);
+	Route::resource('ads', 'WEB\AdsController');
 	Route::post('ads/image/delete', 'WEB\AdsController@deleteImage');
 
 	//CHAT MANAGE
-	Route::resource('chat', 'WEB\ChatController', ['except' => ['show']]);
+	Route::resource('chat', 'WEB\ChatController');
 	Route::post('chat/messages', 'WEB\ChatController@getMessage');
 	Route::post('chat/messages/delete', 'WEB\ChatController@deleteMessage');
+	
+	Route::resource('email', 'WEB\EmailController');
 });

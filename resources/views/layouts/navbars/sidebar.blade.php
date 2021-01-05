@@ -47,6 +47,12 @@
                     <p>{{ __('Chat Management') }}</p>
                 </a>
             </li>
+            <li class="nav-item{{ $activePage == 'email' ? ' active' : '' }}">
+                <a class="nav-link"href="{{ route('email.index') }}">
+                <i class="material-icons">local_post_office</i>
+                    <p>{{ __('Email Management') }}</p>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
