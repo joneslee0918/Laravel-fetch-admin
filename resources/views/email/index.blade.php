@@ -79,7 +79,7 @@
                                         <td>{{$index+1}}</td>
                                         <td>{{$mail->user ? $mail->user->email : ""}}</td>
                                         <td>{{$mail->title}}</td>
-                                        <td>{{$mail->content}}</td>
+                                        <td><?php echo $mail->content; ?></td>
                                         <td>{{date('H:i d M Y', strtotime($mail->created_at))}}</td>
                                         <td>
                                             <form action="{{ route('email.destroy', $mail) }}" method="post">
