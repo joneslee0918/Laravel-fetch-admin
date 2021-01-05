@@ -19,12 +19,11 @@ class NotificationController extends Controller {
         $device_token = User::where( 'id', $user_id )->value( 'device_token' );
         $iphone_device_token = User::where( 'id', $user_id )->value( 'iphone_device_token' );
 
+        $data['notification_type'] = $type;
         $notification_data = array
         (
-            'type' => $type,
             'title' => $title,
             'body' => $body,
-            'image' => $image,
             'data' => $data
         );
 
