@@ -24,7 +24,7 @@
                     <div class="col-sm-12" style="text-align:right; margin-bottom:20px">
                         <a href="{{route('email.create')}}" class="btn btn-sm btn-primary">{{ __('Send email') }}</a>
                     </div>
-                    <!-- <div class="col-sm-5" style="padding:3%" id="accordion" role="tablist">
+                    <div class="col-sm-5" style="padding:3%" id="accordion" role="tablist">
                         @foreach($default_mail as $index => $mail)
                         <div class="card card-collapse">
                             <div class="card-header" role="tab" id="headingOne">
@@ -58,8 +58,8 @@
                             </div>
                         </div>
                         @endforeach
-                    </div> -->
-                    <div class="col-sm-12">
+                    </div>
+                    <div class="col-sm-7">
                         <div class="fresh-datatables">
                             <table id="datatables" class="table table-striped table-no-bordered table-hover"
                                 cellspacing="0" width="100%" style='text-align:center'>
