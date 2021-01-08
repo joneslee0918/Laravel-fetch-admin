@@ -16,7 +16,7 @@ class CreateBreedTable extends Migration
         Schema::create('breed', function (Blueprint $table) {
             $table->id();
             $table->integer('order')->default(0);
-            $table->string('name', 30);
+            $table->string('name', 30)->unique();
             $table->integer('active')->default(1)->comment('0:hide, 1:show');
             $table->string('etc', 30)->nullable();
             $table->timestamps();

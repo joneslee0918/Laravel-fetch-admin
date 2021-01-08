@@ -79,7 +79,7 @@ class BreedController extends Controller {
     public function update( Request $request, $id ) {
         //
         $exist = Breed::where( 'name', $request->edit_name )->count();
-        if ( $exist > 0 ) {
+        if ( $exist > 1 ) {
             return back()->withError( __( 'Breed add failed. Breed already registered.' ) );
         }
         Breed::where( 'id', $request->id_breed )->update( ['name' => $request->edit_name, 'etc' => $request->edit_etc] );

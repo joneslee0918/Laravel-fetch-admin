@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env( 'MAIL_DRIVER', 'sendmail' ),
+    'driver' => env( 'MAIL_DRIVER', 'smtp' ),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env( 'MAIL_USERNAME', 'darryl@buybitcoins.site' ),
+        'address' => env( 'MAIL_USERNAME', 'fetchpetmarket@gmail.com' ),
         'name' =>'Fetch - Your Local Pet Marketplace'
     ],
 
