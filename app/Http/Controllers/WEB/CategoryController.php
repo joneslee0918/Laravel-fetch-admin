@@ -27,6 +27,7 @@ class CategoryController extends Controller {
 
     public function create() {
         //
+        return view( 'category.create' );
     }
 
     /**
@@ -42,7 +43,25 @@ class CategoryController extends Controller {
         if ( $exist > 0 ) {
             return back()->withError( __( 'Category add failed. Category already registered.' ) );
         }
-        Category::create( $request->all() );
+
+        $category = Category::create( $request->all() );
+
+        $file = $request->file( 'photo_path' );
+        if ( $file != null ) {
+            $targetDir = base_path( 'uploads' );
+            if ( !is_dir( $targetDir ) ) {
+                mkDir( $targetDir, 0777, true );
+            }
+            $targetDir .= '/category';
+            if ( !is_dir( $targetDir ) ) {
+                mkDir( $targetDir, 0777, true );
+            }
+            $sourceFile = $category->id.time().'.'.$file->extension();
+            $file->move( $targetDir, $sourceFile );
+            $dest_path = '/uploads/category/'.$sourceFile;
+            Category::where( 'id', $category->id )->update( ['icon' => $dest_path] );
+        }
+
         return redirect()->route( 'category.index' )->withStatus( __( 'Category successfully created.' ) );
     }
 
@@ -64,8 +83,9 @@ class CategoryController extends Controller {
     * @return \Illuminate\Http\Response
     */
 
-    public function edit( $id ) {
+    public function edit( Category $category ) {
         //
+        return view( 'category.edit', ['category' => $category] );
     }
 
     /**
@@ -76,13 +96,42 @@ class CategoryController extends Controller {
     * @return \Illuminate\Http\Response
     */
 
-    public function update( Request $request, $id ) {
+    public function update( Request $request, Category $category ) {
         //
-        $exist = Category::where( 'name', $request->edit_name )->count();
-        if ( $exist > 0 ) {
+        $exist = Category::where( 'name', $request->name )->count();
+        if ( $exist > 1 ) {
             return back()->withError( __( 'Category add failed. Category already registered.' ) );
         }
-        Category::where( 'id', $request->id_category )->update( ['name' => $request->edit_name, 'etc' => $request->edit_etc] );
+        Category::where( 'id', $category->id )->update( ['name' => $request->name, 'etc' => $request->etc] );
+
+        $file = $request->file( 'photo_path' );
+
+        if ( $file ) {
+            $icon = $category->icon;
+            if ( $icon != '' ) {
+                $file_path = substr( $icon, 1 );
+                if ( file_exists( $file_path ) ) {
+                    unlink( $file_path );
+                }
+
+                Category::where( 'id', $category->id )->update( ['icon' => null] );
+            }
+
+            $targetDir = base_path( 'uploads' );
+            if ( !is_dir( $targetDir ) ) {
+                mkDir( $targetDir, 0777, true );
+            }
+            $targetDir .= '/category';
+            if ( !is_dir( $targetDir ) ) {
+                mkDir( $targetDir, 0777, true );
+            }
+
+            $sourceFile = $category->id.time().'.'.$file->extension();
+            $file->move( $targetDir, $sourceFile );
+            $dest_path = '/uploads/category/'.$sourceFile;
+
+            $category->update( ['icon' => $dest_path] );
+        }
 
         return redirect()->route( 'category.index' )->withStatus( __( 'Category successfully updated.' ) );
     }
@@ -99,6 +148,13 @@ class CategoryController extends Controller {
         $exist = Ads::where( 'id_category', $id )->count();
         if ( $exist > 0 ) {
             return back()->withError( __( 'Category cannot be deleted. Ads already registered on this category.' ) );
+        }
+        $icon = Category::where( 'id', $id )->value( 'icon' );
+        if ( $icon != '' ) {
+            $file_path = substr( $icon, 1 );
+            if ( file_exists( $file_path ) ) {
+                unlink( $file_path );
+            }
         }
         Category::where( 'id', $id )->delete();
         return redirect()->route( 'category.index' )->withStatus( __( 'Category successfully deleted.' ) );
