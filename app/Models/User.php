@@ -52,4 +52,8 @@ class User extends Authenticatable {
     public function meta() {
         return $this->hasMany( 'App\Models\UserMeta', 'id_user', 'id' );
     }
+
+    public function ads() {
+        return $this->hasMany( 'App\Models\Ads', 'id_user', 'id' );
+    }
 }

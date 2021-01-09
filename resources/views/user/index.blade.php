@@ -28,6 +28,7 @@
                                 <th> {{ __('Create Date') }} </th>
                                 <th> {{ __('Active') }} </th>
                                 <th> {{ __('Terms') }} </th>
+                                <th> {{ __('Total Ads') }} </th>
                                 <th> {{ __('Action') }} </th>
                             </tr>
                         </thead>
@@ -76,6 +77,7 @@
                                     Disagree
                                     @endif
                                 </td>
+                                <td>{{count($user->ads)}}</td>
                                 <td>
                                     <form action="{{ route('user.destroy', $user) }}" method="post">
                                         @csrf
