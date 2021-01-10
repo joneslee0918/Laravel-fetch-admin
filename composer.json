@@ -17,7 +17,8 @@
         "laravel/passport": "^10.0",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.1",
-        "phpmailer/phpmailer": "^6.2"
+        "phpmailer/phpmailer": "^6.2",
+        "spatie/laravel-analytics": "^3.10"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
