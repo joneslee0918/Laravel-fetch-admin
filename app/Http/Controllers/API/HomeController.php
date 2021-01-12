@@ -48,7 +48,7 @@ class HomeController extends Controller {
 
         $data['category'] = $category;
         $data['ads'] = $ads;
-        $data['is_show_apple_button'] = 0;
+        $data['is_show_apple_button'] = 1;
         $data['unread_message'] = $unread_message;
 
         $success = true;
