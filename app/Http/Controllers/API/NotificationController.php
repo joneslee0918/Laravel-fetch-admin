@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Chat;
 use App\Models\AppSetting;
 use App\Models\Notification;
+use App\Models\Room;
 use DB;
 
 class NotificationController extends Controller {
@@ -84,10 +85,8 @@ class NotificationController extends Controller {
         } else {
             foreach ( $notification as $key => $value ) {
                 if ( $value->type == 0 ) {
-                    $room = $value->room;
-                    $room->seller;
-                    $room->buyer;
-                    $room->message;
+                    $room = Room::where('id', $value->id_type)->first();
+                    $room['message'] = Chat::where('id_room', $room['id'])->get();
                     $value['room'] = $room;
                 }
             }
