@@ -33,6 +33,14 @@ class UsersTableSeeder extends Seeder {
 
         DB::table( 'user_meta' )->insert( [
             'id_user' => '1',
+            'meta_key' => '_show_ads_notification',
+            'meta_value' => 1,
+            'created_at' => now(),
+            'updated_at' => now()
+        ] );
+
+        DB::table( 'user_meta' )->insert( [
+            'id_user' => '1',
             'meta_key' => '_show_phone_on_ads',
             'meta_value' => 1,
             'created_at' => now(),
@@ -53,6 +61,14 @@ class UsersTableSeeder extends Seeder {
         DB::table( 'user_meta' )->insert( [
             'id_user' => '2',
             'meta_key' => '_show_notification',
+            'meta_value' => 1,
+            'created_at' => now(),
+            'updated_at' => now()
+        ] );
+
+        DB::table( 'user_meta' )->insert( [
+            'id_user' => '2',
+            'meta_key' => '_show_ads_notification',
             'meta_value' => 1,
             'created_at' => now(),
             'updated_at' => now()

@@ -76,6 +76,12 @@ class UserController extends Controller {
 
         $user_meta = new UserMeta;
         $user_meta->id_user = $user->id;
+        $user_meta->meta_key = '_show_ads_notification';
+        $user_meta->meta_value = $request->_show_notification;
+        $user_meta->save();
+
+        $user_meta = new UserMeta;
+        $user_meta->id_user = $user->id;
         $user_meta->meta_key = '_show_phone_on_ads';
         $user_meta->meta_value = $request->_show_phone_on_ads;
         $user_meta->save();
