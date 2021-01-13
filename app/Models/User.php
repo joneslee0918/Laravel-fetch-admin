@@ -66,6 +66,6 @@ class User extends Authenticatable {
     }
 
     public function review() {
-        return $this->hasMany( 'App\Models\review', 'id_user', 'id' );
+        return $this->hasMany( 'App\Models\Review', 'id_user', 'id' );
     }
 }
