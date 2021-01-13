@@ -58,6 +58,10 @@ class ChatController extends Controller {
             $room->seller;
             $room->message;
 
+            foreach ( $room['message'] as $key => $value ) {
+                $value->sender;
+            }
+
             Chat::where( 'id_room', $room->id )->where( 'id_user_snd', '!=', Auth::user()->id )->update( ['read_status' => 1] );
             Notification::where( ['id_type' => $room->id, 'type' => 0, 'id_rcv_user' => Auth::user()->id] )->update( ['read_status' => 1] );
 
@@ -69,6 +73,10 @@ class ChatController extends Controller {
                 $room->buyer;
                 $room->seller;
                 $room->message;
+
+                foreach ( $room['message'] as $key => $value ) {
+                    $value->sender;
+                }
 
                 Chat::where( 'id_room', $room->id )->where( 'id_user_snd', '!=', Auth::user()->id )->update( ['read_status' => 1] );
                 Notification::where( ['id_type' => $room->id, 'type' => 0, 'id_rcv_user' => Auth::user()->id] )->update( ['read_status' => 1] );
@@ -84,6 +92,10 @@ class ChatController extends Controller {
                 $room->buyer;
                 $room->seller;
                 $room->message;
+
+                foreach ( $room['message'] as $key => $value ) {
+                    $value->sender;
+                }
 
                 $data['room'] = $room;
             }
