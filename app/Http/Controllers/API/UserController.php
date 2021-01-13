@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\UserMeta;
 use App\Models\Ads;
 use App\Models\Follower;
+use App\Models\Review;
 use DB;
 
 class UserController extends Controller {
