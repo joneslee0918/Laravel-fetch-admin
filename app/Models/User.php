@@ -56,4 +56,16 @@ class User extends Authenticatable {
     public function ads() {
         return $this->hasMany( 'App\Models\Ads', 'id_user', 'id' );
     }
+
+    public function follower() {
+        return $this->hasMany( 'App\Models\Follower', 'id_user', 'id' );/*users who follow this user*/
+    }
+
+    public function following() {
+        return $this->hasMany( 'App\Models\Follower', 'id_follow_user', 'id' );/*users who this user followed*/
+    }
+
+    public function review() {
+        return $this->hasMany( 'App\Models\review', 'id_user', 'id' );
+    }
 }

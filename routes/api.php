@@ -52,6 +52,7 @@ Route::group( ['middleware' => 'auth:api'], function () {
     Route::post( 'profile/edit', 'API\UserController@edit' );
     Route::post( 'profile/setting', 'API\UserController@setUserMeta' );
     Route::post( 'profile/token', 'API\UserController@setDeviceToken' );
+    Route::post( 'profile/follow', 'API\UserController@followUser' );
 
     //INBOX
     Route::get( 'inbox', 'API\InboxController@inbox' );

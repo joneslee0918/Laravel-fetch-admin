@@ -187,10 +187,10 @@ class UserController extends Controller {
 
         $next_active = $user->active;
         if ( $prev_active != $next_active ) {
-            $this->email->sendMail( $user->email, 5, $next_active == 1 ? 'activated' : 'deactivated' );
+            // $this->email->sendMail( $user->email, 5, $next_active == 1 ? 'activated' : 'deactivated' );
             $this->notification->send( $user->id, 'account_status', 'Account '.$next_active == 1 ?'Activated':'Deactivated', 'Your account has been '.( $next_active == 1 ?'activated':'deactivated' ).' by administrator.', null, $user );
         } else {
-            $this->email->sendMail( $user->email, 4, null );
+            // $this->email->sendMail( $user->email, 4, null );
         }
 
         return redirect()->route( 'user.index' )->withStatus( __( 'User successfully updated.' ) );

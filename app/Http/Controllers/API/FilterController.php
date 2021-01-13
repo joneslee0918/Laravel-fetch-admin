@@ -28,6 +28,9 @@ class FilterController extends Controller {
         $category = Category::get();
         $breed = Breed::get();
 
+        $max_price = Ads::max( 'price' );
+
+        $data['max_price'] = $max_price;
         $data['user_data'] = $user;
         $data['category_data'] = $category;
         $data['breed_data'] = $breed;
@@ -40,15 +43,15 @@ class FilterController extends Controller {
         $success = true;
         $message = '';
 
-        $ads = Ads::where( 'gender', $request->gender['id'] );
-        if ( $request->user['id'] > 0 ) {
-            $ads = $ads->where( 'id_user', $request->user['id'] );
-        }
+        $ads = new Ads;
         if ( $request->category['id'] > 0 ) {
             $ads = $ads->where( 'id_category', $request->category['id'] );
         }
         if ( $request->breed['id'] > 0 ) {
             $ads = $ads->where( 'id_breed', $request->breed['id'] );
+        }
+        if ( $request->gender['id'] > -1 ) {
+            $ads = $ads->where( 'gender', $request->gender['id'] );
         }
         if ( $request->price['min'] != '' && $request->price['min'] != null ) {
             $ads = $ads->where( 'price', '>=', $request->price['min'] );
@@ -56,18 +59,12 @@ class FilterController extends Controller {
         if ( $request->price['max'] != '' && $request->price['max'] != null ) {
             $ads = $ads->where( 'price', '<=', $request->price['max'] );
         }
-        if ( $request->age['min']['num'] != '' && $request->age['min']['num'] != null ) {
-            $ads = $ads->where( 'age', '>=', $request->age['min']['num'] )->where( 'unit', $request->age['min']['unit'] );
+        if ( $request->age > '0' ) {
+            $ads = $ads->where( 'age', $request->age );
         }
-        if ( $request->age['max']['num'] != '' && $request->age['max']['num'] != null ) {
-            $ads = $ads->where( 'age', '<=', $request->age['max']['num'] )->where( 'unit', $request->age['max']['unit'] );
-        }
-        if ( $request->sortBy['type'] == 'Post Date' ) {
-            $ads = $ads->orderby( 'updated_at', $request->sortBy['direction'] );
-        }
-        if ( $request->sortBy['type'] == 'Price' ) {
-            $ads = $ads->orderby( 'price', $request->sortBy['direction'] );
-        }
+        // if ( $request->searchText != '' && $request->searchText != null ) {
+        //     $ads = $ads->where( 'age', 'like', '' $request->age );
+        // }
         $ads = $ads->get();
 
         foreach ( $ads as $key => $item ) {
