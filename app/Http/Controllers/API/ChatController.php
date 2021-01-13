@@ -58,6 +58,9 @@ class ChatController extends Controller {
             $room->seller;
             $room->message;
 
+            $room['buyer']->meta;
+            $room['seller']->meta;
+
             foreach ( $room['message'] as $key => $value ) {
                 $value->sender;
             }
@@ -73,6 +76,9 @@ class ChatController extends Controller {
                 $room->buyer;
                 $room->seller;
                 $room->message;
+
+                $room['buyer']->meta;
+                $room['seller']->meta;
 
                 foreach ( $room['message'] as $key => $value ) {
                     $value->sender;
@@ -92,6 +98,9 @@ class ChatController extends Controller {
                 $room->buyer;
                 $room->seller;
                 $room->message;
+
+                $room['buyer']->meta;
+                $room['seller']->meta;
 
                 foreach ( $room['message'] as $key => $value ) {
                     $value->sender;

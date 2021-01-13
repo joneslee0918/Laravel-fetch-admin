@@ -113,6 +113,7 @@ class UserController extends Controller {
         $user->follower;
         $user->following;
         $user->review;
+        $user->ads;
 
         $is_follow = Follower::where( ['id_user' => $user->id, 'id_follow_user' => Auth::user()->id] )->count();
         if ( $is_follow > 0 ) {

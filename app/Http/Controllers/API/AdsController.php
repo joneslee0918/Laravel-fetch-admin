@@ -277,6 +277,35 @@ class AdsController extends Controller {
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
 
+    public function searchFavAds( Request $request ) {
+        $data = array();
+        $success = true;
+        $message = '';
+
+        $ad_ids = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite'] )->pluck( 'meta_value' )->toArray();
+        $ads = Ads::whereIn( 'id', $ad_ids )->orderby( 'updated_at', 'DESC' )->get();
+        if ( count( $ads ) == 0 ) {
+            $message = 'Favourite Ads Not Found.';
+            $data['ads'] = [];
+        } else {
+            foreach ( $ads as $key => $item ) {
+                $user = $item->user;
+                $item->category;
+                $item->breed;
+                $item->meta;
+                $user->meta;
+                $item['user'] = $user;
+
+                $exsit_fav = UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => '_ad_favourite', 'meta_value' => $item['id']] )->count();
+                $is_fav = $exsit_fav == 0 ? false : true;
+                $item['is_fav'] = $is_fav;
+            }
+
+            $data['ads'] = $ads;
+        }
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
+    }
+
     public function activeAds() {
         $data = array();
         $success = true;

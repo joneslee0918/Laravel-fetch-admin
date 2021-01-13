@@ -46,6 +46,7 @@ Route::group( ['middleware' => 'auth:api'], function () {
     Route::get( 'ads/activeAds', 'API\AdsController@activeAds' );
     Route::get( 'ads/closedAds', 'API\AdsController@closedAds' );
     Route::get( 'ads/favouriteAds', 'API\AdsController@favouriteAds' );
+    Route::post( 'ads/favouriteAds/search', 'API\AdsController@searchFavAds' );
 
     //PROFILE
     Route::post( 'profile', 'API\UserController@profile' );
