@@ -7,9 +7,6 @@ use App\Models\Ads;
 use App\Models\Category;
 use App\Models\Breed;
 
-use Analytics;
-use Spatie\Analytics\Period;
-
 class HomeController extends Controller {
     /**
     * Show the application dashboard.
@@ -19,34 +16,6 @@ class HomeController extends Controller {
 
     public function index() {
         $data = array();
-
-        //Retrieve Most Visited Pages
-        $pages = Analytics::fetchMostVisitedPages( Period::days( 10 ) );
-
-        //retrieve visitors and pageview data for the current day and the last fifteen days
-        $visitors = Analytics::fetchVisitorsAndPageViews( Period::days( 15 ) );
-
-        // Retrieve Total Visitors and Page Views
-        $total_visitors = Analytics::fetchTotalVisitorsAndPageViews( Period::days( 7 ) );
-
-        // Retrieve Top Referrers
-        $top_referrers = Analytics::fetchTopReferrers( Period::days( 7 ) );
-
-        // Retrieve User Types
-        $user_types = Analytics::fetchUserTypes( Period::days( 7 ) );
-
-        //Retrieve Top Browsers
-        $top_browser = Analytics::fetchTopBrowsers( Period::days( 7 ) );
-
-        //retrieve sessions and pageviews with yearMonth dimension since 1 year ago
-        $analyticsData = Analytics::performQuery(
-            Period::years( 1 ),
-            'ga:sessions',
-            [
-                'metrics' => 'ga:sessions, ga:pageviews',
-                'dimensions' => 'ga:yearMonth'
-            ]
-        );
 
         $activated_users = User::where( 'active', 1 )->count();
         $deactivated_users = User::where( 'active', 0 )->count();
