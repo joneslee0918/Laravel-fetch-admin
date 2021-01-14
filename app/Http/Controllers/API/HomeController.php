@@ -134,4 +134,22 @@ class HomeController extends Controller {
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
+
+    public function dashboard() {
+        $data = array();
+        $success = true;
+        $message = '';
+
+        $category = Category::orderby( 'order' )->get();
+        $unread_message = Notification::where( ['id_rcv_user' => Auth::user()->id, 'read_status' => 0, 'deleted_at' => null] )->count();
+        $user = Auth::user();
+        $user->review;
+
+        $data['review'] = $user['review'];
+        $data['category'] = $category;
+        $data['is_show_apple_button'] = 1;
+        $data['unread_message'] = $unread_message;
+
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
+    }
 }

@@ -29,6 +29,9 @@ Route::group( ['middleware' => 'auth:api'], function () {
     Route::get( 'home', 'API\HomeController@home' );
     Route::post( 'home/filter', 'API\HomeController@filter' );
 
+    //DASHBOARD
+    Route::get( 'dashboard', 'API\HomeController@dashboard' );
+    
     //FILTER
     Route::get( 'filter', 'API\FilterController@index' );
     Route::post( 'filter/get', 'API\FilterController@getData' );
