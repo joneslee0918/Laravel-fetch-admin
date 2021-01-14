@@ -237,7 +237,7 @@ class UserController extends Controller {
         $message = '';
         $success = true;
 
-        UserMeta::where( ['id_user' => Auth::user()->id, 'meta_key' => $request->key] )->update( ['meta_value' => $request->value] );
+        UserMeta::updateOrCreate( ['id_user' => Auth::user()->id, 'meta_key' => $request->key], ['id_user' => Auth::user()->id, 'meta_key' => $request->key, 'meta_value' => $request->value] );
 
         $user = User::where( 'id', Auth::user()->id )->first();
         $user->meta;
