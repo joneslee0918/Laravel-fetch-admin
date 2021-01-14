@@ -34,6 +34,16 @@ class ChatController extends Controller {
         $ads = Ads::where( 'id', $request->ad_id )->first();
         $ads->user;
         $ads->meta;
+        $ads->boost;
+        $ads['is_boost'] = false;
+        if ( count( $ads['boost'] ) > 0 ) {
+            $latest_boost = $ads['boost'][count( $ads['boost'] ) - 1];
+            $date_boost = new DateTime( $latest_boost['expired_at'] );
+            $date_now = new DateTime();
+            if ( $date_boost > $date_now ) {
+                $ads['is_boost'] = true;
+            }
+        }
         $data['ads'] = $ads;
 
         $own_block = Room::where( ['id_user_sell' => Auth::user()->id, 'id_user_buy' => $ads['user']->id, 's_block_b' => 1] )->count();

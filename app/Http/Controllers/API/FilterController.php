@@ -72,6 +72,16 @@ class FilterController extends Controller {
             $item->category;
             $item->breed;
             $item->meta;
+            $item->boost;
+            $item['is_boost'] = false;
+            if ( count( $item['boost'] ) > 0 ) {
+                $latest_boost = $item['boost'][count( $item['boost'] ) - 1];
+                $date_boost = new DateTime( $latest_boost['expired_at'] );
+                $date_now = new DateTime();
+                if ( $date_boost > $date_now ) {
+                    $item['is_boost'] = true;
+                }
+            }
             $user->meta;
             $item['user'] = $user;
 

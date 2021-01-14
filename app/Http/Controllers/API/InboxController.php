@@ -44,6 +44,16 @@ class InboxController extends Controller {
             $value->seller;
             $value->message;
             $value['ads']->meta;
+            $value['ads']->boost;
+            $value['ads']['is_boost'] = false;
+            if ( count( $value['ads']['boost'] ) > 0 ) {
+                $latest_boost = $value['ads']['boost'][count( $value['ads']['boost'] ) - 1];
+                $date_boost = new DateTime( $latest_boost['expired_at'] );
+                $date_now = new DateTime();
+                if ( $date_boost > $date_now ) {
+                    $value['ads']['is_boost'] = true;
+                }
+            }
         }
 
         if ( count( $room ) == 0 ) {
