@@ -14,6 +14,7 @@ use App\Models\Category;
 use App\Models\Breed;
 use App\Models\Notification;
 use DB;
+use DateTime;
 
 class HomeController extends Controller {
     public function home() {
@@ -32,6 +33,16 @@ class HomeController extends Controller {
                 $item->category;
                 $item->breed;
                 $item->meta;
+                $item->boost;
+                $item['is_boost'] = false;
+                if ( count( $item['boost'] ) > 0 ) {
+                    $latest_boost = $item['boost'][count( $item['boost'] ) - 1];
+                    $date_boost = new DateTime( $latest_boost['expired_at'] );
+                    $date_now = new DateTime();
+                    if ( $date_boost > $date_now ) {
+                        $item['is_boost'] = true;
+                    }
+                }
                 $user->meta;
                 $item['user'] = $user;
 
@@ -100,6 +111,16 @@ class HomeController extends Controller {
                 $item->category;
                 $item->breed;
                 $item->meta;
+                $item->boost;
+                $item['is_boost'] = false;
+                if ( count( $item['boost'] ) > 0 ) {
+                    $latest_boost = $item['boost'][count( $item['boost'] ) - 1];
+                    $date_boost = new DateTime( $latest_boost['expired_at'] );
+                    $date_now = new DateTime();
+                    if ( $date_boost > $date_now ) {
+                        $item['is_boost'] = true;
+                    }
+                }
                 $user->meta;
                 $item['user'] = $user;
 
@@ -112,9 +133,5 @@ class HomeController extends Controller {
         }
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
-    }
-
-    public function advancedFilter( Request $request ) {
-
     }
 }

@@ -16,7 +16,7 @@ class CreateBoostTable extends Migration
         Schema::create('boost', function (Blueprint $table) {
             $table->id();
             $table->integer('id_ads');
-            $table->integer('type')->default(0)->comment("0:free trial(3days), 1: weekly, 2:monthly, 3:yearly");
+            $table->integer('type')->comment("0: daily, 1: weekly, 2:monthly, 3:yearly");
             $table->datetime('started_at');
             $table->datetime('expired_at');
             $table->timestamps();

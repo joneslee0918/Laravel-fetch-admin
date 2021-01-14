@@ -40,4 +40,8 @@ class Ads extends Model {
     public function meta() {
         return $this->hasMany( 'App\Models\AdsMeta', 'id_ads', 'id' );
     }
+
+    public function boost() {
+        return $this->hasMany( 'App\Models\Boost', 'id_ads', 'id' );
+    }
 }

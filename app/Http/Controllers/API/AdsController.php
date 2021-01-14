@@ -16,6 +16,7 @@ use App\Models\Order;
 use App\Models\Notification;
 use App\Models\Room;
 use DB;
+use DateTime;
 
 class AdsController extends Controller {
     private $notification;
@@ -35,6 +36,16 @@ class AdsController extends Controller {
         $ads->category;
         $ads->breed;
         $ads->meta;
+        $ads->boost;
+        $ads['is_boost'] = false;
+        if ( count( $ads['boost'] ) > 0 ) {
+            $latest_boost = $ads['boost'][count( $ads['boost'] ) - 1];
+            $date_boost = new DateTime( $latest_boost['expired_at'] );
+            $date_now = new DateTime();
+            if ( $date_boost > $date_now ) {
+                $ads['is_boost'] = true;
+            }
+        }
         $user->meta;
         $ads['user'] = $user;
 
@@ -264,6 +275,16 @@ class AdsController extends Controller {
                 $item->category;
                 $item->breed;
                 $item->meta;
+                $item->boost;
+                $item['is_boost'] = false;
+                if ( count( $item['boost'] ) > 0 ) {
+                    $latest_boost = $item['boost'][count( $item['boost'] ) - 1];
+                    $date_boost = new DateTime( $latest_boost['expired_at'] );
+                    $date_now = new DateTime();
+                    if ( $date_boost > $date_now ) {
+                        $item['is_boost'] = true;
+                    }
+                }
                 $user->meta;
                 $item['user'] = $user;
 
@@ -293,6 +314,16 @@ class AdsController extends Controller {
                 $item->category;
                 $item->breed;
                 $item->meta;
+                $item->boost;
+                $item['is_boost'] = false;
+                if ( count( $item['boost'] ) > 0 ) {
+                    $latest_boost = $item['boost'][count( $item['boost'] ) - 1];
+                    $date_boost = new DateTime( $latest_boost['expired_at'] );
+                    $date_now = new DateTime();
+                    if ( $date_boost > $date_now ) {
+                        $item['is_boost'] = true;
+                    }
+                }
                 $user->meta;
                 $item['user'] = $user;
 
@@ -320,6 +351,16 @@ class AdsController extends Controller {
                 $item->category;
                 $item->breed;
                 $item->meta;
+                $item->boost;
+                $item['is_boost'] = false;
+                if ( count( $item['boost'] ) > 0 ) {
+                    $latest_boost = $item['boost'][count( $item['boost'] ) - 1];
+                    $date_boost = new DateTime( $latest_boost['expired_at'] );
+                    $date_now = new DateTime();
+                    if ( $date_boost > $date_now ) {
+                        $item['is_boost'] = true;
+                    }
+                }
             }
 
             $data['ads'] = $ads;
@@ -341,6 +382,16 @@ class AdsController extends Controller {
                 $item->category;
                 $item->breed;
                 $item->meta;
+                $item->boost;
+                $item['is_boost'] = false;
+                if ( count( $item['boost'] ) > 0 ) {
+                    $latest_boost = $item['boost'][count( $item['boost'] ) - 1];
+                    $date_boost = new DateTime( $latest_boost['expired_at'] );
+                    $date_now = new DateTime();
+                    if ( $date_boost > $date_now ) {
+                        $item['is_boost'] = true;
+                    }
+                }
             }
 
             $data['ads'] = $ads;
