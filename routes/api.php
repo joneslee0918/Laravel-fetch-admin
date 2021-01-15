@@ -73,4 +73,8 @@ Route::group( ['middleware' => 'auth:api'], function () {
     Route::get( 'notification', 'API\NotificationController@notification' );
     Route::post( 'notification/read', 'API\NotificationController@read' );
     Route::post( 'notification/delete', 'API\NotificationController@delete' );
+
+    //PAYMENT
+    Route::get( 'payment/config', 'API\PaymentController@config' );
+    Route::post( 'payment/checkout', 'API\PaymentController@checkout' );
 });

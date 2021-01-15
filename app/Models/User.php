@@ -27,7 +27,7 @@ class User extends Authenticatable {
         'terms',
         'active',
         'role',
-        'is_social'
+        'is_social',
     ];
 
     /**

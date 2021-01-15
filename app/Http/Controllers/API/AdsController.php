@@ -164,7 +164,7 @@ class AdsController extends Controller {
 
         $message = 'Your ads successfully posted.';
 
-        return $response = array( 'success' => $success, 'data' => '', 'message' => $message );
+        return $response = array( 'success' => $success, 'data' => $newAds, 'message' => $message );
     }
 
     public function edit( Request $request ) {

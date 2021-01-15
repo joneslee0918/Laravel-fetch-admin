@@ -15,10 +15,10 @@ class CreateTransactionTable extends Migration
     {
         Schema::create('transaction', function (Blueprint $table) {
             $table->id();
-            $table->integer("id_user");
+            $table->integer("id_customer");
             $table->integer("type")->comment("0:subscription, 1:boost ads");
             $table->integer("id_type");
-            $table->string("content");
+            $table->string("description");
             $table->timestamps();
         });
     }
