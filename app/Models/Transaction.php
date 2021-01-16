@@ -10,6 +10,7 @@ class Transaction extends Model {
         'id_customer',
         'type',
         'id_type',
+        'amount',
         'description',
         'created_at',
         'updated_at'

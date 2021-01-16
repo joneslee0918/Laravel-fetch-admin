@@ -67,13 +67,12 @@ class PaymentController extends Controller {
         if ( $card['checkout_type'] == 0 ) {
             $transaction = new Transaction;
         } else if ( $card['checkout_type'] == 1 ) {
-            $nowDate = now();
-
             $boost = new Boost;
             $boost->id_ads = $request->ad_id;
             $boost->type = $card['type'];
-            $boost->started_at = $nowDate;
+            $boost->started_at = now();
 
+            $nowDate = now();
             if ( $card['type'] == 0 ) {
                 $nowDate->addDays( 1 );
             } else if ( $card['type'] == 1 ) {
@@ -89,6 +88,7 @@ class PaymentController extends Controller {
             $transaction->id_customer = $customer_id;
             $transaction->type = 1;
             $transaction->id_type = $boost->id;
+            $transaction->amount = floatval( $card['amount'] );
             $transaction->description = $description;
             $transaction->save();
         }
