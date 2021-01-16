@@ -13,6 +13,7 @@ use App\Models\AdsMeta;
 use App\Models\Category;
 use App\Models\Breed;
 use App\Models\Notification;
+use App\Models\Subscription;
 use DB;
 use DateTime;
 
@@ -53,6 +54,18 @@ class HomeController extends Controller {
 
             $data['ads'] = $ads;
         }
+
+        $is_valid_subscription = false;
+        $subscription = Subscription::where( 'id_user', Auth::user()->id )>get();
+        if ( count( $subscription ) > 0 ) {
+            $latest_sub = $subscription[count( $subscription ) - 1];
+            $date_sub = new DateTime( $latest_sub['expired_at'] );
+            $date_now = new DateTime();
+            if ( $date_sub > $date_now ) {
+                $is_valid_subscription = true;
+            }
+        }
+        $data['is_valid_subscription'] = $is_valid_subscription;
 
         $category = Category::orderby( 'order' )->get();
         $unread_message = Notification::where( ['id_rcv_user' => Auth::user()->id, 'read_status' => 0, 'deleted_at' => null] )->count();
@@ -144,6 +157,18 @@ class HomeController extends Controller {
         $unread_message = Notification::where( ['id_rcv_user' => Auth::user()->id, 'read_status' => 0, 'deleted_at' => null] )->count();
         $user = Auth::user();
         $user->review;
+
+        $is_valid_subscription = false;
+        $subscription = Subscription::where( 'id_user', Auth::user()->id )->get();
+        if ( count( $subscription ) > 0 ) {
+            $latest_sub = $subscription[count( $subscription ) - 1];
+            $date_sub = new DateTime( $latest_sub['expired_at'] );
+            $date_now = new DateTime();
+            if ( $date_sub > $date_now ) {
+                $is_valid_subscription = true;
+            }
+        }
+        $data['is_valid_subscription'] = $is_valid_subscription;
 
         $data['review'] = $user['review'];
         $data['category'] = $category;
