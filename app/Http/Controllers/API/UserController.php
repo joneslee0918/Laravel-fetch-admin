@@ -58,10 +58,6 @@ class UserController extends Controller {
             $message = 'Login Failed.';
         }
 
-        if ( $request->guest ) {
-            $message = 'Welcome Guest!';
-        }
-
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
 
