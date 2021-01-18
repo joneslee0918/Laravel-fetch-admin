@@ -39,10 +39,10 @@
                                 <td rel="tooltip" data-original-title="{{$user->name}}" title="{{$user->name}}">
                                     @if($user->avatar)
                                     <img src="{{$user->avatar}}?{{time()}}"
-                                        style="width:80px; height:80px; border-radius:50%">
+                                        style="width:80px; height:80px; border-radius:50%; max-width:80px; max-height:80px">
                                     @else
                                     <img src="{{ asset('material') }}/img/default.png?{{time()}}" alt="..."
-                                        style="width:80px; height:80px; border-radius:50%">
+                                        style="width:80px; height:80px; border-radius:50%; max-width:80px; max-height:80px">
                                     @endif
                                 </td>
                                 <td> {{ $user->name }} </td>
@@ -53,13 +53,13 @@
                                     title="<?php if($user->is_social == 0) echo('Normal Account'); else if($user->is_social == 1) echo('Google Account');else if($user->is_social == 3) echo('Apple Account');?>">
                                     @if($user->is_social == 0)
                                     <img src="{{ asset('material') }}/img/normal.png?{{time()}}" alt="..."
-                                        style="width:25px; height:25px; border-radius:50%">
+                                        style="width:25px; height:25px; border-radius:50%; max-width:25px; max-height:25px">
                                     @elseif($user->is_social == 1)
                                     <img src="{{ asset('material') }}/img/google.png?{{time()}}" alt="..."
-                                        style="width:40px; height:40px; border-radius:50%">
+                                        style="width:40px; height:40px; border-radius:50%; max-width:25px; max-height:25px">
                                     @else
                                     <img src="{{ asset('material') }}/img/apple.png?{{time()}}" alt="..."
-                                        style="width:30px; height:30px; border-radius:50%">
+                                        style="width:30px; height:30px; border-radius:50%; max-width:25px; max-height:25px">
                                     @endif
                                 </td>
                                 <td>{{date('M d Y', strtotime($user->created_at))}}</td>

@@ -37,7 +37,7 @@
                                 <td>
                                     @if($category->icon)
                                     <img src="{{$category->icon}}?{{time()}}"
-                                        style="width:50px; height:50px; border-radius:50%">
+                                        style="max-width:50px; max-height:50px; width:50px; height:50px; border-radius:50%">
                                     @endif
                                 </td>
                                 <td> {{ $category->name }} </td>
