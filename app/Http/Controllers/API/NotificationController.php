@@ -77,27 +77,25 @@ class NotificationController extends Controller {
         $data = array();
         $success = true;
         $message = '';
-
-        $notification = Notification::where( ['id_rcv_user' => Auth::user()->id, 'deleted_at' => null] )->orderby( 'read_status', 'ASC' )->orderby( 'created_at', 'DESC' )->get();
-        if ( count( $notification ) == 0 ) {
-            $message = 'There is no new message.';
-            $data['notification'] = [];
-        } else {
-            foreach ( $notification as $key => $value ) {
-                if ( $value->type == 0 ) {
-                    try {
-                        //code...
+        try {
+            $notification = Notification::where( ['id_rcv_user' => Auth::user()->id, 'deleted_at' => null] )->orderby( 'read_status', 'ASC' )->orderby( 'created_at', 'DESC' )->get();
+            if ( count( $notification ) == 0 ) {
+                $message = 'There is no new message.';
+                $data['notification'] = [];
+            } else {
+                foreach ( $notification as $key => $value ) {
+                    if ( $value->type == 0 ) {
                         $room = Room::where( 'id', $value->id_type )->first();
                         $room['message'] = Chat::where( 'id_room', $room['id'] )->get();
                         $value['room'] = $room;
-                    } catch ( \Throwable $th ) {
-                        //throw $th;
-                        return $value;
                     }
-
                 }
+                $data['notification'] = $notification;
             }
-            $data['notification'] = $notification;
+        } catch ( \Throwable $th ) {
+            $success = false;
+            $message = '';
+            $data = array();
         }
         return $response = array( 'success' =>$success, 'message' => $message, 'data' => $data );
     }
@@ -107,14 +105,21 @@ class NotificationController extends Controller {
         $success = true;
         $message = '';
 
-        $notification = Notification::where( 'id', $request->id )->first();
-        if ( $notification->type == 0 ) {
-            ///chat message
-            Notification::where( ['id_type' => $notification->id_type, 'id_snd_user' => $notification->id_snd_user, 'id_rcv_user' => $notification->id_rcv_user, 'type' => 0] )->update( ['read_status' => 1] );
-            Chat::where( 'id_room', $notification->id_type )->where( 'id_user_snd', '!=', Auth::user()->id )->update( ['read_status' => 1] );
-        } else {
-            Notification::where( 'id', $request->id )->update( ['read_status' => 1] );
+        try {
+            $notification = Notification::where( 'id', $request->id )->first();
+            if ( $notification->type == 0 ) {
+                ///chat message
+                Notification::where( ['id_type' => $notification->id_type, 'id_snd_user' => $notification->id_snd_user, 'id_rcv_user' => $notification->id_rcv_user, 'type' => 0] )->update( ['read_status' => 1] );
+                Chat::where( 'id_room', $notification->id_type )->where( 'id_user_snd', '!=', Auth::user()->id )->update( ['read_status' => 1] );
+            } else {
+                Notification::where( 'id', $request->id )->update( ['read_status' => 1] );
+            }
+        } catch ( \Throwable $th ) {
+            $data = array();
+            $success = false;
+            $message = '';
         }
+
         return $response = array( 'success' =>$success, 'message' => $message, 'data' => $data );
     }
 
@@ -123,7 +128,13 @@ class NotificationController extends Controller {
         $success = true;
         $message = '';
 
-        Notification::where( 'id', $request->id )->update( ['deleted_at' => now()] );
+        try {
+            Notification::where( 'id', $request->id )->update( ['deleted_at' => now()] );
+        } catch ( \Throwable $th ) {
+            $data = array();
+            $success = false;
+            $message = '';
+        }
 
         return $response = array( 'success' =>$success, 'message' => $message, 'data' => $data );
     }

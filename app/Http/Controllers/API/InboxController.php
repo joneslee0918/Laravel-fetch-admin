@@ -25,43 +25,48 @@ class InboxController extends Controller {
     }
 
     public function inbox() {
-
         $data = array();
         $success = true;
         $message = '';
 
-        $user_id = Auth::user()->id;
+        try {
+            $user_id = Auth::user()->id;
 
-        ///get room as seller
-        $room_sell_ids = Room::where( ['id_user_sell' => $user_id, 's_block_b' => 0] )->pluck( 'id' )->toArray();
-        ///get room as buyer
-        $room_buy_ids = Room::where( ['id_user_buy' => $user_id, 'b_block_s' => 0] )->pluck( 'id' )->toArray();
+            ///get room as seller
+            $room_sell_ids = Room::where( ['id_user_sell' => $user_id, 's_block_b' => 0] )->pluck( 'id' )->toArray();
+            ///get room as buyer
+            $room_buy_ids = Room::where( ['id_user_buy' => $user_id, 'b_block_s' => 0] )->pluck( 'id' )->toArray();
 
-        $room_ids = array_merge( $room_sell_ids, $room_buy_ids );
-        $room = Room::whereIn( 'id', $room_ids )->get();
-        foreach ( $room as $key => $value ) {
-            $value->ads;
-            $value->buyer;
-            $value->seller;
-            $value->message;
-            $value['ads']->meta;
-            $value['ads']->boost;
-            $value['ads']['is_boost'] = false;
-            if ( count( $value['ads']['boost'] ) > 0 ) {
-                $latest_boost = $value['ads']['boost'][count( $value['ads']['boost'] ) - 1];
-                $date_boost = new DateTime( $latest_boost['expired_at'] );
-                $date_now = new DateTime();
-                if ( $date_boost > $date_now ) {
-                    $value['ads']['is_boost'] = true;
+            $room_ids = array_merge( $room_sell_ids, $room_buy_ids );
+            $room = Room::whereIn( 'id', $room_ids )->get();
+            foreach ( $room as $key => $value ) {
+                $value->ads;
+                $value->buyer;
+                $value->seller;
+                $value->message;
+                $value['ads']->meta;
+                $value['ads']->boost;
+                $value['ads']['is_boost'] = false;
+                if ( count( $value['ads']['boost'] ) > 0 ) {
+                    $latest_boost = $value['ads']['boost'][count( $value['ads']['boost'] ) - 1];
+                    $date_boost = new DateTime( $latest_boost['expired_at'] );
+                    $date_now = new DateTime();
+                    if ( $date_boost > $date_now ) {
+                        $value['ads']['is_boost'] = true;
+                    }
                 }
             }
-        }
 
-        if ( count( $room ) == 0 ) {
-            $message = 'You have no chat yet';
-        }
+            if ( count( $room ) == 0 ) {
+                $message = 'You have no chat yet';
+            }
 
-        $data['inbox'] = $room;
+            $data['inbox'] = $room;
+        } catch ( \Throwable $th ) {
+            $data = array();
+            $success = false;
+            $message = '';
+        }
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
@@ -72,15 +77,21 @@ class InboxController extends Controller {
         $success = true;
         $message = '';
 
-        $room = Room::where( 'id', $request->room_id )->first();
-        $other_id = $room->id_user_buy;
-        if ( Auth::user()->id == $room->id_user_buy ) {
-            $other_id = $room->id_user_sell;
-        }
-        Room::where( ['id_user_sell' => Auth::user()->id, 'id_user_buy' => $other_id] )->update( ['s_block_b' => 1] );
-        Room::where( ['id_user_buy' => Auth::user()->id, 'id_user_sell' => $other_id] )->update( ['b_block_s' => 1] );
+        try {
+            $room = Room::where( 'id', $request->room_id )->first();
+            $other_id = $room->id_user_buy;
+            if ( Auth::user()->id == $room->id_user_buy ) {
+                $other_id = $room->id_user_sell;
+            }
+            Room::where( ['id_user_sell' => Auth::user()->id, 'id_user_buy' => $other_id] )->update( ['s_block_b' => 1] );
+            Room::where( ['id_user_buy' => Auth::user()->id, 'id_user_sell' => $other_id] )->update( ['b_block_s' => 1] );
 
-        $message = 'This user blocked on your chat.';
+            $message = 'This user blocked on your chat.';
+        } catch ( \Throwable $th ) {
+            $data = array();
+            $success = false;
+            $message = '';
+        }
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
@@ -90,15 +101,21 @@ class InboxController extends Controller {
         $success = true;
         $message = '';
 
-        $buyer_ids = Room::where( ['id_user_sell' => Auth::user()->id, 's_block_b' => 1] )->groupby( 'id_user_buy' )->pluck( 'id_user_buy' )->toArray();
-        $seller_ids = Room::where( ['id_user_buy' => Auth::user()->id, 'b_block_s' => 1] )->groupby( 'id_user_sell' )->pluck( 'id_user_sell' )->toArray();
-        $user_ids = array_merge( $buyer_ids, $seller_ids );
-        $user = User::whereIn( 'id', $user_ids )->get();
+        try {
+            $buyer_ids = Room::where( ['id_user_sell' => Auth::user()->id, 's_block_b' => 1] )->groupby( 'id_user_buy' )->pluck( 'id_user_buy' )->toArray();
+            $seller_ids = Room::where( ['id_user_buy' => Auth::user()->id, 'b_block_s' => 1] )->groupby( 'id_user_sell' )->pluck( 'id_user_sell' )->toArray();
+            $user_ids = array_merge( $buyer_ids, $seller_ids );
+            $user = User::whereIn( 'id', $user_ids )->get();
 
-        if ( count( $user ) == 0 ) {
-            $message = 'There is no unblock user on your chat.';
+            if ( count( $user ) == 0 ) {
+                $message = 'There is no unblock user on your chat.';
+            }
+            $data['user'] = $user;
+        } catch ( \Throwable $th ) {
+            $data = array();
+            $success = false;
+            $message = '';
         }
-        $data['user'] = $user;
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
@@ -108,10 +125,16 @@ class InboxController extends Controller {
         $success = true;
         $message = '';
 
-        Room::where( ['id_user_sell' => Auth::user()->id, 'id_user_buy' => $request->user_id] )->update( ['s_block_b' => 0] );
-        Room::where( ['id_user_buy' => Auth::user()->id, 'id_user_sell' => $request->user_id] )->update( ['b_block_s' => 0] );
+        try {
+            Room::where( ['id_user_sell' => Auth::user()->id, 'id_user_buy' => $request->user_id] )->update( ['s_block_b' => 0] );
+            Room::where( ['id_user_buy' => Auth::user()->id, 'id_user_sell' => $request->user_id] )->update( ['b_block_s' => 0] );
 
-        $message = 'This user unblocked on your chat.';
+            $message = 'This user unblocked on your chat.';
+        } catch ( \Throwable $th ) {
+            $data = array();
+            $success = false;
+            $message = '';
+        }
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
