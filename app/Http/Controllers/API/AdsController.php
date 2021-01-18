@@ -400,6 +400,10 @@ class AdsController extends Controller {
     }
 
     public function deleteImage( Request $request ) {
+        $data = array();
+        $success = true;
+        $message = '';
+
         $ad_id = AdsMeta::where( 'id', $request->id )->value( 'id_ads' );
         $exist = AdsMeta::where( ['id_ads' => $ad_id, 'meta_key' => '_ad_image'] )->count();
         if ( $exist <= 1 ) {
@@ -424,6 +428,16 @@ class AdsController extends Controller {
         $ads->meta;
         $data['ads'] = $ads;
         $success = true;
+
+        return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
+    }
+
+    public function locationUpdate( Request $request ) {
+        $data = array();
+        $success = true;
+        $message = '';
+
+        Ads::where( 'id', $request->ad_id )->update( ['short_location' => $request->short_location, 'long_location' => $request->long_location] );
 
         return $response = array( 'success' => $success, 'data' => $data, 'message' => $message );
     }
