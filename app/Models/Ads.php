@@ -17,6 +17,8 @@ class Ads extends Model {
         'price',
         'lat',
         'long',
+        'short_location',
+        'long_location',
         'description',
         'status',
         'likes',
