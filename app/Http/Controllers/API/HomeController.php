@@ -171,7 +171,7 @@ class HomeController extends Controller {
             $user->review;
 
             $is_valid_subscription = false;
-            $subscription = Subscription::where( 'id_user', Auth::user()->id );
+            $subscription = Subscription::where( 'id_user', Auth::user()->id )->get();
             if ( count( $subscription ) > 0 ) {
                 $latest_sub = $subscription[count( $subscription ) - 1];
                 $date_sub = new DateTime( $latest_sub['expired_at'] );
