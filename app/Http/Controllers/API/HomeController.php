@@ -168,7 +168,7 @@ class HomeController extends Controller {
             $category = Category::orderby( 'order' )->get();
             $unread_message = Notification::where( ['id_rcv_user' => Auth::user()->id, 'read_status' => 0, 'deleted_at' => null] )->count();
             $user = Auth::user();
-            $user->review;
+            $user->review;sdsds
 
             $is_valid_subscription = false;
             $subscription = Subscription::where( 'id_user', Auth::user()->id )->get();
