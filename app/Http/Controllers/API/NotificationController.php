@@ -85,9 +85,16 @@ class NotificationController extends Controller {
         } else {
             foreach ( $notification as $key => $value ) {
                 if ( $value->type == 0 ) {
-                    $room = Room::where('id', $value->id_type)->first();
-                    $room['message'] = Chat::where('id_room', $room['id'])->get();
-                    $value['room'] = $room;
+                    try {
+                        //code...
+                        $room = Room::where( 'id', $value->id_type )->first();
+                        $room['message'] = Chat::where( 'id_room', $room['id'] )->get();
+                        $value['room'] = $room;
+                    } catch ( \Throwable $th ) {
+                        //throw $th;
+                        return $value;
+                    }
+
                 }
             }
             $data['notification'] = $notification;
