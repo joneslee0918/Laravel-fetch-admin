@@ -168,10 +168,10 @@ class HomeController extends Controller {
             $category = Category::orderby( 'order' )->get();
             $unread_message = Notification::where( ['id_rcv_user' => Auth::user()->id, 'read_status' => 0, 'deleted_at' => null] )->count();
             $user = Auth::user();
-            $user->review;sdsds
+            $user->review;
 
             $is_valid_subscription = false;
-            $subscription = Subscription::where( 'id_user', Auth::user()->id )->get();
+            $subscription = Subscription::where( 'id_user', Auth::user()->id );
             if ( count( $subscription ) > 0 ) {
                 $latest_sub = $subscription[count( $subscription ) - 1];
                 $date_sub = new DateTime( $latest_sub['expired_at'] );
