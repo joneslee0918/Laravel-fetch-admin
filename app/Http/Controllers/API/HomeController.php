@@ -165,6 +165,7 @@ class HomeController extends Controller {
         $message = '';
 
         try {
+            $active_ads = Ads::where( ['id_user' => Auth::user()->id, 'status' => 1] )->count();
             $category = Category::orderby( 'order' )->get();
             $unread_message = Notification::where( ['id_rcv_user' => Auth::user()->id, 'read_status' => 0, 'deleted_at' => null] )->count();
             $user = Auth::user();
@@ -183,6 +184,7 @@ class HomeController extends Controller {
             $data['is_valid_subscription'] = $is_valid_subscription;
 
             $data['review'] = $user['review'];
+            $data['active_ads'] = $user['active_ads'];
             $data['category'] = $category;
             $data['is_show_apple_button'] = 1;
             $data['unread_message'] = $unread_message;
