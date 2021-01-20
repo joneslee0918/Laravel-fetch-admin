@@ -189,7 +189,11 @@ class AdsController extends Controller {
                 }
             }
 
-            AdsMeta::where( ['id_ads' => $newAdsId, 'meta_key' => '_ad_image'] )->delete();
+            $targetDir = base_path( 'uploads/ads/'.Auth::user()->id.'/'.$newAdsId );
+            if ( is_dir( $targetDir ) && rmdir( $targetDir ) ) {
+            }
+
+            AdsMeta::where( 'id_ads' => $newAdsId )->delete();
         }
 
         return $response = array( 'success' => $success, 'data' => $newAds, 'message' => $message );
