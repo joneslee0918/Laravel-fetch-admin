@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env( 'MAIL_USERNAME', 'fetchpetmarket@gmail.com' ),
+        'address' => env( 'MAIL_USERNAME', 'sunny.king1219@gmail.com' ),
         'name' =>'Fetch - Your Local Pet Marketplace'
     ],
 
