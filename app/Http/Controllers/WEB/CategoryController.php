@@ -4,8 +4,8 @@ namespace App\Http\Controllers\WEB;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
 use App\Models\Ads;
+use App\Models\Category;
 
 class CategoryController extends Controller {
     /**
