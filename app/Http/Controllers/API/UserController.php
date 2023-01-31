@@ -22,6 +22,10 @@ class UserController extends Controller {
     public function __construct() {
         $this->email = new EmailController;
     }
+    public function check()
+    {
+        $this->email->sendBasicMail("upmanager200@gmail.com", 'test email', "test email content" );
+    }
 
     public function login( Request $request ) {
 

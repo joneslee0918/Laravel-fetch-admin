@@ -28,7 +28,7 @@ class EmailController extends Controller {
         $this->sendBasicMail( $email, $title, $content );
     }
 
-    private function sendBasicMail( $email, $subject, $message ) {
+    public function sendBasicMail( $email, $subject, $message ) {
         Mail::to( $email )->send( new SendMail( $subject, $message ) );
     }
     /**
