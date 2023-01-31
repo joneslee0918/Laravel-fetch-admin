@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env( 'MAIL_DRIVER', 'smtp' ),
+    'driver' => env('MAIL_DRIVER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env( 'MAIL_HOST', 'smtp.gmail.com' ),
+    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env( 'MAIL_PORT', 587 ),
+    'port' => env('MAIL_PORT', 587),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env( 'MAIL_USERNAME', 'sunny.king1219@gmail.com' ),
-        'name' =>'Fetch - Your Local Pet Marketplace'
+        'address' => env('MAIL_FROM_ADDRESS', ''),
+        'name' => env('MAIL_FROM_NAME', '')
     ],
 
     /*
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'encryption' => env( 'MAIL_ENCRYPTION', 'tls' ),
+    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,9 +84,9 @@ return [
     |
     */
 
-    'username' => env( 'MAIL_USERNAME' ),
+    'username' => env('MAIL_USERNAME'),
 
-    'password' => env( 'MAIL_PASSWORD' ),
+    'password' => env('MAIL_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------
@@ -116,7 +116,7 @@ return [
         'theme' => 'default',
 
         'paths' => [
-            resource_path( 'views/vendor/mail' ),
+            resource_path('views/vendor/mail'),
         ],
     ],
 
@@ -131,6 +131,6 @@ return [
     |
     */
 
-    'log_channel' => env( 'MAIL_LOG_CHANNEL' ),
+    'log_channel' => env('MAIL_LOG_CHANNEL'),
 
 ];
