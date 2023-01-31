@@ -68,6 +68,7 @@
                         <!-- message -->
                         <div class="mesgs">
                             <div class="msg_history" id="message_container">
+                                @if ($room && count($room) > 0)
                                 @foreach($room[0]->message as $key => $item)
                                 @if($item->id_user_snd == $room[0]->seller->id)
                                 <div class="outgoing_msg" id="message_item_{{$item->id}}" style="padding-right: 10px;">
@@ -129,6 +130,7 @@
                                 </div>
                                 @endif
                                 @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -140,6 +142,9 @@
 @endsection
 @push('js')
 <script>
+    const curtime = () => {
+        return (new Date()).getTime();
+    }
 function getMessage(id) {
     var url = "chat/messages";
     $.ajax({
@@ -176,7 +181,7 @@ function getMessage(id) {
                                         ${item.message?item.message:``}
                                     </p>
                                     ${item.attach_file ? 
-                                        `<img src="{{$item->attach_file}}?{{time()}}">`:`<p></p>`
+                                        `<img src="${item.attach_file}?${curtime()}">`:`<p></p>`
                                     }
                                     <span class="time_date">${item.created_at}</span>
                                 </div>
@@ -196,7 +201,7 @@ function getMessage(id) {
                                             ${item.message?item.message:``}
                                         </p>
                                         ${item.attach_file ? 
-                                            `<img src="{{$item->attach_file}}?{{time()}}">`:`<p></p>`
+                                            `<img src="${item.attach_file}?${curtime()}">`:`<p></p>`
                                         }
                                         <span class="time_date" style="float:right">${item.created_at}</span>
                                     </div>
